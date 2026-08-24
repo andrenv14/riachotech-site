@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riacho Tech — Sofia, a assistente de agendamento no WhatsApp</title>
+<meta name="description" content="A Sofia atende, confere sua agenda e marca horário no WhatsApp sozinha — pra você focar no que só você faz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root{
+    --ink:#16253D;
+    --paper:#F3F5F3;
+    --paper-2:#E9ECE9;
+    --teal:#16253D;
+    --signal:#2F5D91;
+    --signal-dark:#20456E;
+    --clay:#3B5578;
+    --muted:#5C6B72;
+    --line:rgba(20,33,61,0.12);
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img,svg{display:block; max-width:100%;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--signal-dark);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--signal); display:inline-block;}
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--ink); font-weight:600; letter-spacing:-0.01em;}
+  :focus-visible{outline:2.5px solid var(--signal-dark); outline-offset:3px; border-radius:4px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(243,245,243,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:600; font-size:19px; text-decoration:none;}
+  .logo .mark{
+    width:30px; height:30px; border-radius:9px; background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--paper); font-family:'IBM Plex Mono', monospace; font-size:14px; font-weight:500;
+  }
+  .navlinks{display:flex; align-items:center; gap:32px; list-style:none;}
+  .navlinks a{font-size:14.5px; font-weight:500; text-decoration:none; color:var(--ink); opacity:0.75; transition:opacity .15s;}
+  .navlinks a:hover{opacity:1;}
+  .navlinks{display:none;}
+  @media(min-width:760px){.navlinks{display:flex;}}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:14.5px;
+    padding:11px 20px; border-radius:999px; text-decoration:none;
+    border:1.5px solid transparent; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--signal); color:#fff; box-shadow:0 1px 0 rgba(0,0,0,0.05);}
+  .btn-primary:hover{background:var(--signal-dark);}
+  .btn-ghost{border-color:var(--line); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:76px 0 60px;}
+  .hero .wrap{display:grid; grid-template-columns:1fr; gap:52px; align-items:center;}
+  @media(min-width:900px){.hero .wrap{grid-template-columns:1.05fr 0.95fr;}}
+  .hero h1{font-size:clamp(34px, 5.4vw, 56px); line-height:1.06; margin-bottom:22px;}
+  .hero h1 em{font-style:italic; color:var(--signal-dark);}
+  .hero p.lead{font-size:18px; color:var(--muted); max-width:46ch; margin-bottom:32px;}
+  .hero .ctas{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:28px;}
+  .hero .trust{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--muted); letter-spacing:0.02em;}
+
+  /* phone mockup */
+  .phone-stage{display:flex; justify-content:center;}
+  .phone{
+    width:300px; background:var(--ink); border-radius:36px; padding:12px;
+    box-shadow:0 30px 60px -20px rgba(20,33,61,0.35), 0 0 0 1px rgba(20,33,61,0.06);
+  }
+  .phone-screen{
+    background:#E8E4DC; border-radius:26px; overflow:hidden; height:520px;
+    display:flex; flex-direction:column;
+  }
+  .phone-bar{
+    background:var(--teal); color:#fff; padding:14px 16px 12px;
+    display:flex; align-items:center; gap:10px;
+    font-size:13.5px; font-weight:600;
+  }
+  .phone-bar .av{width:30px; height:30px; border-radius:50%; background:var(--signal); display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:14px;}
+  .phone-bar .status{font-family:'IBM Plex Mono',monospace; font-weight:400; font-size:10.5px; color:#BFEBD3; margin-top:2px;}
+  .phone-body{flex:1; padding:14px 12px; display:flex; flex-direction:column; gap:8px; overflow:hidden;}
+  .bubble{
+    max-width:78%; padding:9px 12px; border-radius:14px; font-size:13.5px; line-height:1.4;
+    opacity:0; transform:translateY(6px); animation:pop .35s ease forwards;
+  }
+  @keyframes pop{to{opacity:1; transform:translateY(0);}}
+  .bubble.in{background:#fff; align-self:flex-start; border-bottom-left-radius:4px; color:var(--ink);}
+  .bubble.out{background:var(--signal); align-self:flex-end; border-bottom-right-radius:4px; color:#fff;}
+  .bubble .tick{font-family:'IBM Plex Mono',monospace; font-size:9.5px; opacity:0.6; display:block; margin-top:3px; text-align:right;}
+  .typing{align-self:flex-start; background:#fff; border-radius:14px; border-bottom-left-radius:4px; padding:10px 14px; display:flex; gap:4px; opacity:0;}
+  .typing span{width:6px; height:6px; border-radius:50%; background:#9aa5a5; animation:blink 1.1s infinite ease-in-out;}
+  .typing span:nth-child(2){animation-delay:.15s;} .typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes blink{0%,80%,100%{opacity:.25;} 40%{opacity:1;}}
+
+  /* ---------- STEPS ---------- */
+  .steps{padding:80px 0; background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .steps h2{font-size:clamp(26px,3.4vw,36px); max-width:20ch; margin-bottom:48px;}
+  .steplist{display:grid; grid-template-columns:1fr; gap:0;}
+  @media(min-width:820px){.steplist{grid-template-columns:repeat(3,1fr); gap:36px;}}
+  .step{padding:26px 0; border-top:1px solid var(--line);}
+  @media(min-width:820px){.step{border-top:none; padding:0;}}
+  .step .num{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--signal-dark); margin-bottom:14px; display:block;}
+  .step h3{font-size:19px; margin-bottom:10px; font-weight:600;}
+  .step p{color:var(--muted); font-size:15px;}
+
+  /* ---------- FEATURES ---------- */
+  .features{padding:84px 0;}
+  .features-head{max-width:56ch; margin-bottom:48px;}
+  .features-head h2{font-size:clamp(26px,3.4vw,36px); margin-bottom:14px;}
+  .features-head p{color:var(--muted); font-size:17px;}
+  .fgrid{display:grid; grid-template-columns:1fr; gap:18px;}
+  @media(min-width:700px){.fgrid{grid-template-columns:1fr 1fr;}}
+  .fcard{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px 26px; transition:border-color .15s;
+  }
+  .fcard:hover{border-color:var(--signal);}
+  .fcard .tag{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--clay); letter-spacing:.06em; text-transform:uppercase; margin-bottom:12px; display:block;}
+  .fcard h3{font-size:18.5px; margin-bottom:9px;}
+  .fcard p{color:var(--muted); font-size:14.5px;}
+
+  /* ---------- PLANS ---------- */
+  .plans{padding:84px 0; background:var(--teal); color:#fff;}
+  .plans .eyebrow{color:#9CBBE0;}
+  .plans .eyebrow::before{background:#9CBBE0;}
+  .plans-head{max-width:60ch; margin-bottom:44px;}
+  .plans-head h2{color:#fff; font-size:clamp(26px,3.4vw,36px); margin-bottom:14px;}
+  .plans-head p{color:#CFE0DD; font-size:17px;}
+  .plangrid{display:grid; grid-template-columns:1fr; gap:18px;}
+  @media(min-width:760px){.plangrid{grid-template-columns:repeat(3,1fr);}}
+  .plan{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.14);
+    border-radius:var(--radius); padding:28px 24px; display:flex; flex-direction:column;
+  }
+  .plan.feat{border-color:var(--signal); background:rgba(31,170,89,0.12);}
+  .plan .pname{font-family:'Fraunces',serif; font-size:21px; margin-bottom:6px;}
+  .plan .pnote{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9CBBE0; margin-bottom:18px;}
+  .plan ul{list-style:none; margin:0 0 22px; padding:0; flex:1;}
+  .plan li{font-size:14.5px; color:#E4EFEC; padding:7px 0; border-top:1px solid rgba(255,255,255,0.09); display:flex; gap:9px;}
+  .plan li:first-child{border-top:none;}
+  .plan li::before{content:"✓"; color:var(--signal); font-weight:700; flex-shrink:0;}
+
+  /* ---------- FINAL CTA ---------- */
+  .finalcta{padding:96px 0; text-align:center;}
+  .finalcta h2{font-size:clamp(28px,4.4vw,44px); max-width:20ch; margin:0 auto 20px;}
+  .finalcta p{color:var(--muted); font-size:17px; max-width:44ch; margin:0 auto 34px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line); padding:36px 0;}
+  footer .wrap{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;}
+  /* ---------- SEGMENTOS ---------- */
+  .segmentos{padding:84px 0; background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .segmentos-head{max-width:56ch; margin-bottom:48px;}
+  .segmentos-head h2{font-size:clamp(26px,3.4vw,36px); margin-bottom:14px;}
+  .segmentos-head p{color:var(--muted); font-size:17px;}
+  .sgrid{display:grid; grid-template-columns:1fr; gap:24px;}
+  @media(min-width:820px){.sgrid{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1180px){.sgrid{grid-template-columns:repeat(4,1fr);}}
+  .scard{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .scard:hover{transform:translateY(-4px); box-shadow:0 20px 40px -24px rgba(20,33,61,0.25);}
+  .scard img{width:100%; height:300px; object-fit:cover; object-position:top; display:block; border-bottom:1px solid var(--line);}
+  .scard .sbody{padding:20px 22px 24px;}
+  .scard .tag{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--clay); letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px; display:block;}
+  .scard h3{font-size:18.5px; margin-bottom:8px;}
+  .scard p{color:var(--muted); font-size:14.5px;}
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal{opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .fgrid .reveal:nth-child(1){transition-delay:.05s;} .fgrid .reveal:nth-child(2){transition-delay:.12s;}
+  .fgrid .reveal:nth-child(3){transition-delay:.19s;} .fgrid .reveal:nth-child(4){transition-delay:.26s;}
+  .steplist .reveal:nth-child(1){transition-delay:.05s;} .steplist .reveal:nth-child(2){transition-delay:.14s;}
+  .steplist .reveal:nth-child(3){transition-delay:.23s;}
+  .sgrid .reveal:nth-child(1){transition-delay:.05s;} .sgrid .reveal:nth-child(2){transition-delay:.15s;}
+  .sgrid .reveal:nth-child(3){transition-delay:.25s;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#" class="logo"><img src="logo.png" alt="Riacho Tech" style="height:34px; width:auto;"></a>
+    <ul class="navlinks">
+      <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#recursos">Recursos</a></li>
+      <li><a href="#segmentos">Pra quem é</a></li>
+      <li><a href="#planos">Planos</a></li>
+    </ul>
+    <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Falar no WhatsApp</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Assistente de agendamento com IA</span>
+      <h1>Seu WhatsApp já pode <em>marcar hor&aacute;rio</em> sozinho.</h1>
+      <p class="lead">A Sofia conversa com o seu cliente, confere sua agenda de verdade e confirma o hor&aacute;rio &mdash; sem planilha, sem algu&eacute;m parado no celular o dia inteiro.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Testar no seu WhatsApp</a>
+        <a class="btn btn-ghost" href="#como-funciona">Ver como funciona</a>
+      </div>
+      <span class="trust">feito em Brasília · integrado ao Google Agenda</span>
+    </div>
+
+    <div class="phone-stage">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-bar">
+            <span class="av">S</span>
+            <div>
+              <div>Sofia</div>
+              <div class="status">online</div>
+            </div>
+          </div>
+          <div class="phone-body" id="chat"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="steps" id="como-funciona">
+  <div class="wrap">
+    <h2 class="reveal">Da mensagem ao hor&aacute;rio marcado, em uma conversa s&oacute;.</h2>
+    <div class="steplist">
+      <div class="step reveal">
+        <span class="num">01 — o cliente chama</span>
+        <h3>Ele manda mensagem do jeito que fala</h3>
+        <p>&ldquo;tem hor&aacute;rio amanh&atilde; de tarde?&rdquo; &mdash; sem menu, sem formul&aacute;rio. A Sofia entende linguagem natural, do jeito que um atendente entenderia.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">02 — confere a agenda</span>
+        <h3>Consulta o Google Agenda em tempo real</h3>
+        <p>Nada de hor&aacute;rio inventado: ele s&oacute; oferece o que est&aacute; realmente livre, considerando os hor&aacute;rios de atendimento que voc&ecirc; cadastrou.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">03 — confirma e segue</span>
+        <h3>Marca, cancela e lembra sozinho</h3>
+        <p>Depois de confirmado, o compromisso vai pra sua agenda e um lembrete autom&aacute;tico sai antes do hor&aacute;rio &mdash; sem voc&ecirc; precisar lembrar de nada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="recursos">
+  <div class="wrap">
+    <div class="features-head reveal">
+      <h2>Um atendente que n&atilde;o dorme, n&atilde;o esquece, e consulta sua agenda em tempo real.</h2>
+      <p>Tudo o que a Sofia j&aacute; faz sozinha, hoje, no WhatsApp do seu neg&oacute;cio.</p>
+    </div>
+    <div class="fgrid">
+      <div class="fcard reveal">
+        <span class="tag">Agendamento</span>
+        <h3>Marca e cancela sem confus&atilde;o</h3>
+        <p>Identifica o compromisso certo pelo telefone do cliente, mesmo quando h&aacute; mais de um hor&aacute;rio marcado no mesmo dia.</p>
+      </div>
+      <div class="fcard reveal">
+        <span class="tag">Cat&aacute;logo</span>
+        <h3>Mostra pre&ccedil;o e servi&ccedil;o na hora</h3>
+        <p>Voc&ecirc; cadastra o que vende uma vez; a Sofia responde d&uacute;vidas de pre&ccedil;o e servi&ccedil;o sem voc&ecirc; precisar repetir a mesma mensagem.</p>
+      </div>
+      <div class="fcard reveal">
+        <span class="tag">Pagamento</span>
+        <h3>Gera Pix dentro da conversa</h3>
+        <p>Quando o cliente confirma, ele j&aacute; recebe o c&oacute;digo copia-e-cola &mdash; o dinheiro cai direto na sua conta.</p>
+      </div>
+      <div class="fcard reveal">
+        <span class="tag">Lembretes</span>
+        <h3>Avisa antes do hor&aacute;rio chegar</h3>
+        <p>Reduz falta: um lembrete autom&aacute;tico sai no WhatsApp do cliente antes de cada compromisso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="segmentos" id="segmentos">
+  <div class="wrap">
+    <div class="segmentos-head reveal">
+      <span class="eyebrow">Pra quem é</span>
+      <h2>Clínica, salão, petshop ou aula particular &mdash; a conversa muda, o resultado &eacute; o mesmo.</h2>
+      <p>Cada segmento tem sua pergunta espec&iacute;fica antes de confirmar. Veja como fica na pr&aacute;tica.</p>
+    </div>
+    <div class="sgrid">
+      <div class="scard reveal">
+        <img src="demo-clinica.png" alt="Exemplo de conversa da Sofia com um paciente de cl&iacute;nica odontol&oacute;gica, perguntando conv&ecirc;nio ou particular antes de confirmar o hor&aacute;rio.">
+        <div class="sbody">
+          <span class="tag">Cl&iacute;nicas</span>
+          <h3>Pergunta conv&ecirc;nio ou particular</h3>
+          <p>Antes de confirmar, a Sofia j&aacute; identifica o tipo de atendimento &mdash; e gera o Pix certo se for particular.</p>
+        </div>
+      </div>
+      <div class="scard reveal">
+        <img src="demo-salao.png" alt="Exemplo de conversa da Sofia com um cliente de sal&atilde;o de beleza, oferecendo dois hor&aacute;rios dispon&iacute;veis pra corte.">
+        <div class="sbody">
+          <span class="tag">Sal&otilde;es &amp; barbearias</span>
+          <h3>Oferece hor&aacute;rio livre na hora</h3>
+          <p>Sem ida e volta: a Sofia j&aacute; sugere os hor&aacute;rios dispon&iacute;veis reais, direto da sua agenda.</p>
+        </div>
+      </div>
+      <div class="scard reveal">
+        <img src="demo-petshop.png" alt="Exemplo de conversa da Sofia com um tutor de pet, perguntando o porte do animal antes de marcar banho e tosa.">
+        <div class="sbody">
+          <span class="tag">Petshops</span>
+          <h3>Pergunta o porte antes de marcar</h3>
+          <p>Adapta a pergunta ao seu neg&oacute;cio &mdash; porte do animal, servi&ccedil;o desejado, o que for preciso saber antes.</p>
+        </div>
+      </div>
+      <div class="scard reveal">
+        <img src="demo-professor.png" alt="Exemplo de conversa da Sofia com um aluno de aula particular, perguntando a matéria e o nível antes de marcar o horário.">
+        <div class="sbody">
+          <span class="tag">Aulas particulares</span>
+          <h3>Pergunta a matéria e o nível antes de marcar</h3>
+          <p>Reforço escolar, idioma, música ou o que você ensinar &mdash; a Sofia pergunta o que precisa saber antes de confirmar.</p>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:36px; text-align:center;">
+      <p style="color:var(--muted); font-size:16.5px; max-width:56ch; margin:0 auto 18px;">N&atilde;o achou o seu aqui? Se o seu neg&oacute;cio marca hora, a assistente &eacute; configurada do mesmo jeito &mdash; e pelo mesmo pre&ccedil;o.</p>
+      <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Meu%20neg%C3%B3cio%20%C3%A9%20de%20outro%20ramo%2C%20d%C3%A1%20pra%20usar%3F" target="_blank" rel="noopener">Falar no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="plans" id="planos">
+  <div class="wrap">
+    <span class="eyebrow">Planos</span>
+    <div class="plans-head">
+      <h2>Um pre&ccedil;o s&oacute;, sem surpresa.</h2>
+    </div>
+    <div style="max-width:640px; margin:0 auto;">
+      <div class="plan feat">
+        <div class="pname">A assistente no seu WhatsApp</div>
+        <div class="pnote">R$1.000 de implanta&ccedil;&atilde;o (ou 2&times; R$500) + R$200/m&ecirc;s</div>
+        <ul>
+          <li>Atende sozinha no WhatsApp, conversando de verdade</li>
+          <li>Marca, cancela e remarca consultando sua agenda real</li>
+          <li>Lembra o cliente antes do hor&aacute;rio</li>
+          <li>Mostra cat&aacute;logo com foto e pre&ccedil;o</li>
+          <li>Cobra por Pix dentro da conversa</li>
+          <li>Passa pra voc&ecirc; quando precisa de gente</li>
+          <li>Sem limite de conversas</li>
+        </ul>
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500; color:#BFD9F2; margin:0 0 22px;">A mensalidade s&oacute; come&ccedil;a 30 dias depois dela estar no ar.</p>
+        <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div>
+      <div style="margin-top:30px; text-align:center;">
+        <div class="pname" style="font-size:19px; margin-bottom:8px;">S&oacute; o site tamb&eacute;m d&aacute;.</div>
+        <p style="color:#CFE0DD; font-size:15.5px; max-width:54ch; margin:0 auto 18px;">Landing page pronta pra converter, por R$750 &mdash; pagamento &uacute;nico, sem mensalidade. Junto com a assistente, os dois saem por R$1.500 de implanta&ccedil;&atilde;o.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+          <a class="btn btn-ghost" style="border-color:rgba(255,255,255,.3); color:#fff;" href="https://wa.me/5561999643707?text=Quero%20um%20or%C3%A7amento%20de%20landing%20page" target="_blank" rel="noopener">Quero s&oacute; o site</a>
+          <a class="btn btn-ghost" style="border-color:rgba(255,255,255,.3); color:#fff;" href="https://wa.me/5561999643707?text=Quero%20a%20assistente%20com%20site" target="_blank" rel="noopener">Quero os dois</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="finalcta">
+  <div class="wrap">
+    <h2>Bora ver a Sofia marcando hor&aacute;rio no seu pr&oacute;prio WhatsApp?</h2>
+    <p>Manda uma mensagem e a gente configura uma demonstra&ccedil;&atilde;o com a sua agenda de verdade.</p>
+    <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="flex-direction:column; align-items:flex-start; gap:14px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:16px;">
+      <a href="#" class="logo" style="font-size:16px;"><img src="logo.png" alt="Riacho Tech" style="height:26px; width:auto;"></a>
+      <span class="fnote">© 2026 Riacho Tech · riachotech.com.br · assistente de agendamento via WhatsApp com IA</span>
+    </div>
+    <div class="fnote" style="display:flex; flex-wrap:wrap; gap:18px;">
+      <a href="mailto:contato@riachotech.com.br" style="text-decoration:none; color:inherit;">contato@riachotech.com.br</a>
+      <a href="https://instagram.com/riacho_tech" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">@riacho_tech</a>
+      <a href="https://wa.me/5561999643707" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">Fale com a Sofia no WhatsApp</a>
+      <a href="privacidade.html" style="text-decoration:none; color:inherit;">Política de Privacidade</a>
+      <a href="privacidade.html#exclusao" style="text-decoration:none; color:inherit;">Exclusão de dados</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var chat = document.getElementById('chat');
+  var script = [
+    {who:'in',  text:'oi, tem horário livre amanhã de tarde?', t:'14:02'},
+    {who:'out', text:'Deixa eu conferir a agenda… tenho 15h ou 16h30 livres, qual fica melhor pra você?', t:'14:02'},
+    {who:'in',  text:'pode ser 16h30', t:'14:03'},
+    {who:'out', text:'Prontinho! Marcado amanhã às 16h30. Te mando um lembrete antes 👍', t:'14:03'}
+  ];
+  var i = 0;
+
+  function typingBubble(){
+    var el = document.createElement('div');
+    el.className = 'typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    return el;
+  }
+
+  function addBubble(msg){
+    var el = document.createElement('div');
+    el.className = 'bubble ' + msg.who;
+    el.innerHTML = msg.text.replace(/&/g,'&amp;') + '<span class="tick">' + msg.t + '</span>';
+    return el;
+  }
+
+  function trimChat(){
+    while (chat.children.length > 4) chat.removeChild(chat.firstChild);
+  }
+
+  function step(){
+    if (i >= script.length){
+      setTimeout(function(){ chat.innerHTML=''; i=0; step(); }, 2600);
+      return;
+    }
+    var msg = script[i];
+    if (msg.who === 'out'){
+      var tb = typingBubble();
+      chat.appendChild(tb);
+      tb.style.opacity = 1;
+      trimChat();
+      setTimeout(function(){
+        chat.removeChild(tb);
+        chat.appendChild(addBubble(msg));
+        trimChat();
+        i++;
+        setTimeout(step, 1200);
+      }, 900);
+    } else {
+      chat.appendChild(addBubble(msg));
+      trimChat();
+      i++;
+      setTimeout(step, 900);
+    }
+  }
+
+  if (reduce){
+    script.forEach(function(msg){ chat.appendChild(addBubble(msg)); });
+  } else {
+    step();
+  }
+
+  // ---------- scroll reveal ----------
+  var revealEls = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)){
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
+
+</body>
+</html>
