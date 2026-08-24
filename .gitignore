@@ -1,0 +1,12 @@
+# Backups gerados ao editar as páginas em produção.
+# Continuam existindo no diretório servido (/var/www/riachotech) — só não entram no repo.
+*.bak
+*.bak-*
+
+# Temporários de editor
+*~
+*.swp
+*.swo
+.*.swp
+*.tmp
+.DS_Store

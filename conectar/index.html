@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Conectar seu WhatsApp · Riacho Tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+  :root{
+    --ink:#16253D; --paper:#F3F5F3; --paper-2:#E9ECE9;
+    --signal:#2F5D91; --signal-dark:#20456E; --clay:#3B5578;
+    --muted:#5C6B72; --line:rgba(20,33,61,0.12); --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    max-width:520px; width:100%; padding:40px 34px;
+  }
+  .logo{display:flex; align-items:center; gap:10px; margin-bottom:26px;}
+  .logo img{height:26px; width:auto;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--clay); display:block; margin-bottom:10px;
+  }
+  h1{font-family:'Fraunces',serif; font-size:26px; font-weight:600; letter-spacing:-0.01em; margin-bottom:12px;}
+  p{color:var(--muted); font-size:15.5px; line-height:1.55;}
+  p + p{margin-top:12px;}
+  ul{margin:18px 0 0; padding:0; list-style:none;}
+  li{font-size:14.5px; color:var(--ink); padding:8px 0; border-top:1px solid var(--line); display:flex; gap:9px;}
+  li:first-child{border-top:none;}
+  li::before{content:"✓"; color:var(--signal); font-weight:700; flex-shrink:0;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; font-family:'Inter',sans-serif;
+    font-weight:600; font-size:14.5px; padding:12px 22px; border-radius:999px;
+    text-decoration:none; border:1.5px solid transparent; cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+    background:var(--signal); color:#fff; margin-top:26px;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn:disabled{opacity:.55; cursor:default; transform:none;}
+  .aviso{
+    margin-top:20px; padding:14px 16px; border-radius:10px; font-size:14px; line-height:1.5;
+    background:var(--paper-2); border:1px solid var(--line); color:var(--ink);
+  }
+  .aviso.erro{background:#FDECEC; border-color:#F3C5C5; color:#8A2020;}
+  .aviso.ok{background:#E8F5EC; border-color:#BEE0C8; color:#1C5B33;}
+  .rodape{margin-top:26px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--clay);}
+  .escondido{display:none;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo"><img src="/logo.png" alt="Riacho Tech"></div>
+
+    <!-- Estado 1: carregando a validação do convite -->
+    <div id="carregando">
+      <span class="eyebrow">Conectar WhatsApp</span>
+      <h1>Só um instante…</h1>
+      <p>Conferindo seu convite.</p>
+    </div>
+
+    <!-- Estado 2: convite válido, mostra o botão -->
+    <div id="pronto" class="escondido">
+      <span class="eyebrow">Conectar WhatsApp</span>
+      <h1>Conecte o WhatsApp d<span id="deQuem">o seu negócio</span></h1>
+      <p>Você vai conectar o número que <strong>já usa</strong>. Não precisa apagar sua conta, e o WhatsApp
+        continua funcionando normalmente no seu celular.</p>
+      <ul>
+        <li>Seu número, sua conta — você continua usando como sempre</li>
+        <li>A assistente passa a responder junto, no mesmo número</li>
+        <li>Você pode assumir a conversa a qualquer momento</li>
+      </ul>
+      <button id="botao" class="btn" disabled>Conectar meu WhatsApp</button>
+      <div id="statusEnvio" class="aviso escondido"></div>
+    </div>
+
+    <!-- Estado 3: deu certo -->
+    <div id="sucesso" class="escondido">
+      <span class="eyebrow">Tudo certo</span>
+      <h1>Pronto! ✅</h1>
+      <p>Seu WhatsApp está conectado. Pode fechar esta página — a gente cuida do resto daqui.</p>
+    </div>
+
+    <!-- Estado 4: convite inválido / erro -->
+    <div id="falha" class="escondido">
+      <span class="eyebrow">Conectar WhatsApp</span>
+      <h1>Esse link não vale mais</h1>
+      <p id="msgFalha">Peça um link novo pra quem te enviou este.</p>
+    </div>
+
+    <div class="rodape">riachotech.com.br</div>
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  var API = 'https://api.riachotech.com.br';
+  var APP_ID = '1047072384854129';
+  var CONFIG_ID = '1077660721319243';
+  // Comparação EXATA de origem, incluindo protocolo. Um teste por sufixo
+  // ("termina em facebook.com") casaria evilfacebook.com e aceitaria http://.
+  var ORIGENS_META = ['https://www.facebook.com', 'https://web.facebook.com'];
+
+  var el = function (id) { return document.getElementById(id); };
+  var mostrar = function (id) {
+    ['carregando', 'pronto', 'sucesso', 'falha'].forEach(function (nome) {
+      el(nome).classList.toggle('escondido', nome !== id);
+    });
+  };
+  var falhar = function (msg) {
+    if (msg) el('msgFalha').textContent = msg;
+    mostrar('falha');
+  };
+
+  // O token do convite é o que amarra esta conexão a um cliente. Sem ele o
+  // back-end não teria como saber a qual negócio pertence o número conectado.
+  var token = new URLSearchParams(window.location.search).get('t');
+  if (!token) {
+    falhar('Este link está incompleto. Peça um link novo pra quem te enviou.');
+    return;
+  }
+
+  var dadosDaMeta = null;
+
+  // O retorno do Embedded Signup chega por postMessage, não pelo callback do
+  // FB.login — é dele que saem waba_id e phone_number_id.
+  window.addEventListener('message', function (evento) {
+    // Comparar a string direto também evita o throw de new URL('null'), que
+    // é o que evento.origin vale quando o post vem de iframe sandboxed.
+    if (ORIGENS_META.indexOf(evento.origin) === -1) return;
+    try {
+      var dados = JSON.parse(evento.data);
+      if (dados.type === 'WA_EMBEDDED_SIGNUP' && dados.event === 'FINISH') {
+        dadosDaMeta = { waba_id: dados.data.waba_id, phone_number_id: dados.data.phone_number_id };
+      }
+    } catch (e) { /* mensagem que não é do Embedded Signup — ignora */ }
+  });
+
+  function enviarAoServidor(code) {
+    var status = el('statusEnvio');
+
+    // Sem o retorno do Embedded Signup não há waba_id nem phone_number_id, e o
+    // servidor recusaria na validação de formato com um texto de API
+    // ("waba_id ausente ou inválido") que não diz nada pro cliente. Como essa
+    // recusa acontece ANTES da queima, o convite continua valendo — o retry é
+    // seguro e é o que faz sentido oferecer.
+    if (!dadosDaMeta || !dadosDaMeta.waba_id || !dadosDaMeta.phone_number_id) {
+      status.className = 'aviso erro';
+      status.textContent = 'Não recebemos a confirmação da Meta. Pode tentar de novo — seu link continua valendo.';
+      status.classList.remove('escondido');
+      el('botao').disabled = false;
+      return;
+    }
+
+    status.className = 'aviso';
+    status.textContent = 'Finalizando a conexão…';
+    status.classList.remove('escondido');
+
+    fetch(API + '/coex/conectar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        t: token,
+        code: code,
+        waba_id: dadosDaMeta.waba_id,
+        phone_number_id: dadosDaMeta.phone_number_id
+      })
+    })
+      .then(function (r) { return r.json().then(function (corpo) { return { ok: r.ok, corpo: corpo }; }); })
+      .then(function (res) {
+        if (res.ok && res.corpo.ok) { mostrar('sucesso'); return; }
+        status.className = 'aviso erro';
+        status.textContent = (res.corpo && res.corpo.erro) || 'Não conseguimos concluir a conexão. Avisa quem te mandou o link.';
+        el('botao').disabled = false;
+      })
+      .catch(function () {
+        status.className = 'aviso erro';
+        status.textContent = 'Não conseguimos falar com o servidor. Tenta de novo em alguns minutos.';
+        el('botao').disabled = false;
+      });
+  }
+
+  // Marca que o SDK chegou, pra distinguir "ainda carregando" de "não vai
+  // carregar" (bloqueador de anúncios costuma barrar connect.facebook.net).
+  var sdkPronto = false;
+
+  function avisarSdkNaoCarregou() {
+    if (sdkPronto) return;
+    var status = el('statusEnvio');
+    status.className = 'aviso erro';
+    status.textContent = 'Não conseguimos carregar o conector do WhatsApp. Se você usa bloqueador de anúncios, desative nesta página e recarregue — ou tente por outro navegador.';
+    status.classList.remove('escondido');
+  }
+
+  window.fbAsyncInit = function () {
+    FB.init({ appId: APP_ID, cookie: true, xfbml: false, version: 'v21.0' });
+
+    // O botão nasce desabilitado: sem SDK, o clique seria um no-op silencioso —
+    // a pessoa clicaria, nada aconteceria, e ela não teria como saber por quê.
+    sdkPronto = true;
+    el('botao').disabled = false;
+
+    el('botao').addEventListener('click', function () {
+      el('botao').disabled = true;
+      FB.login(function (resposta) {
+        var code = resposta && resposta.authResponse && resposta.authResponse.code;
+        if (!code) {
+          var status = el('statusEnvio');
+          status.className = 'aviso';
+          status.textContent = 'Conexão cancelada. Quando quiser, é só clicar de novo.';
+          status.classList.remove('escondido');
+          el('botao').disabled = false;
+          return;
+        }
+        enviarAoServidor(code);
+      }, {
+        config_id: CONFIG_ID,
+        response_type: 'code',
+        override_default_response_type: true,
+        extras: { setup: {}, featureType: 'whatsapp_business_app_onboarding' }
+      });
+    });
+  };
+
+  // Só valida o convite depois de tudo montado: sem convite bom, o botão nunca
+  // chega a aparecer.
+  fetch(API + '/coex/convite?t=' + encodeURIComponent(token))
+    .then(function (r) { return r.json(); })
+    .then(function (dados) {
+      if (!dados.ok) { falhar('Este convite não vale mais. Peça um link novo pra quem te enviou.'); return; }
+      if (dados.business_name) el('deQuem').textContent = 'a ' + dados.business_name;
+      mostrar('pronto');
+
+      var s = document.createElement('script');
+      s.src = 'https://connect.facebook.net/pt_BR/sdk.js';
+      s.async = true; s.defer = true; s.crossOrigin = 'anonymous';
+      s.onerror = avisarSdkNaoCarregou;
+      document.body.appendChild(s);
+
+      // onerror não cobre tudo (há bloqueador que devolve script vazio, com
+      // sucesso). O prazo cobre o resto: passou disso sem fbAsyncInit, avisa.
+      setTimeout(avisarSdkNaoCarregou, 10000);
+    })
+    .catch(function () {
+      falhar('Não conseguimos conferir seu convite agora. Tenta de novo em alguns minutos.');
+    });
+})();
+</script>
+</body>
+</html>
