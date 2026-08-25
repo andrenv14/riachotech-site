@@ -19,9 +19,12 @@ Copiar produção → repo:
 rsync -a --exclude='*.bak' --exclude='*.bak-*' /var/www/riachotech/ /home/sofia/riachotech-site/
 ```
 
-**Isso é temporário.** Depois da submissão do App Review da Meta, o repo passa a
-viver no próprio diretório servido, com regra de `deny` para `.git` no Nginx — o
-que elimina o espelho e este descompasso.
+**Isso é temporário, e a data de morte é a DECISÃO da Meta sobre o App Review
+— não a submissão.** A submissão ocorreu em 24/08; a estrutura de
+`/var/www/riachotech` segue congelada até a decisão, porque o analista abre
+`/conectar` nesse diretório e mover o `.git` mexe em como o Nginx o serve.
+Depois da decisão: repo passa a viver no diretório servido, com regra de
+`deny` para `.git` no Nginx — o que elimina o espelho e este descompasso.
 
 ## /conectar
 
