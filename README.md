@@ -3,28 +3,46 @@
 Site estático da Riacho Tech, servido por Nginx em https://riachotech.com.br
 (server block `riachotech`, `root /var/www/riachotech`).
 
-## Espelho manual — atenção
+## Histórico: espelho manual (24–29/08)
 
-**Este repo é um ESPELHO MANUAL: o diretório realmente servido é
-`/var/www/riachotech`, e edições feitas lá NÃO aparecem como `git status` sujo
-aqui — precisam ser copiadas de volta à mão.**
+**A decisão de 24/08 (abaixo, mantida como registro) foi superada em 29/08
+pelo fundador.** Este repo NÃO é mais um espelho manual: `/var/www/riachotech`
+**é** o diretório do `git`, o `.git` mora dentro dele, e `git pull` publica.
 
-O `git init` não foi feito no diretório servido porque o Nginx não bloqueia
-dotfiles: com um `.git` ali, `https://riachotech.com.br/.git/config` responderia
-na internet aberta.
+Base da decisão: `diff -rq` mostrou o conteúdo servido **idêntico** ao repo —
+só os 6 `.bak` (fora do controle de versão) diferiam. Mover o `.git` para
+dentro do diretório servido não altera nenhum byte servido.
 
-Copiar produção → repo:
+Ordem executada:
+- **S1** — regra de `deny` de dotfiles no Nginx, testada com um dotfile de
+  sonda antes de qualquer coisa entrar.
+- **S2** — backup do diretório servido, os 6 `.bak` removidos (estavam
+  servidos publicamente), `.git` movido para `/var/www/riachotech`, deny
+  extra de `README.md` e `nginx/`, sondas `/.git/config`=404 e
+  `/README.md`=404 confirmadas com `index.html`=200. O espelho antigo em
+  `~/riachotech-site` foi removido. Commit `4fb4c81`.
+
+A `/conectar` segue congelada até a decisão da Meta sobre o App Review —
+isso não mudou.
+
+<details>
+<summary>Texto original de 24/08 (espelho manual, decisão superada)</summary>
+
+**Este repo era um ESPELHO MANUAL: o diretório realmente servido era
+`/var/www/riachotech`, e edições feitas lá NÃO apareciam como `git status`
+sujo aqui — precisavam ser copiadas de volta à mão.**
+
+O `git init` não tinha sido feito no diretório servido porque o Nginx não
+bloqueava dotfiles: com um `.git` ali, `https://riachotech.com.br/.git/config`
+responderia na internet aberta.
+
+Copiar produção → repo (comando do espelho antigo, não usar mais):
 
 ```
 rsync -a --exclude='*.bak' --exclude='*.bak-*' /var/www/riachotech/ /home/sofia/riachotech-site/
 ```
 
-**Isso é temporário, e a data de morte é a DECISÃO da Meta sobre o App Review
-— não a submissão.** A submissão ocorreu em 24/08; a estrutura de
-`/var/www/riachotech` segue congelada até a decisão, porque o analista abre
-`/conectar` nesse diretório e mover o `.git` mexe em como o Nginx o serve.
-Depois da decisão: repo passa a viver no diretório servido, com regra de
-`deny` para `.git` no Nginx — o que elimina o espelho e este descompasso.
+</details>
 
 ## /conectar
 
