@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Tokens EXATOS de docs/brand-riacho-tech.md do sofia-bot (lidos do kit Canva
+   em 30/08/2026) — mesmo esquema de src/admin/tailwind-input.css do painel.
+   Não editar hex sem reconferir o doc de marca. Ver docs/s3-redesign.md. */
+@theme {
+  --color-ink:         #16253D;  /* navy — títulos, nav, fundo da seção Planos */
+  --color-paper:       #F3F5F3;
+  --color-paper-2:     #E9ECE9;
+  --color-sand:        #E8E4DC;  /* fundo da tela do celular */
+  --color-signal:      #2F5D91;  /* ação primária, bolha da Sofia */
+  --color-signal-dark: #20456E;  /* hover, itálico de ênfase */
+  --color-clay:        #3B5578;  /* tag mono em card */
+  --color-muted:       #5C6B72;
+  --color-line:        rgba(20, 33, 61, 0.12);
+  --color-sky:         #9CBBE0;  /* eyebrow sobre navy */
+  --color-sky-2:       #BFD9F2;  /* nota mono sobre navy */
+  --color-mist:        #CFE0DD;  /* corpo sobre navy */
+
+  --font-display: "Fraunces", serif;
+  --font-sans:    "Inter", sans-serif;
+  --font-mono:    "IBM Plex Mono", monospace;
+
+  --radius-card: 14px;
+}
