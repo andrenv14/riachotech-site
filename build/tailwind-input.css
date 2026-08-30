@@ -69,6 +69,13 @@
   .btn-ghost { border-color: var(--color-line); color: var(--color-ink); }
   .btn-ghost:hover { border-color: var(--color-ink); }
 
+  /* rótulo mono de card — usado em "recursos" e "pra quem é" (margem varia
+     por uso, entra como utilitário no markup, não aqui). */
+  .tag {
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--color-clay); display: block;
+  }
+
   /* celular — elemento-assinatura da página (docs/s3-redesign.md). Aparece no
      hero digitando sozinho, e de novo em "pra quem é" (S3 6/9) com abas. */
   .phone {
