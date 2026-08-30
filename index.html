@@ -136,7 +136,12 @@
 <nav class="sticky top-0 z-50 bg-paper/85 backdrop-blur-[10px] border-b border-line">
   <div class="wrap flex items-center justify-between py-4">
     <a href="#" class="flex items-center gap-2.5">
-      <img src="logo.png" alt="Riacho Tech" class="h-[34px] w-auto">
+      <!-- translate-y: nudge óptico, não de layout — a "cauda" fina do avião
+           puxa a caixa delimitadora do PNG pra baixo sem ter massa visual
+           ali. Centroide alpha-ponderado medido 11,4% acima do centro
+           geométrico do canvas; a 34px isso é ~4px. Sem o nudge, a logo
+           parece flutuar acima do resto do nav. -->
+      <img src="logo.png" alt="Riacho Tech" class="h-[34px] w-auto translate-y-[4px]">
     </a>
     <ul class="hidden min-[760px]:flex items-center gap-8 list-none m-0 p-0">
       <li><a href="#como-funciona" class="text-[14.5px] font-medium text-ink/75 hover:text-ink transition-opacity duration-150">Como funciona</a></li>
@@ -336,7 +341,7 @@
 <footer>
   <div class="wrap" style="flex-direction:column; align-items:flex-start; gap:14px;">
     <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:16px;">
-      <a href="#" class="logo" style="font-size:16px;"><img src="logo.png" alt="Riacho Tech" style="height:26px; width:auto;"></a>
+      <a href="#" class="logo" style="font-size:16px;"><img src="logo.png" alt="Riacho Tech" style="height:26px; width:auto; transform:translateY(3px);"></a>
       <span class="fnote">© 2026 Riacho Tech · riachotech.com.br · assistente de agendamento via WhatsApp com IA</span>
     </div>
     <div class="fnote" style="display:flex; flex-wrap:wrap; gap:18px;">
