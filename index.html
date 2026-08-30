@@ -42,17 +42,6 @@
   /* nav, hero, .btn, .eyebrow, o reset global e a tipografia de título
      migraram pra build/tailwind-input.css nesta seção (S3 3/9). */
 
-  /* ---------- STEPS ---------- */
-  .steps{padding:80px 0; background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
-  .steps h2{font-size:clamp(26px,3.4vw,36px); max-width:20ch; margin-bottom:48px;}
-  .steplist{display:grid; grid-template-columns:1fr; gap:0;}
-  @media(min-width:820px){.steplist{grid-template-columns:repeat(3,1fr); gap:36px;}}
-  .step{padding:26px 0; border-top:1px solid var(--line);}
-  @media(min-width:820px){.step{border-top:none; padding:0;}}
-  .step .num{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--signal-dark); margin-bottom:14px; display:block;}
-  .step h3{font-size:19px; margin-bottom:10px; font-weight:600;}
-  .step p{color:var(--muted); font-size:15px;}
-
   /* ---------- FEATURES ---------- */
   .features{padding:84px 0;}
   .features-head{max-width:56ch; margin-bottom:48px;}
@@ -118,17 +107,13 @@
   .scard p{color:var(--muted); font-size:14.5px;}
 
   /* ---------- SCROLL REVEAL ---------- */
-  .reveal{opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease;}
-  .reveal.in{opacity:1; transform:translateY(0);}
+  /* .reveal em si migrou pro @layer components (site.css) — usado por toda
+     seção, convertida ou não. Só sobra aqui o delay escalonado por grid das
+     seções que ainda não converteram (S3 3/9: steps saiu daqui). */
   .fgrid .reveal:nth-child(1){transition-delay:.05s;} .fgrid .reveal:nth-child(2){transition-delay:.12s;}
   .fgrid .reveal:nth-child(3){transition-delay:.19s;} .fgrid .reveal:nth-child(4){transition-delay:.26s;}
-  .steplist .reveal:nth-child(1){transition-delay:.05s;} .steplist .reveal:nth-child(2){transition-delay:.14s;}
-  .steplist .reveal:nth-child(3){transition-delay:.23s;}
   .sgrid .reveal:nth-child(1){transition-delay:.05s;} .sgrid .reveal:nth-child(2){transition-delay:.15s;}
   .sgrid .reveal:nth-child(3){transition-delay:.25s;}
-  @media (prefers-reduced-motion: reduce){
-    .reveal{opacity:1; transform:none; transition:none;}
-  }
 </style>
 </head>
 <body class="bg-paper text-ink font-sans antialiased leading-[1.6]">
@@ -194,24 +179,24 @@
   </div>
 </header>
 
-<section class="steps" id="como-funciona">
+<section id="como-funciona" class="py-20 bg-paper-2 border-t border-b border-line">
   <div class="wrap">
-    <h2 class="reveal">Da mensagem ao hor&aacute;rio marcado, em uma conversa s&oacute;.</h2>
-    <div class="steplist">
-      <div class="step reveal">
-        <span class="num">01 — o cliente chama</span>
-        <h3>Ele manda mensagem do jeito que fala</h3>
-        <p>&ldquo;tem hor&aacute;rio amanh&atilde; de tarde?&rdquo; &mdash; sem menu, sem formul&aacute;rio. A Sofia entende linguagem natural, do jeito que um atendente entenderia.</p>
+    <h2 class="reveal text-[clamp(26px,3.4vw,36px)] max-w-[20ch] mb-12">Da mensagem ao hor&aacute;rio marcado, em uma conversa s&oacute;.</h2>
+    <div class="grid grid-cols-1 min-[820px]:grid-cols-3 min-[820px]:gap-9">
+      <div class="reveal delay-[50ms] py-[26px] border-t border-line min-[820px]:border-t-0 min-[820px]:py-0">
+        <span class="font-mono text-[13px] text-signal-dark mb-3.5 block">01 — o cliente chama <span class="text-muted">· 14:02</span></span>
+        <h3 class="text-[19px] mb-2.5">Ele manda mensagem do jeito que fala</h3>
+        <p class="text-muted text-[15px]">&ldquo;tem hor&aacute;rio amanh&atilde; de tarde?&rdquo; &mdash; sem menu, sem formul&aacute;rio. A Sofia entende linguagem natural, do jeito que um atendente entenderia.</p>
       </div>
-      <div class="step reveal">
-        <span class="num">02 — confere a agenda</span>
-        <h3>Consulta o Google Agenda em tempo real</h3>
-        <p>Nada de hor&aacute;rio inventado: ele s&oacute; oferece o que est&aacute; realmente livre, considerando os hor&aacute;rios de atendimento que voc&ecirc; cadastrou.</p>
+      <div class="reveal delay-[140ms] py-[26px] border-t border-line min-[820px]:border-t-0 min-[820px]:py-0">
+        <span class="font-mono text-[13px] text-signal-dark mb-3.5 block">02 — confere a agenda <span class="text-muted">· 14:02</span></span>
+        <h3 class="text-[19px] mb-2.5">Consulta o Google Agenda em tempo real</h3>
+        <p class="text-muted text-[15px]">Nada de hor&aacute;rio inventado: ele s&oacute; oferece o que est&aacute; realmente livre, considerando os hor&aacute;rios de atendimento que voc&ecirc; cadastrou.</p>
       </div>
-      <div class="step reveal">
-        <span class="num">03 — confirma e segue</span>
-        <h3>Marca, cancela e lembra sozinho</h3>
-        <p>Depois de confirmado, o compromisso vai pra sua agenda e um lembrete autom&aacute;tico sai antes do hor&aacute;rio &mdash; sem voc&ecirc; precisar lembrar de nada.</p>
+      <div class="reveal delay-[230ms] py-[26px] border-t border-line min-[820px]:border-t-0 min-[820px]:py-0">
+        <span class="font-mono text-[13px] text-signal-dark mb-3.5 block">03 — confirma e segue <span class="text-muted">· 14:03</span></span>
+        <h3 class="text-[19px] mb-2.5">Marca, cancela e lembra sozinho</h3>
+        <p class="text-muted text-[15px]">Depois de confirmado, o compromisso vai pra sua agenda e um lembrete autom&aacute;tico sai antes do hor&aacute;rio &mdash; sem voc&ecirc; precisar lembrar de nada.</p>
       </div>
     </div>
   </div>
