@@ -1,0 +1,14 @@
+{
+  "name": "riachotech-site",
+  "private": true,
+  "description": "Site estático da Riacho Tech — sem build no servidor, o CSS compilado é commitado.",
+  "scripts": {
+    "build:css": "tailwindcss -i ./build/tailwind-input.css -o ./site.css --minify",
+    "watch:css": "tailwindcss -i ./build/tailwind-input.css -o ./site.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.3.3"
+  }
+}
