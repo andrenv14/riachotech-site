@@ -196,14 +196,14 @@
 
 <section id="segmentos" class="scroll-mt-20 py-21 bg-paper-2 border-t border-b border-line">
   <div class="wrap">
-    <div class="reveal max-w-[56ch] mb-12">
+    <div class="reveal max-w-[56ch] mb-8">
       <span class="eyebrow"><span class="eyebrow-dot"></span>Pra quem é</span>
       <h2 class="text-[clamp(26px,3.4vw,36px)] mb-3.5">Cl&iacute;nica, sal&atilde;o ou petshop &mdash; a conversa muda, o resultado &eacute; o mesmo.</h2>
       <p class="text-muted text-[17px]">Cada segmento tem sua pergunta espec&iacute;fica antes de confirmar. Clique numa aba e veja como fica na pr&aacute;tica.</p>
     </div>
 
-    <div class="reveal">
-      <div class="max-w-[56ch]">
+    <div class="reveal grid grid-cols-1 gap-10 items-start min-[820px]:grid-cols-[0.9fr_1.1fr] min-[820px]:gap-14">
+      <div class="min-[820px]:pt-2">
         <div role="tablist" aria-label="Segmentos atendidos" class="flex flex-wrap gap-2 mb-7">
           <button type="button" role="tab" id="tab-clinicas" aria-controls="panel-clinicas" aria-selected="true" data-seg="clinicas"
             class="font-mono text-[11.5px] uppercase tracking-[0.06em] px-4 py-2 rounded-full border border-line text-muted transition-colors duration-150 hover:border-ink hover:text-ink aria-selected:bg-ink aria-selected:text-white aria-selected:border-ink">Cl&iacute;nicas</button>
@@ -213,51 +213,56 @@
             class="font-mono text-[11.5px] uppercase tracking-[0.06em] px-4 py-2 rounded-full border border-line text-muted transition-colors duration-150 hover:border-ink hover:text-ink aria-selected:bg-ink aria-selected:text-white aria-selected:border-ink">Petshops</button>
         </div>
 
-        <div id="panel-clinicas" role="tabpanel" aria-labelledby="tab-clinicas" data-seg-panel="clinicas">
-          <span class="tag mb-2">Cl&iacute;nicas</span>
-          <h3 class="text-[18.5px] mb-2">Pergunta conv&ecirc;nio ou particular</h3>
-          <p class="text-muted text-[14.5px]">Antes de confirmar, a Sofia j&aacute; identifica o tipo de atendimento &mdash; e gera o Pix certo se for particular.</p>
-          <div class="sr-only">
-            <p>Exemplo de conversa no WhatsApp com a Sofia, Sorriso Certo Odonto:</p>
-            <p>Cliente, 14:02: Oi, gostaria de marcar uma limpeza</p>
-            <p>Sofia, 14:02: Oi! Claro, vou verificar aqui pra você. É por convênio ou particular?</p>
-            <p>Cliente, 14:02: Particular</p>
-            <p>Sofia, 14:03: Temos horário livre amanhã às 15h ou às 16h30. Qual fica melhor pra você?</p>
-            <p>Cliente, 14:03: 15h tá ótimo</p>
-            <p>Sofia, 14:03: Prontinho! Agendado: amanhã, 15h, limpeza. O valor é R$150 — quer que eu já mande o Pix?</p>
+        <!-- min-h reserva a altura da legenda mais alta das três abas, pra
+             troca de aba não mexer na altura da seção (layout shift). Não
+             centraliza: a legenda fica logo abaixo da aba que a controla. -->
+        <div class="min-[820px]:min-h-[120px]">
+          <div id="panel-clinicas" role="tabpanel" aria-labelledby="tab-clinicas" data-seg-panel="clinicas">
+            <span class="tag mb-2">Cl&iacute;nicas</span>
+            <h3 class="text-[18.5px] mb-2">Pergunta conv&ecirc;nio ou particular</h3>
+            <p class="text-muted text-[14.5px]">Antes de confirmar, a Sofia j&aacute; identifica o tipo de atendimento &mdash; e gera o Pix certo se for particular.</p>
+            <div class="sr-only">
+              <p>Exemplo de conversa no WhatsApp com a Sofia, Sorriso Certo Odonto:</p>
+              <p>Cliente, 14:02: Oi, gostaria de marcar uma limpeza</p>
+              <p>Sofia, 14:02: Oi! Claro, vou verificar aqui pra você. É por convênio ou particular?</p>
+              <p>Cliente, 14:02: Particular</p>
+              <p>Sofia, 14:03: Temos horário livre amanhã às 15h ou às 16h30. Qual fica melhor pra você?</p>
+              <p>Cliente, 14:03: 15h tá ótimo</p>
+              <p>Sofia, 14:03: Prontinho! Agendado: amanhã, 15h, limpeza. O valor é R$150 — quer que eu já mande o Pix?</p>
+            </div>
           </div>
-        </div>
-        <div id="panel-saloes" role="tabpanel" aria-labelledby="tab-saloes" data-seg-panel="saloes" hidden>
-          <span class="tag mb-2">Sal&otilde;es &amp; barbearias</span>
-          <h3 class="text-[18.5px] mb-2">Oferece hor&aacute;rio livre na hora</h3>
-          <p class="text-muted text-[14.5px]">Sem ida e volta: a Sofia j&aacute; sugere os hor&aacute;rios dispon&iacute;veis reais, direto da sua agenda.</p>
-          <div class="sr-only">
-            <p>Exemplo de conversa no WhatsApp com a Sofia, Studio Corte &amp; Cia:</p>
-            <p>Cliente, 17:10: Boa tarde, tem horário pra corte hoje?</p>
-            <p>Sofia, 17:10: Boa tarde! Deixa eu ver aqui pra você.</p>
-            <p>Sofia, 17:10: Tenho livre às 18h ou às 19h15, qual prefere?</p>
-            <p>Cliente, 17:11: 19h15 mesmo</p>
-            <p>Sofia, 17:11: Fechado! Corte marcado hoje às 19h15. Até daqui a pouco!</p>
-            <p>Cliente, 17:11: Show, obrigado!</p>
+          <div id="panel-saloes" role="tabpanel" aria-labelledby="tab-saloes" data-seg-panel="saloes" hidden>
+            <span class="tag mb-2">Sal&otilde;es &amp; barbearias</span>
+            <h3 class="text-[18.5px] mb-2">Oferece hor&aacute;rio livre na hora</h3>
+            <p class="text-muted text-[14.5px]">Sem ida e volta: a Sofia j&aacute; sugere os hor&aacute;rios dispon&iacute;veis reais, direto da sua agenda.</p>
+            <div class="sr-only">
+              <p>Exemplo de conversa no WhatsApp com a Sofia, Studio Corte &amp; Cia:</p>
+              <p>Cliente, 17:10: Boa tarde, tem horário pra corte hoje?</p>
+              <p>Sofia, 17:10: Boa tarde! Deixa eu ver aqui pra você.</p>
+              <p>Sofia, 17:10: Tenho livre às 18h ou às 19h15, qual prefere?</p>
+              <p>Cliente, 17:11: 19h15 mesmo</p>
+              <p>Sofia, 17:11: Fechado! Corte marcado hoje às 19h15. Até daqui a pouco!</p>
+              <p>Cliente, 17:11: Show, obrigado!</p>
+            </div>
           </div>
-        </div>
-        <div id="panel-petshops" role="tabpanel" aria-labelledby="tab-petshops" data-seg-panel="petshops" hidden>
-          <span class="tag mb-2">Petshops</span>
-          <h3 class="text-[18.5px] mb-2">Pergunta o porte antes de marcar</h3>
-          <p class="text-muted text-[14.5px]">Adapta a pergunta ao seu neg&oacute;cio &mdash; porte do animal, servi&ccedil;o desejado, o que for preciso saber antes.</p>
-          <div class="sr-only">
-            <p>Exemplo de conversa no WhatsApp com a Sofia, Amigo Fiel Petshop:</p>
-            <p>Cliente, 10:20: Oi, queria agendar banho e tosa pro meu cachorro</p>
-            <p>Sofia, 10:20: Oi! Com todo prazer, vou verificar! Qual o porte dele — pequeno, médio ou grande?</p>
-            <p>Cliente, 10:21: Médio, um vira-lata</p>
-            <p>Sofia, 10:21: Perfeito! Tenho horário amanhã de manhã às 9h ou à tarde às 14h. Qual prefere?</p>
-            <p>Cliente, 10:21: De manhã</p>
-            <p>Sofia, 10:22: Combinado! Amanhã 9h, banho e tosa. Até lá!</p>
+          <div id="panel-petshops" role="tabpanel" aria-labelledby="tab-petshops" data-seg-panel="petshops" hidden>
+            <span class="tag mb-2">Petshops</span>
+            <h3 class="text-[18.5px] mb-2">Pergunta o porte antes de marcar</h3>
+            <p class="text-muted text-[14.5px]">Adapta a pergunta ao seu neg&oacute;cio &mdash; porte do animal, servi&ccedil;o desejado, o que for preciso saber antes.</p>
+            <div class="sr-only">
+              <p>Exemplo de conversa no WhatsApp com a Sofia, Amigo Fiel Petshop:</p>
+              <p>Cliente, 10:20: Oi, queria agendar banho e tosa pro meu cachorro</p>
+              <p>Sofia, 10:20: Oi! Com todo prazer, vou verificar! Qual o porte dele — pequeno, médio ou grande?</p>
+              <p>Cliente, 10:21: Médio, um vira-lata</p>
+              <p>Sofia, 10:21: Perfeito! Tenho horário amanhã de manhã às 9h ou à tarde às 14h. Qual prefere?</p>
+              <p>Cliente, 10:21: De manhã</p>
+              <p>Sofia, 10:22: Combinado! Amanhã 9h, banho e tosa. Até lá!</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="flex justify-center mt-8">
+      <div class="flex justify-center">
         <div class="phone">
           <div class="phone-screen">
             <div class="phone-bar">
