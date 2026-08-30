@@ -42,22 +42,6 @@
   /* nav, hero, .btn, .eyebrow, o reset global e a tipografia de título
      migraram pra build/tailwind-input.css nesta seção (S3 3/9). */
 
-  /* ---------- FEATURES ---------- */
-  .features{padding:84px 0;}
-  .features-head{max-width:56ch; margin-bottom:48px;}
-  .features-head h2{font-size:clamp(26px,3.4vw,36px); margin-bottom:14px;}
-  .features-head p{color:var(--muted); font-size:17px;}
-  .fgrid{display:grid; grid-template-columns:1fr; gap:18px;}
-  @media(min-width:700px){.fgrid{grid-template-columns:1fr 1fr;}}
-  .fcard{
-    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
-    padding:28px 26px; transition:border-color .15s;
-  }
-  .fcard:hover{border-color:var(--signal);}
-  .fcard .tag{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--clay); letter-spacing:.06em; text-transform:uppercase; margin-bottom:12px; display:block;}
-  .fcard h3{font-size:18.5px; margin-bottom:9px;}
-  .fcard p{color:var(--muted); font-size:14.5px;}
-
   /* ---------- PLANS ---------- */
   .plans{padding:84px 0; background:var(--teal); color:#fff;}
   .plans .eyebrow{color:#9CBBE0;}
@@ -109,9 +93,8 @@
   /* ---------- SCROLL REVEAL ---------- */
   /* .reveal em si migrou pro @layer components (site.css) — usado por toda
      seção, convertida ou não. Só sobra aqui o delay escalonado por grid das
-     seções que ainda não converteram (S3 3/9: steps saiu daqui). */
-  .fgrid .reveal:nth-child(1){transition-delay:.05s;} .fgrid .reveal:nth-child(2){transition-delay:.12s;}
-  .fgrid .reveal:nth-child(3){transition-delay:.19s;} .fgrid .reveal:nth-child(4){transition-delay:.26s;}
+     seções que ainda não converteram (S3 3/9: steps saiu; 5/9: features
+     saiu). */
   .sgrid .reveal:nth-child(1){transition-delay:.05s;} .sgrid .reveal:nth-child(2){transition-delay:.15s;}
   .sgrid .reveal:nth-child(3){transition-delay:.25s;}
 </style>
@@ -202,32 +185,32 @@
   </div>
 </section>
 
-<section class="features" id="recursos">
+<section id="recursos" class="py-21">
   <div class="wrap">
-    <div class="features-head reveal">
-      <h2>Um atendente que n&atilde;o dorme, n&atilde;o esquece, e consulta sua agenda em tempo real.</h2>
-      <p>Tudo o que a Sofia j&aacute; faz sozinha, hoje, no WhatsApp do seu neg&oacute;cio.</p>
+    <div class="reveal max-w-[56ch] mb-12">
+      <h2 class="text-[clamp(26px,3.4vw,36px)] mb-3.5">Um atendente que n&atilde;o dorme, n&atilde;o esquece, e consulta sua agenda em tempo real.</h2>
+      <p class="text-muted text-[17px]">Tudo o que a Sofia j&aacute; faz sozinha, hoje, no WhatsApp do seu neg&oacute;cio.</p>
     </div>
-    <div class="fgrid">
-      <div class="fcard reveal">
-        <span class="tag">Agendamento</span>
-        <h3>Marca e cancela sem confus&atilde;o</h3>
-        <p>Identifica o compromisso certo pelo telefone do cliente, mesmo quando h&aacute; mais de um hor&aacute;rio marcado no mesmo dia.</p>
+    <div class="grid grid-cols-1 gap-4.5 min-[700px]:grid-cols-2">
+      <div class="reveal delay-[50ms] bg-white border border-line rounded-card px-6.5 py-7 transition-colors duration-150 hover:border-signal">
+        <span class="tag mb-3">Agendamento</span>
+        <h3 class="text-[18.5px] mb-2.25">Marca e cancela sem confus&atilde;o</h3>
+        <p class="text-muted text-[14.5px]">Identifica o compromisso certo pelo telefone do cliente, mesmo quando h&aacute; mais de um hor&aacute;rio marcado no mesmo dia.</p>
       </div>
-      <div class="fcard reveal">
-        <span class="tag">Cat&aacute;logo</span>
-        <h3>Mostra pre&ccedil;o e servi&ccedil;o na hora</h3>
-        <p>Voc&ecirc; cadastra o que vende uma vez; a Sofia responde d&uacute;vidas de pre&ccedil;o e servi&ccedil;o sem voc&ecirc; precisar repetir a mesma mensagem.</p>
+      <div class="reveal delay-[120ms] bg-white border border-line rounded-card px-6.5 py-7 transition-colors duration-150 hover:border-signal">
+        <span class="tag mb-3">Cat&aacute;logo</span>
+        <h3 class="text-[18.5px] mb-2.25">Mostra pre&ccedil;o e servi&ccedil;o na hora</h3>
+        <p class="text-muted text-[14.5px]">Voc&ecirc; cadastra o que vende uma vez; a Sofia responde d&uacute;vidas de pre&ccedil;o e servi&ccedil;o sem voc&ecirc; precisar repetir a mesma mensagem.</p>
       </div>
-      <div class="fcard reveal">
-        <span class="tag">Pagamento</span>
-        <h3>Gera Pix dentro da conversa</h3>
-        <p>Quando o cliente confirma, ele j&aacute; recebe o c&oacute;digo copia-e-cola &mdash; o dinheiro cai direto na sua conta.</p>
+      <div class="reveal delay-[190ms] bg-white border border-line rounded-card px-6.5 py-7 transition-colors duration-150 hover:border-signal">
+        <span class="tag mb-3">Pagamento</span>
+        <h3 class="text-[18.5px] mb-2.25">Gera Pix dentro da conversa</h3>
+        <p class="text-muted text-[14.5px]">Quando o cliente confirma, ele j&aacute; recebe o c&oacute;digo copia-e-cola &mdash; o dinheiro cai direto na sua conta.</p>
       </div>
-      <div class="fcard reveal">
-        <span class="tag">Lembretes</span>
-        <h3>Avisa antes do hor&aacute;rio chegar</h3>
-        <p>Reduz falta: um lembrete autom&aacute;tico sai no WhatsApp do cliente antes de cada compromisso.</p>
+      <div class="reveal delay-[260ms] bg-white border border-line rounded-card px-6.5 py-7 transition-colors duration-150 hover:border-signal">
+        <span class="tag mb-3">Lembretes</span>
+        <h3 class="text-[18.5px] mb-2.25">Avisa antes do hor&aacute;rio chegar</h3>
+        <p class="text-muted text-[14.5px]">Reduz falta: um lembrete autom&aacute;tico sai no WhatsApp do cliente antes de cada compromisso.</p>
       </div>
     </div>
   </div>
