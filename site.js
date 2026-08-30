@@ -65,6 +65,93 @@
     }
   }
 
+  // ---------- "pra quem é": celular reaproveitado, com abas ----------
+  // Roteiros transcritos dos PNG que existiam antes (docs/s3-redesign.md,
+  // S3 6/9) — mesmo texto, sem imagem. addBubble() acima é genérico o
+  // bastante pra reaproveitar aqui.
+  var segScripts = {
+    clinicas: {
+      name: 'Sorriso Certo Odonto',
+      messages: [
+        { who: 'in', text: 'Oi, gostaria de marcar uma limpeza', t: '14:02' },
+        { who: 'out', text: 'Oi! Claro, vou verificar aqui pra você. É por convênio ou particular?', t: '14:02' },
+        { who: 'in', text: 'Particular', t: '14:02' },
+        { who: 'out', text: 'Temos horário livre amanhã às 15h ou às 16h30. Qual fica melhor pra você?', t: '14:03' },
+        { who: 'in', text: '15h tá ótimo', t: '14:03' },
+        { who: 'out', text: 'Prontinho! Agendado: amanhã, 15h, limpeza. O valor é R$150 — quer que eu já mande o Pix?', t: '14:03' }
+      ]
+    },
+    saloes: {
+      name: 'Studio Corte & Cia',
+      messages: [
+        { who: 'in', text: 'Boa tarde, tem horário pra corte hoje?', t: '17:10' },
+        { who: 'out', text: 'Boa tarde! Deixa eu ver aqui pra você.', t: '17:10' },
+        { who: 'out', text: 'Tenho livre às 18h ou às 19h15, qual prefere?', t: '17:10' },
+        { who: 'in', text: '19h15 mesmo', t: '17:11' },
+        { who: 'out', text: 'Fechado! Corte marcado hoje às 19h15. Até daqui a pouco!', t: '17:11' },
+        { who: 'in', text: 'Show, obrigado!', t: '17:11' }
+      ]
+    },
+    petshops: {
+      name: 'Amigo Fiel Petshop',
+      messages: [
+        { who: 'in', text: 'Oi, queria agendar banho e tosa pro meu cachorro', t: '10:20' },
+        { who: 'out', text: 'Oi! Com todo prazer, vou verificar! Qual o porte dele — pequeno, médio ou grande?', t: '10:20' },
+        { who: 'in', text: 'Médio, um vira-lata', t: '10:21' },
+        { who: 'out', text: 'Perfeito! Tenho horário amanhã de manhã às 9h ou à tarde às 14h. Qual prefere?', t: '10:21' },
+        { who: 'in', text: 'De manhã', t: '10:21' },
+        { who: 'out', text: 'Combinado! Amanhã 9h, banho e tosa. Até lá!', t: '10:22' }
+      ]
+    }
+  };
+
+  var segChat = document.getElementById('seg-chat');
+  var segPhoneName = document.getElementById('seg-phone-name');
+  var segTabs = Array.prototype.slice.call(document.querySelectorAll('[data-seg]'));
+  var segPanels = {};
+  segTabs.forEach(function (tab) {
+    segPanels[tab.getAttribute('data-seg')] = document.querySelector('[data-seg-panel="' + tab.getAttribute('data-seg') + '"]');
+  });
+
+  function renderSeg(seg) {
+    var data = segScripts[seg];
+    if (!segChat || !data) return;
+    segChat.innerHTML = '';
+    if (segPhoneName) segPhoneName.textContent = data.name;
+    data.messages.forEach(function (msg, idx) {
+      var el = addBubble(msg);
+      if (!reduce) el.style.animationDelay = (idx * 90) + 'ms';
+      segChat.appendChild(el);
+    });
+  }
+
+  function activateSeg(seg) {
+    segTabs.forEach(function (tab) {
+      var active = tab.getAttribute('data-seg') === seg;
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.tabIndex = active ? 0 : -1;
+    });
+    Object.keys(segPanels).forEach(function (key) {
+      if (segPanels[key]) segPanels[key].hidden = key !== seg;
+    });
+    renderSeg(seg);
+  }
+
+  if (segTabs.length) {
+    segTabs.forEach(function (tab, idx) {
+      tab.addEventListener('click', function () { activateSeg(tab.getAttribute('data-seg')); });
+      tab.addEventListener('keydown', function (e) {
+        var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!dir) return;
+        e.preventDefault();
+        var next = segTabs[(idx + dir + segTabs.length) % segTabs.length];
+        activateSeg(next.getAttribute('data-seg'));
+        next.focus();
+      });
+    });
+    activateSeg(segTabs[0].getAttribute('data-seg'));
+  }
+
   // ---------- revelação no scroll ----------
   var revealEls = document.querySelectorAll('.reveal');
   if (reduce || !('IntersectionObserver' in window)) {

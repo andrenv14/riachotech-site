@@ -71,32 +71,10 @@
   /* ---------- FOOTER ---------- */
   footer{border-top:1px solid var(--line); padding:36px 0;}
   footer .wrap{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;}
-  /* ---------- SEGMENTOS ---------- */
-  .segmentos{padding:84px 0; background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
-  .segmentos-head{max-width:56ch; margin-bottom:48px;}
-  .segmentos-head h2{font-size:clamp(26px,3.4vw,36px); margin-bottom:14px;}
-  .segmentos-head p{color:var(--muted); font-size:17px;}
-  .sgrid{display:grid; grid-template-columns:1fr; gap:24px;}
-  @media(min-width:820px){.sgrid{grid-template-columns:repeat(2,1fr);}}
-  @media(min-width:1180px){.sgrid{grid-template-columns:repeat(4,1fr);}}
-  .scard{
-    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
-    overflow:hidden; transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .scard:hover{transform:translateY(-4px); box-shadow:0 20px 40px -24px rgba(20,33,61,0.25);}
-  .scard img{width:100%; height:300px; object-fit:cover; object-position:top; display:block; border-bottom:1px solid var(--line);}
-  .scard .sbody{padding:20px 22px 24px;}
-  .scard .tag{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--clay); letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px; display:block;}
-  .scard h3{font-size:18.5px; margin-bottom:8px;}
-  .scard p{color:var(--muted); font-size:14.5px;}
-
   /* ---------- SCROLL REVEAL ---------- */
   /* .reveal em si migrou pro @layer components (site.css) — usado por toda
-     seção, convertida ou não. Só sobra aqui o delay escalonado por grid das
-     seções que ainda não converteram (S3 3/9: steps saiu; 5/9: features
-     saiu). */
-  .sgrid .reveal:nth-child(1){transition-delay:.05s;} .sgrid .reveal:nth-child(2){transition-delay:.15s;}
-  .sgrid .reveal:nth-child(3){transition-delay:.25s;}
+     seção, convertida ou não. A partir da S3 6/9 não sobra mais nenhum delay
+     escalonado por grid aqui — "pra quem é" não é mais um grid de cards. */
 </style>
 </head>
 <body class="bg-paper text-ink font-sans antialiased leading-[1.6]">
@@ -216,49 +194,87 @@
   </div>
 </section>
 
-<section class="segmentos" id="segmentos">
+<section id="segmentos" class="py-21 bg-paper-2 border-t border-b border-line">
   <div class="wrap">
-    <div class="segmentos-head reveal">
-      <span class="eyebrow">Pra quem é</span>
-      <h2>Clínica, salão, petshop ou aula particular &mdash; a conversa muda, o resultado &eacute; o mesmo.</h2>
-      <p>Cada segmento tem sua pergunta espec&iacute;fica antes de confirmar. Veja como fica na pr&aacute;tica.</p>
+    <div class="reveal max-w-[56ch] mb-12">
+      <span class="eyebrow"><span class="eyebrow-dot"></span>Pra quem é</span>
+      <h2 class="text-[clamp(26px,3.4vw,36px)] mb-3.5">Cl&iacute;nica, sal&atilde;o ou petshop &mdash; a conversa muda, o resultado &eacute; o mesmo.</h2>
+      <p class="text-muted text-[17px]">Cada segmento tem sua pergunta espec&iacute;fica antes de confirmar. Clique numa aba e veja como fica na pr&aacute;tica.</p>
     </div>
-    <div class="sgrid">
-      <div class="scard reveal">
-        <img src="demo-clinica.png" alt="Exemplo de conversa da Sofia com um paciente de cl&iacute;nica odontol&oacute;gica, perguntando conv&ecirc;nio ou particular antes de confirmar o hor&aacute;rio.">
-        <div class="sbody">
-          <span class="tag">Cl&iacute;nicas</span>
-          <h3>Pergunta conv&ecirc;nio ou particular</h3>
-          <p>Antes de confirmar, a Sofia j&aacute; identifica o tipo de atendimento &mdash; e gera o Pix certo se for particular.</p>
+
+    <div class="reveal grid grid-cols-1 gap-8 items-start min-[820px]:grid-cols-[0.9fr_1.1fr] min-[820px]:gap-14">
+      <div>
+        <div role="tablist" aria-label="Segmentos atendidos" class="flex flex-wrap gap-2 mb-7">
+          <button type="button" role="tab" id="tab-clinicas" aria-controls="panel-clinicas" aria-selected="true" data-seg="clinicas"
+            class="font-mono text-[11.5px] uppercase tracking-[0.06em] px-4 py-2 rounded-full border border-line text-muted transition-colors duration-150 hover:border-ink hover:text-ink aria-selected:bg-ink aria-selected:text-white aria-selected:border-ink">Cl&iacute;nicas</button>
+          <button type="button" role="tab" id="tab-saloes" aria-controls="panel-saloes" aria-selected="false" tabindex="-1" data-seg="saloes"
+            class="font-mono text-[11.5px] uppercase tracking-[0.06em] px-4 py-2 rounded-full border border-line text-muted transition-colors duration-150 hover:border-ink hover:text-ink aria-selected:bg-ink aria-selected:text-white aria-selected:border-ink">Sal&otilde;es &amp; barbearias</button>
+          <button type="button" role="tab" id="tab-petshops" aria-controls="panel-petshops" aria-selected="false" tabindex="-1" data-seg="petshops"
+            class="font-mono text-[11.5px] uppercase tracking-[0.06em] px-4 py-2 rounded-full border border-line text-muted transition-colors duration-150 hover:border-ink hover:text-ink aria-selected:bg-ink aria-selected:text-white aria-selected:border-ink">Petshops</button>
+        </div>
+
+        <div id="panel-clinicas" role="tabpanel" aria-labelledby="tab-clinicas" data-seg-panel="clinicas">
+          <span class="tag mb-2">Cl&iacute;nicas</span>
+          <h3 class="text-[18.5px] mb-2">Pergunta conv&ecirc;nio ou particular</h3>
+          <p class="text-muted text-[14.5px]">Antes de confirmar, a Sofia j&aacute; identifica o tipo de atendimento &mdash; e gera o Pix certo se for particular.</p>
+          <div class="sr-only">
+            <p>Exemplo de conversa no WhatsApp com a Sofia, Sorriso Certo Odonto:</p>
+            <p>Cliente, 14:02: Oi, gostaria de marcar uma limpeza</p>
+            <p>Sofia, 14:02: Oi! Claro, vou verificar aqui pra você. É por convênio ou particular?</p>
+            <p>Cliente, 14:02: Particular</p>
+            <p>Sofia, 14:03: Temos horário livre amanhã às 15h ou às 16h30. Qual fica melhor pra você?</p>
+            <p>Cliente, 14:03: 15h tá ótimo</p>
+            <p>Sofia, 14:03: Prontinho! Agendado: amanhã, 15h, limpeza. O valor é R$150 — quer que eu já mande o Pix?</p>
+          </div>
+        </div>
+        <div id="panel-saloes" role="tabpanel" aria-labelledby="tab-saloes" data-seg-panel="saloes" hidden>
+          <span class="tag mb-2">Sal&otilde;es &amp; barbearias</span>
+          <h3 class="text-[18.5px] mb-2">Oferece hor&aacute;rio livre na hora</h3>
+          <p class="text-muted text-[14.5px]">Sem ida e volta: a Sofia j&aacute; sugere os hor&aacute;rios dispon&iacute;veis reais, direto da sua agenda.</p>
+          <div class="sr-only">
+            <p>Exemplo de conversa no WhatsApp com a Sofia, Studio Corte &amp; Cia:</p>
+            <p>Cliente, 17:10: Boa tarde, tem horário pra corte hoje?</p>
+            <p>Sofia, 17:10: Boa tarde! Deixa eu ver aqui pra você.</p>
+            <p>Sofia, 17:10: Tenho livre às 18h ou às 19h15, qual prefere?</p>
+            <p>Cliente, 17:11: 19h15 mesmo</p>
+            <p>Sofia, 17:11: Fechado! Corte marcado hoje às 19h15. Até daqui a pouco!</p>
+            <p>Cliente, 17:11: Show, obrigado!</p>
+          </div>
+        </div>
+        <div id="panel-petshops" role="tabpanel" aria-labelledby="tab-petshops" data-seg-panel="petshops" hidden>
+          <span class="tag mb-2">Petshops</span>
+          <h3 class="text-[18.5px] mb-2">Pergunta o porte antes de marcar</h3>
+          <p class="text-muted text-[14.5px]">Adapta a pergunta ao seu neg&oacute;cio &mdash; porte do animal, servi&ccedil;o desejado, o que for preciso saber antes.</p>
+          <div class="sr-only">
+            <p>Exemplo de conversa no WhatsApp com a Sofia, Amigo Fiel Petshop:</p>
+            <p>Cliente, 10:20: Oi, queria agendar banho e tosa pro meu cachorro</p>
+            <p>Sofia, 10:20: Oi! Com todo prazer, vou verificar! Qual o porte dele — pequeno, médio ou grande?</p>
+            <p>Cliente, 10:21: Médio, um vira-lata</p>
+            <p>Sofia, 10:21: Perfeito! Tenho horário amanhã de manhã às 9h ou à tarde às 14h. Qual prefere?</p>
+            <p>Cliente, 10:21: De manhã</p>
+            <p>Sofia, 10:22: Combinado! Amanhã 9h, banho e tosa. Até lá!</p>
+          </div>
         </div>
       </div>
-      <div class="scard reveal">
-        <img src="demo-salao.png" alt="Exemplo de conversa da Sofia com um cliente de sal&atilde;o de beleza, oferecendo dois hor&aacute;rios dispon&iacute;veis pra corte.">
-        <div class="sbody">
-          <span class="tag">Sal&otilde;es &amp; barbearias</span>
-          <h3>Oferece hor&aacute;rio livre na hora</h3>
-          <p>Sem ida e volta: a Sofia j&aacute; sugere os hor&aacute;rios dispon&iacute;veis reais, direto da sua agenda.</p>
-        </div>
-      </div>
-      <div class="scard reveal">
-        <img src="demo-petshop.png" alt="Exemplo de conversa da Sofia com um tutor de pet, perguntando o porte do animal antes de marcar banho e tosa.">
-        <div class="sbody">
-          <span class="tag">Petshops</span>
-          <h3>Pergunta o porte antes de marcar</h3>
-          <p>Adapta a pergunta ao seu neg&oacute;cio &mdash; porte do animal, servi&ccedil;o desejado, o que for preciso saber antes.</p>
-        </div>
-      </div>
-      <div class="scard reveal">
-        <img src="demo-professor.png" alt="Exemplo de conversa da Sofia com um aluno de aula particular, perguntando a matéria e o nível antes de marcar o horário.">
-        <div class="sbody">
-          <span class="tag">Aulas particulares</span>
-          <h3>Pergunta a matéria e o nível antes de marcar</h3>
-          <p>Reforço escolar, idioma, música ou o que você ensinar &mdash; a Sofia pergunta o que precisa saber antes de confirmar.</p>
+
+      <div class="flex justify-center">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-bar">
+              <span class="av">S</span>
+              <div>
+                <div id="seg-phone-name">Sorriso Certo Odonto</div>
+                <div class="status">online</div>
+              </div>
+            </div>
+            <div class="phone-body" id="seg-chat" aria-hidden="true"></div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="reveal" style="margin-top:36px; text-align:center;">
-      <p style="color:var(--muted); font-size:16.5px; max-width:56ch; margin:0 auto 18px;">N&atilde;o achou o seu aqui? Se o seu neg&oacute;cio marca hora, a assistente &eacute; configurada do mesmo jeito &mdash; e pelo mesmo pre&ccedil;o.</p>
+
+    <div class="reveal mt-9 text-center">
+      <p class="text-muted text-[16.5px] max-w-[56ch] mx-auto mb-4.5">N&atilde;o achou o seu aqui? Se o seu neg&oacute;cio marca hora, a assistente &eacute; configurada do mesmo jeito &mdash; e pelo mesmo pre&ccedil;o.</p>
       <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Meu%20neg%C3%B3cio%20%C3%A9%20de%20outro%20ramo%2C%20d%C3%A1%20pra%20usar%3F" target="_blank" rel="noopener">Falar no WhatsApp</a>
     </div>
   </div>
