@@ -122,6 +122,26 @@
     .typing-dot { animation: none; }
   }
 
+  /* item da lista do plano — o ✓ é pseudo-elemento pra não repetir um <span>
+     em cada um dos 7 itens. Cor: --color-sky, não --color-signal; o signal
+     dava 2.27:1 sobre o navy (abaixo do mínimo de 3:1 pra elemento não
+     textual), o sky dá 7.76:1 e já é a cor do eyebrow desta mesma seção. */
+  .plan-item {
+    display: flex; gap: 9px; padding-block: 7px;
+    font-size: 14.5px; color: #E4EFEC;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+  }
+  .plan-item:first-child { border-top: none; }
+  .plan-item::before {
+    content: "✓"; color: var(--color-sky); font-weight: 700; flex-shrink: 0;
+  }
+
+  /* nota de rodapé — a classe .fnote era usada no HTML mas NUNCA existiu no
+     CSS (nem no site original), então o rodapé renderizava em 16px/navy. */
+  .fnote { font-size: 13px; color: var(--color-muted); }
+  .fnote a { text-decoration: none; }
+  .fnote a:hover { color: var(--color-ink); }
+
   /* revelação no scroll — usado por toda seção, convertida ou não. O delay
      escalonado por grid (quando faz sentido) entra como utilitário
      delay-[Nms] direto no elemento, não aqui. */

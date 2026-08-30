@@ -22,60 +22,6 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="site.css">
-<style>
-  /* Tokens legados — ainda usados pelas seções não convertidas (steps,
-     features, plans, finalcta, footer, segmentos). Os equivalentes já
-     migraram pro @theme de build/tailwind-input.css; este bloco encolhe
-     seção por seção até sumir (ver docs/s3-redesign.md). */
-  :root{
-    --ink:#16253D;
-    --paper:#F3F5F3;
-    --paper-2:#E9ECE9;
-    --teal:#16253D;
-    --signal:#2F5D91;
-    --signal-dark:#20456E;
-    --clay:#3B5578;
-    --muted:#5C6B72;
-    --line:rgba(20,33,61,0.12);
-    --radius:14px;
-  }
-  /* nav, hero, .btn, .eyebrow, o reset global e a tipografia de título
-     migraram pra build/tailwind-input.css nesta seção (S3 3/9). */
-
-  /* ---------- PLANS ---------- */
-  .plans{padding:84px 0; background:var(--teal); color:#fff;}
-  .plans .eyebrow{color:#9CBBE0;}
-  .plans .eyebrow::before{background:#9CBBE0;}
-  .plans-head{max-width:60ch; margin-bottom:44px;}
-  .plans-head h2{color:#fff; font-size:clamp(26px,3.4vw,36px); margin-bottom:14px;}
-  .plans-head p{color:#CFE0DD; font-size:17px;}
-  .plangrid{display:grid; grid-template-columns:1fr; gap:18px;}
-  @media(min-width:760px){.plangrid{grid-template-columns:repeat(3,1fr);}}
-  .plan{
-    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.14);
-    border-radius:var(--radius); padding:28px 24px; display:flex; flex-direction:column;
-  }
-  .plan.feat{border-color:var(--signal); background:rgba(31,170,89,0.12);}
-  .plan .pname{font-family:'Fraunces',serif; font-size:21px; margin-bottom:6px;}
-  .plan .pnote{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9CBBE0; margin-bottom:18px;}
-  .plan ul{list-style:none; margin:0 0 22px; padding:0; flex:1;}
-  .plan li{font-size:14.5px; color:#E4EFEC; padding:7px 0; border-top:1px solid rgba(255,255,255,0.09); display:flex; gap:9px;}
-  .plan li:first-child{border-top:none;}
-  .plan li::before{content:"✓"; color:var(--signal); font-weight:700; flex-shrink:0;}
-
-  /* ---------- FINAL CTA ---------- */
-  .finalcta{padding:96px 0; text-align:center;}
-  .finalcta h2{font-size:clamp(28px,4.4vw,44px); max-width:20ch; margin:0 auto 20px;}
-  .finalcta p{color:var(--muted); font-size:17px; max-width:44ch; margin:0 auto 34px;}
-
-  /* ---------- FOOTER ---------- */
-  footer{border-top:1px solid var(--line); padding:36px 0;}
-  footer .wrap{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;}
-  /* ---------- SCROLL REVEAL ---------- */
-  /* .reveal em si migrou pro @layer components (site.css) — usado por toda
-     seção, convertida ou não. A partir da S3 6/9 não sobra mais nenhum delay
-     escalonado por grid aqui — "pra quem é" não é mais um grid de cards. */
-</style>
 </head>
 <body class="bg-paper text-ink font-sans antialiased leading-[1.6]">
 
@@ -287,60 +233,60 @@
   </div>
 </section>
 
-<section class="plans" id="planos">
+<section id="planos" class="scroll-mt-20 py-21 bg-ink text-white">
   <div class="wrap">
-    <span class="eyebrow">Planos</span>
-    <div class="plans-head">
-      <h2>Um pre&ccedil;o s&oacute;, sem surpresa.</h2>
+    <span class="eyebrow text-sky"><span class="eyebrow-dot bg-sky"></span>Planos</span>
+    <div class="max-w-[60ch] mb-11">
+      <h2 class="text-white text-[clamp(26px,3.4vw,36px)]">Um pre&ccedil;o s&oacute;, sem surpresa.</h2>
     </div>
-    <div style="max-width:640px; margin:0 auto;">
-      <div class="plan feat">
-        <div class="pname">A assistente no seu WhatsApp</div>
-        <div class="pnote">R$1.000 de implanta&ccedil;&atilde;o (ou 2&times; R$500) + R$200/m&ecirc;s</div>
-        <ul>
-          <li>Atende sozinha no WhatsApp, conversando de verdade</li>
-          <li>Marca, cancela e remarca consultando sua agenda real</li>
-          <li>Lembra o cliente antes do hor&aacute;rio</li>
-          <li>Mostra cat&aacute;logo com foto e pre&ccedil;o</li>
-          <li>Cobra por Pix dentro da conversa</li>
-          <li>Passa pra voc&ecirc; quando precisa de gente</li>
-          <li>Sem limite de conversas</li>
+    <div class="max-w-[640px] mx-auto">
+      <div class="reveal flex flex-col rounded-card border border-signal bg-signal/15 px-6 py-7">
+        <div class="font-display text-[21px] mb-1.5">A assistente no seu WhatsApp</div>
+        <div class="font-mono text-[11.5px] text-sky mb-4.5">R$1.000 de implanta&ccedil;&atilde;o (ou 2&times; R$500) + R$200/m&ecirc;s</div>
+        <ul class="flex-1 mb-5.5">
+          <li class="plan-item">Atende sozinha no WhatsApp, conversando de verdade</li>
+          <li class="plan-item">Marca, cancela e remarca consultando sua agenda real</li>
+          <li class="plan-item">Lembra o cliente antes do hor&aacute;rio</li>
+          <li class="plan-item">Mostra cat&aacute;logo com foto e pre&ccedil;o</li>
+          <li class="plan-item">Cobra por Pix dentro da conversa</li>
+          <li class="plan-item">Passa pra voc&ecirc; quando precisa de gente</li>
+          <li class="plan-item">Sem limite de conversas</li>
         </ul>
-        <p style="font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500; color:#BFD9F2; margin:0 0 22px;">A mensalidade s&oacute; come&ccedil;a 30 dias depois dela estar no ar.</p>
-        <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Falar no WhatsApp</a>
+        <p class="font-mono text-[13px] font-medium text-sky-2 mb-5.5">A mensalidade s&oacute; come&ccedil;a 30 dias depois dela estar no ar.</p>
+        <a class="btn btn-primary self-start" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Falar no WhatsApp</a>
       </div>
-      <div style="margin-top:30px; text-align:center;">
-        <div class="pname" style="font-size:19px; margin-bottom:8px;">S&oacute; o site tamb&eacute;m d&aacute;.</div>
-        <p style="color:#CFE0DD; font-size:15.5px; max-width:54ch; margin:0 auto 18px;">Landing page pronta pra converter, por R$750 &mdash; pagamento &uacute;nico, sem mensalidade. Junto com a assistente, os dois saem por R$1.500 de implanta&ccedil;&atilde;o.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
-          <a class="btn btn-ghost" style="border-color:rgba(255,255,255,.3); color:#fff;" href="https://wa.me/5561999643707?text=Quero%20um%20or%C3%A7amento%20de%20landing%20page" target="_blank" rel="noopener">Quero s&oacute; o site</a>
-          <a class="btn btn-ghost" style="border-color:rgba(255,255,255,.3); color:#fff;" href="https://wa.me/5561999643707?text=Quero%20a%20assistente%20com%20site" target="_blank" rel="noopener">Quero os dois</a>
+      <div class="reveal mt-7.5 text-center">
+        <div class="font-display text-[19px] mb-2">S&oacute; o site tamb&eacute;m d&aacute;.</div>
+        <p class="text-mist text-[15.5px] max-w-[54ch] mx-auto mb-4.5">Landing page pronta pra converter, por R$750 &mdash; pagamento &uacute;nico, sem mensalidade. Junto com a assistente, os dois saem por R$1.500 de implanta&ccedil;&atilde;o.</p>
+        <div class="flex flex-wrap gap-3 justify-center">
+          <a class="btn btn-ghost border-white/30 text-white hover:border-white" href="https://wa.me/5561999643707?text=Quero%20um%20or%C3%A7amento%20de%20landing%20page" target="_blank" rel="noopener">Quero s&oacute; o site</a>
+          <a class="btn btn-ghost border-white/30 text-white hover:border-white" href="https://wa.me/5561999643707?text=Quero%20a%20assistente%20com%20site" target="_blank" rel="noopener">Quero os dois</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="finalcta">
+<section class="py-24 text-center">
   <div class="wrap">
-    <h2>Bora ver a Sofia marcando hor&aacute;rio no seu pr&oacute;prio WhatsApp?</h2>
-    <p>Manda uma mensagem e a gente configura uma demonstra&ccedil;&atilde;o com a sua agenda de verdade.</p>
+    <h2 class="reveal text-[clamp(28px,4.4vw,44px)] max-w-[20ch] mx-auto mb-5">Bora ver a Sofia marcando hor&aacute;rio no seu pr&oacute;prio WhatsApp?</h2>
+    <p class="reveal text-muted text-[17px] max-w-[44ch] mx-auto mb-8.5">Manda uma mensagem e a gente configura uma demonstra&ccedil;&atilde;o com a sua agenda de verdade.</p>
     <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Chamar no WhatsApp</a>
   </div>
 </section>
 
-<footer>
-  <div class="wrap" style="flex-direction:column; align-items:flex-start; gap:14px;">
-    <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:16px;">
-      <a href="#" class="logo" style="font-size:16px;"><img src="logo.png" alt="Riacho Tech" style="height:26px; width:auto; transform:translateY(3px);"></a>
+<footer class="border-t border-line py-9">
+  <div class="wrap flex flex-col items-start gap-3.5">
+    <div class="flex items-center justify-between w-full flex-wrap gap-4">
+      <a href="#" class="inline-block"><img src="logo.png" alt="Riacho Tech" class="h-[26px] w-auto translate-y-[3px]"></a>
       <span class="fnote">© 2026 Riacho Tech · riachotech.com.br · assistente de agendamento via WhatsApp com IA</span>
     </div>
-    <div class="fnote" style="display:flex; flex-wrap:wrap; gap:18px;">
-      <a href="mailto:contato@riachotech.com.br" style="text-decoration:none; color:inherit;">contato@riachotech.com.br</a>
-      <a href="https://instagram.com/riacho_tech" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">@riacho_tech</a>
-      <a href="https://wa.me/5561999643707" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">Fale com a Sofia no WhatsApp</a>
-      <a href="privacidade.html" style="text-decoration:none; color:inherit;">Política de Privacidade</a>
-      <a href="privacidade.html#exclusao" style="text-decoration:none; color:inherit;">Exclusão de dados</a>
+    <div class="fnote flex flex-wrap gap-4.5">
+      <a href="mailto:contato@riachotech.com.br">contato@riachotech.com.br</a>
+      <a href="https://instagram.com/riacho_tech" target="_blank" rel="noopener">@riacho_tech</a>
+      <a href="https://wa.me/5561999643707" target="_blank" rel="noopener">Fale com a Sofia no WhatsApp</a>
+      <a href="privacidade.html">Política de Privacidade</a>
+      <a href="privacidade.html#exclusao">Exclusão de dados</a>
     </div>
   </div>
 </footer>
