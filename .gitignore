@@ -10,3 +10,7 @@
 .*.swp
 *.tmp
 .DS_Store
+
+# Dependências do build de CSS (S3) — site.css compilado É commitado,
+# node_modules não. Ver README.md.
+node_modules/
