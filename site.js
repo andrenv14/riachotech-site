@@ -123,6 +123,12 @@
       if (!reduce) el.style.animationDelay = (idx * 90) + 'ms';
       segChat.appendChild(el);
     });
+    // Os roteiros têm 6 mensagens — mais do que cabe nos 520px do celular
+    // sem rolar. .phone-body tem overflow:hidden (igual ao #chat do hero),
+    // então sem isto a ÚLTIMA mensagem (a confirmação, o clímax de cada
+    // roteiro) ficava cortada e invisível. Rola pro fim: mesmo efeito de um
+    // chat de verdade, que sempre abre na mensagem mais recente.
+    segChat.scrollTop = segChat.scrollHeight;
   }
 
   function activateSeg(seg) {
