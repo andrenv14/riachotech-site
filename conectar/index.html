@@ -140,8 +140,23 @@
     if (ORIGENS_META.indexOf(evento.origin) === -1) return;
     try {
       var dados = JSON.parse(evento.data);
-      if (dados.type === 'WA_EMBEDDED_SIGNUP' && dados.event === 'FINISH') {
-        dadosDaMeta = { waba_id: dados.data.waba_id, phone_number_id: dados.data.phone_number_id };
+      // DOIS eventos de conclusão. 'FINISH' é o da Cloud API pura. Em
+      // coexistência a Meta manda FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING e
+      // NÃO manda phone_number_id — só waba_id. Exigir os dois era o que fazia
+      // esta página dizer "não recebemos a confirmação da Meta" mesmo com o
+      // code na mão; o número é descoberto pela WABA, no servidor.
+      var fim = dados.event === 'FINISH' || dados.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING';
+      if (dados.type === 'WA_EMBEDDED_SIGNUP' && fim) {
+        var d = dados.data || {};
+        // MESCLA, não substitui. Se dois eventos de conclusão chegarem (um
+        // FINISH com phone_number_id e depois um de coexistência, que não o
+        // traz), substituir apagaria um dado que já tínhamos e mandaria uma
+        // conexão boa para a descoberta pela WABA — que PARA se a WABA tiver
+        // mais de um número, com o convite já queimado. Nunca se troca um
+        // valor conhecido por nada.
+        dadosDaMeta = dadosDaMeta || { waba_id: null, phone_number_id: null };
+        if (d.waba_id) dadosDaMeta.waba_id = d.waba_id;
+        if (d.phone_number_id) dadosDaMeta.phone_number_id = d.phone_number_id;
       }
     } catch (e) { /* mensagem que não é do Embedded Signup — ignora */ }
   });
@@ -149,12 +164,12 @@
   function enviarAoServidor(code) {
     var status = el('statusEnvio');
 
-    // Sem o retorno do Embedded Signup não há waba_id nem phone_number_id, e o
+    // Sem o retorno do Embedded Signup não há waba_id, e o
     // servidor recusaria na validação de formato com um texto de API
     // ("waba_id ausente ou inválido") que não diz nada pro cliente. Como essa
     // recusa acontece ANTES da queima, o convite continua valendo — o retry é
     // seguro e é o que faz sentido oferecer.
-    if (!dadosDaMeta || !dadosDaMeta.waba_id || !dadosDaMeta.phone_number_id) {
+    if (!dadosDaMeta || !dadosDaMeta.waba_id) {
       status.className = 'aviso erro';
       status.textContent = 'Não recebemos a confirmação da Meta. Pode tentar de novo — seu link continua valendo.';
       status.classList.remove('escondido');
@@ -169,12 +184,17 @@
     fetch(API + '/coex/conectar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        t: token,
-        code: code,
-        waba_id: dadosDaMeta.waba_id,
-        phone_number_id: dadosDaMeta.phone_number_id
-      })
+      body: JSON.stringify(
+        // phone_number_id só entra quando a Meta mandou (Cloud API pura). Em
+        // coexistência ele não existe aqui, e quem descobre o número é o
+        // servidor, pela WABA — validarEntradaConectar (src/server.js, no
+        // sofia-bot) trata o campo como opcional. Omitir a chave é o mesmo que
+        // mandá-la nula para aquela validação; omitir é só mais honesto, porque
+        // não inventa um campo que a Meta não devolveu.
+        dadosDaMeta.phone_number_id
+          ? { t: token, code: code, waba_id: dadosDaMeta.waba_id, phone_number_id: dadosDaMeta.phone_number_id }
+          : { t: token, code: code, waba_id: dadosDaMeta.waba_id }
+      )
     })
       .then(function (r) { return r.json().then(function (corpo) { return { ok: r.ok, corpo: corpo }; }); })
       .then(function (res) {
