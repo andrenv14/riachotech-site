@@ -82,10 +82,31 @@ tempo) usa `sky`, não `signal`: o signal dá 2,27:1 sobre o navy e some.
 | lead | Inter 400 | 18px | 1,6 |
 | corpo | Inter 400 | 16px — é o PISO | 1,6 |
 | controle (botão, aba, link de nav) | Inter 500/600 | 14,5–15px | — |
-| mono: eyebrow de seção, marcador de etapa, hora, valor | IBM Plex Mono 500, caixa alta, `.14em` | 11,5–13px | — |
+| **rótulo** em mono | IBM Plex Mono 400, CAIXA ALTA, tracking .12–.14em | 11,5–12,5px | — |
+| **dado** em mono | IBM Plex Mono 400, caixa normal, sem tracking | 9,5–16px | — |
 
-As três famílias entram pelo mesmo `<link>` do Google Fonts, idêntico em
-`index.html`, `404.html` e `privacidade.html`, para dividirem cache. Elas
+Os dois papéis de monoespaçada são diferentes e não se misturam. **Rótulo** é
+`.eyebrow`, `.pay-when` e `.toc-label`: nomeia uma seção ou um momento, e é
+caixa alta com tracking. **Dado** é a hora dentro da bolha (`.bubble-tick`), o
+status "online", o marcador de etapa "01 — o cliente chama", a nota do hero e
+um valor citado no meio de uma frase: é caixa normal, sem tracking, porque
+está sendo lido como conteúdo e não como etiqueta.
+
+Exceção declarada, e é a única abaixo do piso: `.bubble-tick`, a 9,5px, é
+decoração `aria-hidden` dentro do mock, com transcrição `sr-only` ao lado.
+Nenhum texto que o leitor precise ler fica abaixo de 11px.
+
+Esta tabela se confere sozinha: `npm run medir` imprime família, peso, caixa,
+tracking e tamanho de cada elemento com texto, e é de lá que ela saiu.
+
+
+As três famílias entram pelo mesmo `<link>` do Google Fonts, byte a byte
+idêntico em `index.html`, `404.html` e `privacidade.html` para dividirem
+cache, e ele pede **só os pesos que alguma regra usa**: Fraunces 600 e o
+itálico 600, Inter 400/500/600/700, IBM Plex Mono 400. O Fraunces 400 e o Mono
+500 estavam na URL sem consumidor nenhum e saíram em 07/09/2026, depois de
+medidos no navegador. Confere com
+`grep -oh 'css2?[^\"]*' *.html | sort -u`, que tem de devolver UMA linha. Elas
 carregam com `display=swap` e a troca ainda produz um resto de deslocamento no
 H1 (CLS medido em 0,019, dentro do teto). O `@font-face` de fallback métrico
 foi TENTADO e não entrou: `local("Georgia")` não existe no Linux, o override

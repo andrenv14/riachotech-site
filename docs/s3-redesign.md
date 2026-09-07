@@ -97,7 +97,14 @@ paleta morreu sem substituto.
 | lead | Inter 400 | `18px` |
 | corpo | Inter 400 | `16px` |
 | apoio | Inter 400 | `14.5px` |
-| mono (eyebrow, tag, aba, hora, preço) | IBM Plex Mono 500, caixa alta, `.14em` | `12.5px` |
+| mono (eyebrow, tag, aba, hora, preço) | IBM Plex Mono 400, caixa alta, `.14em` | `12.5px` |
+
+> **O peso desta linha estava errado desde 30/08 e foi corrigido em 07/09:
+> nunca foi 500, é 400.** Nenhuma regra do CSS jamais declarou 500 em
+> monoespaçada, e a URL de fonte pedia o 500 sem consumidor — ele saiu na
+> renovação, medido no navegador. A tag, a aba e o preço em mono também
+> não existem mais. A tabela válida é a do `DESIGN.md`, que separa RÓTULO
+> de DADO porque o CSS sempre os tratou diferente.
 
 URL de fonte corrigida (mesma no `index.html` e `privacidade.html`, pra
 dividirem cache):
