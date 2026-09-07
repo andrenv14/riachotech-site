@@ -4,9 +4,9 @@ A fonte executável dos tokens é `build/tailwind-input.css` (bloco `@theme`);
 este arquivo os espelha textualmente e é atualizado NO MESMO COMMIT que os
 altera. Os hex vêm de `~/sofia-bot/docs/brand-riacho-tech.md` (kit do Canva,
 lidos em 30/08/2026). Em 07/09/2026 saíram duas entradas que tinham perdido o
-consumidor: `--color-clay` (`#3B5578`), que só servia ao componente `.tag`, e
-`--radius-card`, que só servia aos cards de "Recursos" — os dois foram embora
-na renovação. **Todo token do `@theme` tem consumidor**, e o critério se
+consumidor: `--color-clay` (`#3B5578`), que só servia ao componente `.tag`.
+(O `--radius-card` também saiu por um momento, e voltou no mesmo dia quando o
+`.toc` do documento longo passou a consumi-lo.) **Todo token do `@theme` tem consumidor**, e o critério se
 verifica sozinho: para cada `--nome` do bloco, `grep -c 'var(--nome)\|-nome'`
 em `build/tailwind-input.css` e nos `.html` tem de passar de zero. O doc de
 marca ainda lista o `#3B5578` como extra do CSS do site; quem for atualizá-lo
@@ -41,6 +41,8 @@ comando que o rederiva.
   --font-display: "Fraunces", serif;
   --font-sans:    "Inter", sans-serif;
   --font-mono:    "IBM Plex Mono", monospace;
+
+  --radius-card: 14px;
 
   /* Ícone de marca de seleção, traço de 2px e ponta reta — desenhado aqui
      para o CSS não depender de nenhum glifo de fonte. Usado por .plan-item. */
@@ -102,6 +104,12 @@ para nudge óptico, sempre com comentário dizendo o que compensa — o modelo �
 (`-primary`, `-ghost`; default/hover/focus/active) · `.tab` · `.phone` +
 `-screen`/`-bar`/`-body` · `.bubble` (`-in`, `-out`, `-tick`) ·
 `.typing-bubble` · `.plan-item` · `.pay` + `.pay-when` · `.fnote`.
+
+Documento longo (`privacidade.html`): `.doc-header` · `.doc` · `.toc` +
+`.toc-label`. A política tinha um sistema inteiro num `<style>` inline —
+`:root` próprio repetindo os mesmos hex, mais `.wrap`, `.btn`, `.eyebrow` e
+anel de foco duplicados — e foi por isso que ela ficou para trás quando o
+sistema evoluiu. Agora consome o mesmo `site.css`.
 
 O celular é o elemento-assinatura da página: aparece no hero digitando sozinho
 e em "pra quem é" com abas, e em nenhum outro lugar. A linha do tempo de

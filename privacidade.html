@@ -10,120 +10,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
-<style>
-  :root{
-    --ink:#16253D;
-    --paper:#F3F5F3;
-    --paper-2:#E9ECE9;
-    --teal:#16253D;
-    --signal:#2F5D91;
-    --signal-dark:#20456E;
-    --clay:#3B5578;
-    --muted:#5C6B72;
-    --line:rgba(20,33,61,0.12);
-    --radius:14px;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-  }
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter', sans-serif;
-    font-size:16px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--signal-dark);}
-  img,svg{display:block; max-width:100%;}
-  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
-  h1,h2,h3{font-family:'Fraunces', serif; color:var(--ink); font-weight:600; letter-spacing:-0.01em;}
-  :focus-visible{outline:2.5px solid var(--signal-dark); outline-offset:3px; border-radius:4px;}
-
-  /* ---------- NAV ---------- */
-  nav{
-    position:sticky; top:0; z-index:50;
-    background:rgba(243,245,243,0.86);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
-  .logo{display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:600; font-size:19px; text-decoration:none;}
-  .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    font-family:'Inter', sans-serif; font-weight:600; font-size:14.5px;
-    padding:11px 20px; border-radius:999px; text-decoration:none;
-    border:1.5px solid transparent; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .btn:hover{transform:translateY(-1px);}
-  .btn-primary{background:var(--signal); color:#fff; box-shadow:0 1px 0 rgba(0,0,0,0.05);}
-  .btn-primary:hover{background:var(--signal-dark);}
-
-  /* ---------- CONTEÚDO ---------- */
-  .doc-header{padding:64px 0 36px; border-bottom:1px solid var(--line);}
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12.5px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--signal-dark);
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:18px;
-  }
-  .eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--signal); display:inline-block;}
-  .doc-header h1{font-size:clamp(28px,4vw,42px); margin-bottom:14px;}
-  .doc-header p{color:var(--muted); font-size:16px; max-width:60ch;}
-
-  .doc{padding:56px 0 90px;}
-  .doc .wrap{max-width:760px;}
-  .doc section{margin-bottom:44px;}
-  .doc h2{font-size:22px; margin-bottom:14px;}
-  .doc h3{font-size:17px; margin:20px 0 8px;}
-  .doc p{color:var(--ink); margin-bottom:12px; font-size:15.5px;}
-  .doc p.muted{color:var(--muted); font-size:14px;}
-  .doc ul, .doc ol{margin:0 0 12px 22px; color:var(--ink); font-size:15.5px;}
-  .doc li{margin-bottom:6px;}
-  .doc strong{font-weight:600;}
-  .callout{
-    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
-    padding:18px 20px; font-size:14.5px; color:var(--muted); margin-bottom:14px;
-  }
-  .callout.warn{border-color:var(--clay); background:#FBF3EC;}
-  .toc{
-    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
-    padding:20px 24px; margin-bottom:8px;
-  }
-  .toc p{font-family:'IBM Plex Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--clay); margin-bottom:10px;}
-  .toc ol{margin:0 0 0 20px; font-size:14.5px;}
-  .toc li{margin-bottom:6px;}
-  .toc a{text-decoration:none;}
-  .toc a:hover{text-decoration:underline;}
-
-  section ol{margin:0 0 16px 22px; font-size:15.5px; color:var(--muted);}
-  section ol li{margin-bottom:9px;}
-
-  /* ---------- FOOTER ---------- */
-  footer{border-top:1px solid var(--line); padding:36px 0;}
-  footer .wrap{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;}
-  .fnote{font-size:13.5px; color:var(--muted);}
-</style>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="site.css">
 </head>
-<body>
+<body class="bg-paper text-ink font-sans antialiased leading-[1.6]">
 
-<nav>
-  <div class="wrap">
-    <a href="index.html" class="logo"><img src="logo.png" alt="Riacho Tech" style="height:34px; width:auto;"></a>
+<nav class="sticky top-0 z-50 bg-paper border-b border-line">
+  <div class="wrap flex items-center justify-between gap-3 py-3">
+    <a href="index.html" class="flex items-center shrink-0 min-h-[44px] min-w-[44px]" aria-label="Riacho Tech, página inicial">
+      <img src="favicon.png" alt="" width="256" height="256" class="h-9 w-9 rounded-[9px] min-[760px]:hidden">
+      <img src="logo.png" alt="" width="340" height="91" class="hidden min-[760px]:block h-[34px] w-auto translate-y-[4px]">
+    </a>
     <a class="btn btn-primary" href="https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia" target="_blank" rel="noopener">Falar no WhatsApp</a>
   </div>
 </nav>
 
 <header class="doc-header">
   <div class="wrap">
-    <span class="eyebrow">Riacho Tech</span>
     <h1>Política de Privacidade</h1>
     <p>Como tratamos os dados do seu negócio e os dados de quem conversa com a Sofia no WhatsApp. Última atualização: <strong>23 de agosto de 2026</strong>.</p>
   </div>
@@ -132,8 +35,8 @@
 <main class="doc">
   <div class="wrap">
 
-    <div class="toc">
-      <p>Nesta página</p>
+    <nav class="toc" aria-labelledby="toc-titulo">
+      <span class="toc-label" id="toc-titulo">Nesta página</span>
       <ol>
         <li><a href="#quem-somos">Quem somos e a quem esta política se aplica</a></li>
         <li><a href="#dados-negocio">Dados do seu negócio (cliente contratante)</a></li>
@@ -146,7 +49,7 @@
         <li><a href="#direitos">Seus direitos (LGPD)</a></li>
         <li><a href="#contato">Contato</a></li>
       </ol>
-    </div>
+    </nav>
 
     <section id="quem-somos">
       <h2>1. Quem somos e a quem esta política se aplica</h2>
@@ -262,16 +165,16 @@
   </div>
 </main>
 
-<footer>
-  <div class="wrap" style="flex-direction:column; align-items:flex-start; gap:14px;">
-    <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:16px;">
-      <a href="index.html" class="logo" style="font-size:16px;"><img src="logo.png" alt="Riacho Tech" style="height:26px; width:auto;"></a>
+<footer class="border-t border-line py-9">
+  <div class="wrap flex flex-col items-start gap-2">
+    <div class="flex items-center justify-between w-full flex-wrap gap-4">
+      <a href="index.html" class="inline-flex items-center min-h-[44px]" aria-label="Riacho Tech, página inicial"><img src="logo.png" alt="" width="340" height="91" class="h-[26px] w-auto translate-y-[3px]"></a>
       <span class="fnote">© 2026 Riacho Tech · riachotech.com.br · assistente de agendamento via WhatsApp com IA</span>
     </div>
-    <div class="fnote" style="display:flex; flex-wrap:wrap; gap:18px;">
-      <a href="mailto:contato@riachotech.com.br" style="text-decoration:none; color:inherit;">contato@riachotech.com.br</a>
-      <a href="https://instagram.com/riacho_tech" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">@riacho_tech</a>
-      <a href="index.html" style="text-decoration:none; color:inherit;">Voltar ao site</a>
+    <div class="fnote flex flex-wrap gap-x-5">
+      <a href="mailto:contato@riachotech.com.br" class="inline-flex items-center min-h-[44px]">contato@riachotech.com.br</a>
+      <a href="https://instagram.com/riacho_tech" target="_blank" rel="noopener" class="inline-flex items-center min-h-[44px]">@riacho_tech</a>
+      <a href="index.html" class="inline-flex items-center min-h-[44px]">Voltar ao site</a>
     </div>
   </div>
 </footer>

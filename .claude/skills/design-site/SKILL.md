@@ -186,6 +186,19 @@ texto longo e curto (o nome mais longo das abas, em 390); console sem erro;
 três tamanhos em `~/para-revisao/`, **lida** antes de chamar — regra do
 `AGENTS.md`: fatia de front-end confere em screenshot, sempre.
 
+## Texto que é compromisso público
+
+`privacidade.html` é documento legal. Mudança de APRESENTAÇÃO nele não altera
+uma palavra, e isso se prova, não se afirma:
+
+    git show main:privacidade.html | node build/texto-visivel.js --main > /tmp/antes.txt
+    node build/texto-visivel.js --main privacidade.html > /tmp/depois.txt
+    diff /tmp/antes.txt /tmp/depois.txt
+
+`diff` vazio é a prova. Sem `--main` a comparação inclui nav e rodapé, que são
+moldura — se algo mudar ali, o relato diz exatamente o quê. Alterar uma palavra
+do documento é trabalho separado, e só com a palavra do fundador.
+
 ## Regras que não mudam
 
 Texto da oferta e preço vêm do `negocio.md`. Nada de telefone de cliente, nome

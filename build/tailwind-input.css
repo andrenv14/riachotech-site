@@ -22,6 +22,8 @@
   --font-sans:    "Inter", sans-serif;
   --font-mono:    "IBM Plex Mono", monospace;
 
+  --radius-card: 14px;
+
   /* Ícone de marca de seleção, traço de 2px e ponta reta — desenhado aqui
      para o CSS não depender de nenhum glifo de fonte. Usado por .plan-item. */
   --icone-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 8.6l3.6 3.6 7.4-8.4' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
@@ -199,6 +201,68 @@
     display: block; font-family: var(--font-mono); font-size: 11.5px;
     letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-sky); margin-bottom: 3px;
   }
+
+  /* ---------- documento longo (privacidade.html) ----------
+     A página trazia um sistema de design INTEIRO num <style> inline: :root
+     próprio repetindo os mesmos hex, mais .wrap, .btn, .eyebrow e anel de foco
+     duplicados — e dentro dele dois tokens que já tinham morrido no @theme
+     (--teal, que valia navy e cujo nome mentia, e --clay) e um creme que
+     nunca esteve na paleta. Duas fontes de verdade para os mesmos valores
+     é como um site sai do lugar sem ninguém decidir. Daqui pra baixo fica só
+     o que é específico de documento longo; o resto vem dos mesmos componentes
+     da home. */
+  /* A mesma coluna de 760px do corpo do documento: com o cabeçalho na largura
+     cheia de 1160px, o H1 começava ~310px à esquerda do primeiro parágrafo, e
+     nada na página explicava a diferença. */
+  .doc-header { padding: 56px 0 34px; border-bottom: 1px solid var(--color-line); }
+  .doc-header .wrap { max-width: 760px; }
+  .doc-header h1 { font-size: clamp(28px, 4vw, 42px); margin-bottom: 14px; }
+  .doc-header p { color: var(--color-muted); font-size: 17px; max-width: 60ch; }
+
+  .doc { padding: 48px 0 88px; }
+  .doc .wrap { max-width: 760px; }
+  .doc section { margin-bottom: 44px; }
+  .doc h2 { font-size: 22px; margin-bottom: 14px; }
+  .doc h3 { font-size: 17px; margin: 22px 0 8px; }
+  /* Corpo a 16px, o piso. Era 15,5px no texto e 14px na nota de rodapé da
+     política — a letra menor da página estava justamente no documento que o
+     visitante mais precisa conseguir ler. */
+  .doc p { margin-bottom: 12px; font-size: 16px; }
+  .doc p.muted { color: var(--color-muted); }
+  /* Sublinhado, não só cor: link dentro de um bloco de texto distinguido
+     apenas pelo tom falha para quem não separa bem as cores — é a regra "cor
+     nunca é o único código" aplicada ao caso mais comum dela. O Lighthouse
+     acusava link-in-text-block e a acessibilidade da página parava em 95. */
+  .doc a { color: var(--color-signal-dark); text-decoration: underline; text-underline-offset: 2px; }
+  .doc a:hover { text-decoration-thickness: 2px; }
+  /* O preflight do Tailwind zera marcador de lista; o documento precisa deles. */
+  .doc ul, .doc ol { margin: 0 0 14px 22px; font-size: 16px; }
+  .doc ul { list-style: disc; }
+  .doc ol { list-style: decimal; }
+  .doc li { margin-bottom: 7px; }
+  .doc section ol { color: var(--color-muted); }
+  .doc section ol li { margin-bottom: 9px; }
+
+  /* Índice: cada item é alvo de navegação de verdade, então tem os 44px. */
+  .toc {
+    background: #fff; border: 1px solid var(--color-line);
+    border-radius: var(--radius-card); padding: 16px 24px 20px; margin-bottom: 8px;
+  }
+  /* Rótulo do índice: é rótulo, não prosa — por isso <span>, não <p>, e por
+     isso vale a escala de mono (12,5px) e não o piso de corpo. O índice em si
+     é <nav>, que é o que ele é: navegação dentro do documento. */
+  .toc-label {
+    display: block; font-family: var(--font-mono); font-size: 12.5px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--color-muted); margin-bottom: 4px;
+  }
+  .toc ol { list-style: decimal; margin: 0 0 0 20px; font-size: 16px; }
+  .toc li { margin: 0; }
+  /* padding-block, não min-height: com altura mínima, o item de uma linha
+     ficava com folga e o de duas linhas colado no vizinho — mesmo alvo, ritmo
+     desigual. O padding dá os 44px na linha única e cresce junto na dupla. */
+  .toc a { display: block; padding-block: 11px; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
 
   /* nota de rodapé — a classe .fnote era usada no HTML mas NUNCA existiu no
      CSS (nem no site original), então o rodapé renderizava em 16px/navy. */
