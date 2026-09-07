@@ -619,7 +619,8 @@ quantos usos): escreve o critério, e o comando que conta.
 | lead | Inter 400 | 18px | 1,55 |
 | corpo | Inter 400 | 16px (piso) | 1,6 |
 | controle | Inter 500/600 | 14,5–16px | — |
-| mono (eyebrow de seção, tag de linha, hora) | IBM Plex Mono 500, caixa alta, .14em | 12,5px | — |
+| rótulo em mono (`.eyebrow`, `.pay-when`, `.toc-label`) | IBM Plex Mono 400, caixa alta, .12–.14em | 11,5–12,5px | — |
+| dado em mono (hora, status, marcador de etapa, valor citado) | IBM Plex Mono 400, caixa normal, sem tracking | 9,5–16px | — |
 Google Fonts com o `<link>` único (mesmo em `privacidade.html` e `404.html`),
 com `@font-face` de fallback métrico por família (valores medidos, comando em
 `build/`).

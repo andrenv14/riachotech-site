@@ -166,15 +166,19 @@ Cinco dimensões, 0–4, cada nota com a medida ao lado:
   sem reprovação de contraste; ordem de tabulação; hierarquia `h1→h2→h3`.
 - **Performance** — Lighthouse ≥ 98; CLS ≤ 0,03; imagem com proporção declarada.
 - **Responsividade** — 390/820/1280; alvos; overflow.
-- **Tema** — zero hex de MARCA fora do `@theme`, e todo token do `@theme` com
-  consumidor:
+- **Tema** — zero hex de marca fora do `@theme`, **no repositório inteiro** (e
+  não só no que a fatia tocou: desde 07/09/2026 o `privacidade.html` também
+  consome o `site.css`, e era ele o último com paleta própria). Todo token do
+  `@theme` tem consumidor.
 
       grep -nE '#[0-9a-fA-F]{3,6}\b' build/tailwind-input.css *.html \
         | grep -viE 'color-|theme-color|%23|#fff\b|#ffffff\b'
 
-  A única exceção é o branco puro (`#fff`), que não é cor de marca — é o fundo
-  da bolha do cliente, e o doc de marca diz explicitamente que ela é branca,
-  não areia. Qualquer outra linha na saída é achado.
+  Duas exceções, e só elas: o `theme-color` do `<head>`, que é meta e precisa
+  do valor literal, e o branco puro (`#fff`) — que não é cor de marca, é o
+  fundo da bolha do cliente, e o doc de marca diz que ela é branca, não areia.
+  Qualquer outra linha na saída é achado. O `\b` no fim do padrão não é
+  enfeite: sem ele, `href="#dados-negocio"` casa como se fosse a cor `#dad`.
 - **Integridade** — nenhum utilitário solto contradizendo token:
   `grep -n 'text-\[#\|bg-\[#\|\[rgba' *.html` vazio.
 
