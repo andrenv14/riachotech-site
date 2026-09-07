@@ -8,7 +8,8 @@ O servidor não roda build: o deploy é `git pull`.
 **Repositórios irmãos:**
 [`sofia-vitrine`](https://github.com/andrenv14/sofia-vitrine), a arquitetura do
 produto · [`sofia-eval`](https://github.com/andrenv14/sofia-eval), a avaliação
-de comportamento do modelo.
+de comportamento do modelo · [`sofia-agents`](https://github.com/andrenv14/sofia-agents), o processo
+de trabalho.
 
 ---
 
