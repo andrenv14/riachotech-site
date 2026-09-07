@@ -12,6 +12,25 @@ de comportamento do modelo.
 
 ---
 
+## O site
+
+A dobra, em 1280 px. A conversa da direita é markup da própria página, com uma
+transcrição fixa ao lado para leitor de tela — não é captura de WhatsApp, e não
+há cliente real nela.
+
+![Dobra do site em 1280 px](docs/imagens/index-1280-dobra.png)
+
+A mesma página em 390 px, e a seção que troca o exemplo por segmento — clínica,
+salão, petshop — sem recarregar nada:
+
+| 390 px, a dobra | 390 px, "pra quem é" |
+|---|---|
+| ![Dobra em 390 px](docs/imagens/index-390-dobra.png) | ![Seção por segmento em 390 px](docs/imagens/index-390-segmentos.png) |
+
+E a seção de planos, que é onde o site tem de ser mais claro:
+
+![Seção de planos em 1280 px](docs/imagens/index-1280-planos.png)
+
 ## O que vale olhar aqui
 
 **`DESIGN.md` — o sistema de design foi extraído, não inventado.** Ele não
@@ -34,7 +53,13 @@ uma palavra — o tipo de coisa que ninguém confere no olho e todo mundo assume
 **`.claude/skills/design-site/SKILL.md` — como se trabalha neste site.** O chão
 de regras (contraste, medida de linha, alvos, estados, foco visível), as
 proibições concretas que fazem uma página parecer gerada, a crítica com
-prioridades e o fluxo de acabamento.
+prioridades e o fluxo de acabamento. Foi escrita para os tokens e a voz desta
+marca a partir do que serve no kit `impeccable` do `pbakaus`
+([Apache 2.0](https://github.com/pbakaus/impeccable)) — que não foi instalado,
+porque traz um hook que reescreve `.claude/settings.local.json` a cada edição de
+interface, e permissão só muda com uma pessoa decidindo. O detector dele rodou
+uma vez, como leitura: achou um excesso de travessão que o olho não pegou, e
+três falsos positivos que a medição desmentiu.
 
 ## Medido
 
@@ -64,30 +89,13 @@ dependia da largura da fonte, e numa página curta o rodapé cai dentro da
 primeira tela. Era a maior fonte de deslocamento de layout do site: 0,171 na
 página 404. Empilhado no celular, 0,023.
 
-## O que ficou de fora, e por quê
+## Escopo
 
-- **Fontes auto-hospedadas** — pesariam mais do que resolvem. O deslocamento de
-  layout que sobra vem da troca de fonte no título, e é o menor dos três.
-- **`@font-face` de fallback métrico** — tentado e revertido: `local("Georgia")`
-  não existe no Linux, o override certo muda por plataforma, e o ganho medido
-  foi de 0,001.
-- **Redesenho da página inteira** — o que separava este site de um site bom era
-  hierarquia e piso tipográfico, não composição.
-
-## Sobre o "impeccable"
-
-O kit de design do `pbakaus` ([impeccable](https://github.com/pbakaus/impeccable),
-Apache 2.0) **não foi instalado**, por decisão tomada antes de começar: ele baixa
-um binário para a máquina e instala um hook que escreve em
-`.claude/settings.local.json` a cada edição de interface. Configuração de
-permissão só muda com uma pessoa decidindo, e um hook que reescreve permissão
-sozinho é o oposto disso.
-
-O que serve dele virou a skill local deste repositório, escrita para os tokens e
-a voz desta marca. O detector determinístico dele rodou **uma vez, como
-leitura**: pegou uma coisa que a leitura humana não viu (travessão em excesso no
-corpo) e produziu três falsos positivos que só a medição desmentiu. Onde os dois
-discordaram, a divergência virou o achado.
+A renovação mexeu no que separava este site de um site bom: hierarquia e piso
+tipográfico, não composição. As fontes continuam vindo do Google Fonts —
+auto-hospedá-las pesaria mais do que o deslocamento que resolveriam, e um
+`@font-face` de fallback métrico foi tentado e revertido, porque o override certo
+muda por plataforma e o ganho medido foi de 0,001.
 
 ## Operação
 
