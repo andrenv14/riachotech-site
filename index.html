@@ -329,7 +329,13 @@
     </div>
     <!-- min-h de 44px nos links: eram 21px de altura, metade do alvo de toque
          que um polegar acerta sem erro. O visual não muda, só a caixa. -->
-    <div class="fnote flex flex-wrap gap-x-5">
+    <!-- Empilhados no celular, em linha a partir de 560px. Enquanto ficavam
+         sempre em linha com quebra automática, o número de linhas dependia da
+         LARGURA DA FONTE: com a de reserva o rodapé media 315px e, quando o
+         Inter chegava, 271px. Ele encolhia sozinho, e como numa página curta
+         está dentro da primeira tela, isso era a maior fonte de layout shift
+         do site (CLS de 0,171 no 404). Medido, não deduzido. -->
+    <div class="fnote flex flex-col min-[560px]:flex-row min-[560px]:flex-wrap gap-x-5">
       <a href="mailto:contato@riachotech.com.br" class="inline-flex items-center min-h-[44px]">contato@riachotech.com.br</a>
       <a href="https://instagram.com/riacho_tech" target="_blank" rel="noopener" class="inline-flex items-center min-h-[44px]">@riacho_tech</a>
       <a href="https://wa.me/5561999643707" target="_blank" rel="noopener" class="inline-flex items-center min-h-[44px]">Fale com a Sofia no WhatsApp</a>
