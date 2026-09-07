@@ -1,59 +1,45 @@
 # riachotech-site
 
-Site estático da Riacho Tech, servido por Nginx em https://riachotech.com.br
-(server block `riachotech`, `root /var/www/riachotech`).
+Site institucional da Riacho Tech, no ar em
+[riachotech.com.br](https://riachotech.com.br). Estático de propósito: HTML,
+Tailwind v4 **compilado e commitado**, e um arquivo de JavaScript sem nenhuma
+dependência. Não há build no servidor — o deploy é `git pull`.
 
-**Sistema de design: `DESIGN.md`** (tokens, papéis, componentes, orçamento de
-movimento). **Como trabalhar nele: `.claude/skills/design-site/SKILL.md`** (o
-chão, as proibições, crítica, auditoria, acabamento).
+**Repositórios irmãos:**
+[`sofia-vitrine`](https://github.com/andrenv14/sofia-vitrine), a arquitetura do
+produto · [`sofia-eval`](https://github.com/andrenv14/sofia-eval), a avaliação
+de comportamento do modelo.
 
-## Renovação de 07/09/2026
+---
 
-Fatia `site-renovacao`, planejada em `docs/plans/2026-09-renovacao.md` (crítica
-do site no ar, medida em 390/820/1280, e escopo T2 escolhido pelo fundador).
-O que mudou, e por quê:
+## O que vale olhar aqui
 
-- **O celular entra na primeira tela do 390.** Antes o hero mostrava só texto e
-  o aparelho começava no último pixel da dobra: quem abria no celular lia
-  promessa em vez de ver a conversa acontecendo.
-- **O preço virou tipografia de display.** Estava a 11,5px em monoespaçada,
-  o menor texto da seção que existe pra mostrá-lo.
-- **A seção "Planos" ganhou o calendário de cobrança** (`.pay`) — quando cada
-  parcela é cobrada e quando a mensalidade começa, texto literal do
-  `negocio.md`. É a segunda assinatura da página, e fala a mesma língua da
-  primeira: o marcador em mono é o mesmo recurso da hora dentro da bolha.
-- **Prévia do link com o produto:** `og-image.png` passou de um ícone 630×630
-  para uma composição 1200×630 gerada dos próprios tokens (`npm run og`).
-- **Piso do chão fechado:** corpo nunca abaixo de 16px, entrelinha de display
-  nos títulos, todo alvo de toque com 44px, `::selection` da paleta, `:active`
-  em botão e aba, `404.html` da marca (a regra `error_page` está em
-  `nginx/riachotech.conf`, e a aplicação na VPS é do fundador).
-- **Saíram:** o eyebrow acima do H1 do hero, os quatro cards iguais de
-  "Recursos", a revelação no scroll em toda seção, o blur do nav, o `✓` como
-  glifo (virou SVG), o componente `.tag` e dois tokens sem consumidor.
-- Medido: Lighthouse mobile a11y **100** (mantido), performance 99,
-  **CLS 0,072 → 0,015–0,020** (três execuções; a variação é o instante em que
-  a fonte chega); contraste sem reprovação e zero alvo abaixo de 44px nos três
-  tamanhos.
+**`DESIGN.md` — o sistema de design foi extraído, não inventado.** Ele não
+descreve o site que alguém gostaria de ter: espelha `build/tailwind-input.css`,
+e diz isso na primeira linha. Tokens de cor em OKLCH, papéis de tipografia
+(display, corpo, rótulo, dado), escala de espaçamento, orçamento de movimento e
+a lista do que não se faz aqui. Quando o CSS e o documento discordam, o CSS
+vence e o documento é o errado.
 
-- **A política de privacidade entrou no fim**, por liberação do fundador: ela
-  tinha um sistema de design inteiro num `<style>` inline (com dois tokens já
-  mortos e um creme fora da paleta) e por isso ficara para trás. Agora consome
-  o mesmo `site.css`. Corpo abaixo de 16px **52 → 0**, alvo pequeno **18 → 3**
-  (os três são link inline em parágrafo), a11y **95 → 100**. O texto legal não
-  mudou uma palavra, e a prova é repetível: `build/texto-visivel.js --main` nas
-  duas versões, `diff` vazio.
+**`build/medir-site.js` — a página é medida, não olhada.** Abre qualquer página
+em 390, 820 e 1280 px e devolve números: contraste reprovado, corpo abaixo de
+16 px, alvo de toque abaixo de 44×44, rolagem horizontal, erro de console.
+Nenhuma mudança visual vai ao ar sem passar por ele.
 
-- **O rodapé encolhia sozinho quando a fonte chegava**, e era a maior fonte de
-  layout shift do site: a linha de links era `flex-wrap`, então o número de
-  linhas dela dependia da largura da fonte, e a de reserva é mais larga.
-  Empilhada no celular, para de depender. Foi o que levou o `404.html` de CLS
-  0,171 para 0,023.
+**`build/texto-visivel.js` — prova que um restyle não mexeu no conteúdo.**
+Extrai o texto visível de uma página antes e depois e compara. Foi o que
+garantiu, na renovação, que a política de privacidade mudou de forma sem mudar
+uma palavra — o tipo de coisa que ninguém confere no olho e todo mundo assume.
 
-### Medido no SHA final da fatia, com o servidor local
+**`.claude/skills/design-site/SKILL.md` — como se trabalha neste site.** O chão
+de regras (contraste, medida de linha, alvos, estados, foco visível), as
+proibições concretas que fazem uma página parecer gerada, a crítica com
+prioridades e o fluxo de acabamento.
 
-O log com cabeçalho de SHA, ref e estado da working tree está em
-`~/para-revisao/medicao-final-site-renovacao.log` (WSL e VPS).
+## Medido
+
+Última renovação, nas três páginas, com o servidor local e o Chromium do
+Playwright:
 
 | | index | privacidade | 404 |
 |---|---:|---:|---:|
@@ -63,111 +49,56 @@ O log com cabeçalho de SHA, ref e estado da working tree está em
 | SEO | 100 | 63 | 63 |
 | CLS | 0,020 | 0,032 | 0,023 |
 | contraste reprovado (390/820/1280) | 0 | 0 | 0 |
-| corpo abaixo de 16px | 0 | 0 | 0 |
+| corpo abaixo de 16 px | 0 | 0 | 0 |
 | alvo abaixo de 44×44 | 0 | 3 | 0 |
 
 O SEO de 63 nas duas últimas é `is-crawlable`, e é deliberado: as duas têm
-`<meta robots noindex>`. Os 3 alvos da política são links inline dentro de
-parágrafo, a exceção declarada na skill. As auditorias de compressão e de
-cache não aparecem aqui porque dependem do Nginx e só valem medidas em
-produção — a configuração está em `nginx/riachotech.conf`.
+`<meta robots noindex>`. Os três alvos da política são links dentro de
+parágrafo, exceção declarada na skill. Compressão e cache não entram na tabela
+porque dependem do Nginx e só valem medidos em produção; a configuração está em
+`nginx/riachotech.conf`.
 
-### O que ficou de fora, e por quê
+**O achado que a medição pegou e a leitura não:** o rodapé mudava de altura
+quando a fonte carregava — em linha com quebra automática, o número de linhas
+dependia da largura da fonte, e numa página curta o rodapé cai dentro da
+primeira tela. Era a maior fonte de deslocamento de layout do site: 0,171 na
+página 404. Empilhado no celular, 0,023.
 
-- **`conectar/`** — congelada até a decisão da Meta sobre o App Review. Não foi
-  tocada.
-- **Fontes auto-hospedadas** — estourariam o teto de peso, e o site está em
-  291 KB. O resto de layout shift que sobra vem da troca de fonte no título.
-- **`@font-face` de fallback métrico** — TENTADO e revertido: `local("Georgia")`
+## O que ficou de fora, e por quê
+
+- **Fontes auto-hospedadas** — pesariam mais do que resolvem. O deslocamento de
+  layout que sobra vem da troca de fonte no título, e é o menor dos três.
+- **`@font-face` de fallback métrico** — tentado e revertido: `local("Georgia")`
   não existe no Linux, o override certo muda por plataforma, e o ganho medido
-  aqui foi de 0,001.
-- **Redesenho da página inteira** (o "T3" do plano) — o fundador escolheu o T2.
-  O que separava o site de um site bom era hierarquia e piso tipográfico, não
-  composição.
+  foi de 0,001.
+- **Redesenho da página inteira** — o que separava este site de um site bom era
+  hierarquia e piso tipográfico, não composição.
 
-### Sobre o "impeccable"
+## Sobre o "impeccable"
 
-O kit de design do `pbakaus` (github.com/pbakaus/impeccable) **não foi
-instalado**, por decisão tomada antes de começar: ele baixa um binário para a
-máquina, instala um hook que escreve em `.claude/settings.local.json` a cada
-edição de interface, e traz 23 comandos. A regra da casa é ler o conteúdo e
-absorver o que serve — configuração de permissão só muda com o fundador
-decidindo, e um hook que reescreve permissão sozinho é o oposto disso.
+O kit de design do `pbakaus` ([impeccable](https://github.com/pbakaus/impeccable),
+Apache 2.0) **não foi instalado**, por decisão tomada antes de começar: ele baixa
+um binário para a máquina e instala um hook que escreve em
+`.claude/settings.local.json` a cada edição de interface. Configuração de
+permissão só muda com uma pessoa decidindo, e um hook que reescreve permissão
+sozinho é o oposto disso.
 
-O que serve dele virou a skill local `.claude/skills/design-site/SKILL.md`,
-escrita para os tokens e a voz desta marca: o chão de regras, as proibições
-concretas, a crítica com heurísticas e personas, a auditoria com limiares, e o
-fluxo "construir inteiro, inspecionar uma vez em lote, corrigir em lote,
-parar".
-
-O detector determinístico dele rodou **uma vez, como leitura**, com
-autorização do fundador, e entrou na crítica como segunda evidência —
-separada da primeira, e lida depois dela para não ancorar o julgamento. Ele
-pegou uma coisa que a leitura humana não viu (travessão em excesso no corpo) e
-produziu três falsos positivos que só a medição desmentiu. Onde as duas
+O que serve dele virou a skill local deste repositório, escrita para os tokens e
+a voz desta marca. O detector determinístico dele rodou **uma vez, como
+leitura**: pegou uma coisa que a leitura humana não viu (travessão em excesso no
+corpo) e produziu três falsos positivos que só a medição desmentiu. Onde os dois
 discordaram, a divergência virou o achado.
 
-Ferramentas do repositório: `npm run medir` (captura e mede qualquer página),
-`npm run og` (regenera a prévia do link), `npm run build:css`, e
-`build/texto-visivel.js` (prova que um restyle não mexeu no conteúdo).
+## Operação
 
-## Histórico: espelho manual (24–29/08)
-
-**A decisão de 24/08 (abaixo, mantida como registro) foi superada em 29/08
-pelo fundador.** Este repo NÃO é mais um espelho manual: `/var/www/riachotech`
-**é** o diretório do `git`, o `.git` mora dentro dele, e `git pull` publica.
-
-Base da decisão: `diff -rq` mostrou o conteúdo servido **idêntico** ao repo —
-só os 6 `.bak` (fora do controle de versão) diferiam. Mover o `.git` para
-dentro do diretório servido não altera nenhum byte servido.
-
-Ordem executada:
-- **S1** — regra de `deny` de dotfiles no Nginx, testada com um dotfile de
-  sonda antes de qualquer coisa entrar.
-- **S2** — backup do diretório servido, os 6 `.bak` removidos (estavam
-  servidos publicamente), `.git` movido para `/var/www/riachotech`, deny
-  extra de `README.md` e `nginx/`, sondas `/.git/config`=404 e
-  `/README.md`=404 confirmadas com `index.html`=200. O espelho antigo em
-  `~/riachotech-site` foi removido. Commit `4fb4c81`.
-
-A `/conectar` segue congelada até a decisão da Meta sobre o App Review —
-isso não mudou.
-
-<details>
-<summary>Texto original de 24/08 (espelho manual, decisão superada)</summary>
-
-**Este repo era um ESPELHO MANUAL: o diretório realmente servido era
-`/var/www/riachotech`, e edições feitas lá NÃO apareciam como `git status`
-sujo aqui — precisavam ser copiadas de volta à mão.**
-
-O `git init` não tinha sido feito no diretório servido porque o Nginx não
-bloqueava dotfiles: com um `.git` ali, `https://riachotech.com.br/.git/config`
-responderia na internet aberta.
-
-Copiar produção → repo (comando do espelho antigo, não usar mais):
-
-```
-rsync -a --exclude='*.bak' --exclude='*.bak-*' /var/www/riachotech/ /home/sofia/riachotech-site/
-```
-
-</details>
-
-## /conectar
-
-`conectar/index.html` carrega o fluxo de Embedded Signup do WhatsApp
-(Coexistence) e é a URL apontada no App Review da Meta. **Não editar sem
-revisão** — quebra ali quebra o onboarding de cliente novo.
-
-O App ID e o Config ID nessa página são públicos por natureza (rodam no
-navegador do visitante). Nenhum segredo mora neste repo: o `code` do Embedded
-Signup é trocado no back-end, e o App Secret nunca chega ao cliente.
-
-## Back-end
-
-O back-end (`sofia-bot`) é repositório separado. Este repo não importa nada dele
-e não tem build, dependência nem CI — são só arquivos estáticos.
-
-## .bak
-
-Os `*.bak-*` do diretório servido estão no `.gitignore`. Eles continuam no disco
-em `/var/www/riachotech`; apenas não entram no histórico.
+- `npm run build:css` compila o Tailwind; o `site.css` resultante é commitado,
+  porque o servidor não roda build.
+- `npm run medir` mede qualquer página; `npm run og` regenera a prévia do link
+  a partir dos próprios tokens.
+- Deploy: `git pull` em `/var/www/riachotech`. O `.git` mora dentro do
+  diretório servido, e o Nginx nega dotfiles, `README.md`, `docs/`, `build/`,
+  `nginx/` e `package*.json` — as negações estão no conf versionado.
+- `conectar/` é a página do Embedded Signup da plataforma da Meta, aberta pelo
+  cliente a partir de um link de convite assinado. Ela não guarda segredo: o id
+  do app e o da configuração são públicos por natureza, e o token do convite é
+  validado no back-end.
