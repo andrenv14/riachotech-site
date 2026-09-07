@@ -14,3 +14,6 @@
 # Dependências do build de CSS (S3) — site.css compilado É commitado,
 # node_modules não. Ver README.md.
 node_modules/
+
+# Memória dos subagentes (Claude Code) — a skill em .claude/skills/ É versionada.
+.claude/agent-memory/
