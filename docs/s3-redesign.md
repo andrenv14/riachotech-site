@@ -1,5 +1,16 @@
 # S3 — redesign do site institucional
 
+> **Este arquivo é o REGISTRO da fatia de 30/08/2026, não o sistema de design
+> corrente.** Tokens, papéis tipográficos, componentes, orçamento de movimento
+> e a lista do que não se faz aqui passaram a viver em `DESIGN.md` (raiz), e as
+> regras de trabalho em `.claude/skills/design-site/SKILL.md`. Onde os dois
+> discordarem, vale o `DESIGN.md` — e a fonte executável é sempre o `@theme` de
+> `build/tailwind-input.css`. A renovação de 09/2026
+> (`docs/plans/2026-09-renovacao.md`) mudou parte do que está descrito abaixo:
+> o eyebrow do hero, os cards de "Recursos", as abas, a seção "Planos", a
+> revelação no scroll e o `.tag` não são mais o que esta spec descreve.
+
+
 Spec aprovada em 30/08/2026 (sessão Fable, plan mode). Implementação em
 `opusplan`, mobile-first, seção por seção — commits `S3 N/9` nesta branch
 (`s3-redesign`). É o item 13 de `docs/contexto/fila.md` no `sofia-bot`.
