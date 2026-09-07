@@ -44,6 +44,69 @@ O que mudou, e por quê:
   mudou uma palavra, e a prova é repetível: `build/texto-visivel.js --main` nas
   duas versões, `diff` vazio.
 
+- **O rodapé encolhia sozinho quando a fonte chegava**, e era a maior fonte de
+  layout shift do site: a linha de links era `flex-wrap`, então o número de
+  linhas dela dependia da largura da fonte, e a de reserva é mais larga.
+  Empilhada no celular, para de depender. Foi o que levou o `404.html` de CLS
+  0,171 para 0,023.
+
+### Medido no SHA final da fatia, com o servidor local
+
+O log com cabeçalho de SHA, ref e estado da working tree está em
+`~/para-revisao/medicao-final-site-renovacao.log` (WSL e VPS).
+
+| | index | privacidade | 404 |
+|---|---:|---:|---:|
+| acessibilidade | 100 | 100 | 100 |
+| performance | 99 | 99 | 100 |
+| boas práticas | 100 | 100 | 100 |
+| SEO | 100 | 63 | 63 |
+| CLS | 0,020 | 0,032 | 0,023 |
+| contraste reprovado (390/820/1280) | 0 | 0 | 0 |
+| corpo abaixo de 16px | 0 | 0 | 0 |
+| alvo abaixo de 44×44 | 0 | 3 | 0 |
+
+O SEO de 63 nas duas últimas é `is-crawlable`, e é deliberado: as duas têm
+`<meta robots noindex>`. Os 3 alvos da política são links inline dentro de
+parágrafo, a exceção declarada na skill. As auditorias de compressão e de
+cache não aparecem aqui porque dependem do Nginx e só valem medidas em
+produção — a configuração está em `nginx/riachotech.conf`.
+
+### O que ficou de fora, e por quê
+
+- **`conectar/`** — congelada até a decisão da Meta sobre o App Review. Não foi
+  tocada.
+- **Fontes auto-hospedadas** — estourariam o teto de peso, e o site está em
+  291 KB. O resto de layout shift que sobra vem da troca de fonte no título.
+- **`@font-face` de fallback métrico** — TENTADO e revertido: `local("Georgia")`
+  não existe no Linux, o override certo muda por plataforma, e o ganho medido
+  aqui foi de 0,001.
+- **Redesenho da página inteira** (o "T3" do plano) — o fundador escolheu o T2.
+  O que separava o site de um site bom era hierarquia e piso tipográfico, não
+  composição.
+
+### Sobre o "impeccable"
+
+O kit de design do `pbakaus` (github.com/pbakaus/impeccable) **não foi
+instalado**, por decisão tomada antes de começar: ele baixa um binário para a
+máquina, instala um hook que escreve em `.claude/settings.local.json` a cada
+edição de interface, e traz 23 comandos. A regra da casa é ler o conteúdo e
+absorver o que serve — configuração de permissão só muda com o fundador
+decidindo, e um hook que reescreve permissão sozinho é o oposto disso.
+
+O que serve dele virou a skill local `.claude/skills/design-site/SKILL.md`,
+escrita para os tokens e a voz desta marca: o chão de regras, as proibições
+concretas, a crítica com heurísticas e personas, a auditoria com limiares, e o
+fluxo "construir inteiro, inspecionar uma vez em lote, corrigir em lote,
+parar".
+
+O detector determinístico dele rodou **uma vez, como leitura**, com
+autorização do fundador, e entrou na crítica como segunda evidência —
+separada da primeira, e lida depois dela para não ancorar o julgamento. Ele
+pegou uma coisa que a leitura humana não viu (travessão em excesso no corpo) e
+produziu três falsos positivos que só a medição desmentiu. Onde as duas
+discordaram, a divergência virou o achado.
+
 Ferramentas do repositório: `npm run medir` (captura e mede qualquer página),
 `npm run og` (regenera a prévia do link), `npm run build:css`, e
 `build/texto-visivel.js` (prova que um restyle não mexeu no conteúdo).
