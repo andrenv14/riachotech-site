@@ -10,7 +10,6 @@
   --color-sand:        #E8E4DC;  /* fundo da tela do celular */
   --color-signal:      #2F5D91;  /* ação primária, bolha da Sofia */
   --color-signal-dark: #20456E;  /* hover, itálico de ênfase */
-  --color-clay:        #3B5578;  /* tag mono em card */
   --color-muted:       #5C6B72;
   --color-line:        rgba(20, 33, 61, 0.12);
   --color-sky:         #9CBBE0;  /* eyebrow sobre navy */
@@ -23,7 +22,9 @@
   --font-sans:    "Inter", sans-serif;
   --font-mono:    "IBM Plex Mono", monospace;
 
-  --radius-card: 14px;
+  /* Ícone de marca de seleção, traço de 2px e ponta reta — desenhado aqui
+     para o CSS não depender de nenhum glifo de fonte. Usado por .plan-item. */
+  --icone-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 8.6l3.6 3.6 7.4-8.4' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
 }
 
 @layer base {
@@ -34,7 +35,19 @@
     font-family: var(--font-display); font-weight: 600;
     letter-spacing: -0.01em; color: var(--color-ink);
   }
+  /* Entrelinha de DISPLAY, não a do corpo. O <body> declara leading-[1.6] e
+     todo título herdava isso: um H2 de 36px abria 57,6px de linha, o dobro do
+     que a face pede. A entrelinha aperta conforme o corpo cresce — é o mesmo
+     princípio que faz a do corpo crescer com a medida, na outra direção. */
+  h1 { line-height: 1.06; }
+  h2 { line-height: 1.15; }
+  h3 { line-height: 1.25; }
+
   :focus-visible { outline: 2.5px solid var(--color-signal-dark); outline-offset: 3px; border-radius: 4px; }
+  /* Superfície do navegador: sem isto a seleção sai no azul do sistema, que
+     não pertence a nenhuma paleta. O par tem 12,1:1 e serve tanto sobre
+     --color-paper quanto sobre --color-ink, porque pinta o próprio fundo. */
+  ::selection { background: var(--color-sky-2); color: var(--color-ink); }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -66,17 +79,28 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .btn:hover { transform: translateY(-1px); }
+  /* O toque não tem hover: sem :active, o dedo aperta e nada responde. */
+  .btn:active { transform: translateY(0); }
+  .btn-primary:active { background: var(--color-signal-dark); }
+  .btn-ghost:active { border-color: var(--color-ink); background: var(--color-paper-2); }
   .btn-primary { background: var(--color-signal); color: #fff; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05); }
   .btn-primary:hover { background: var(--color-signal-dark); }
   .btn-ghost { border-color: var(--color-line); color: var(--color-ink); }
   .btn-ghost:hover { border-color: var(--color-ink); }
 
-  /* rótulo mono de card — usado em "recursos" e "pra quem é" (margem varia
-     por uso, entra como utilitário no markup, não aqui). */
-  .tag {
-    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--color-clay); display: block;
+  /* Aba de "pra quem é". Era mono maiúsculo de 11,5px em caixa de 36px de
+     altura: monoespaçada é rótulo e dado curto nesta marca, não controle, e
+     36px não é alvo de toque. Inter 500, 44px de altura mínima. */
+  .tab {
+    display: inline-flex; align-items: center; min-height: 44px;
+    font-family: var(--font-sans); font-weight: 500; font-size: 15px;
+    padding: 8px 18px; border-radius: 999px; cursor: pointer;
+    border: 1.5px solid var(--color-line); color: var(--color-muted); background: transparent;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   }
+  .tab:hover { border-color: var(--color-ink); color: var(--color-ink); }
+  .tab:active { background: var(--color-paper); }
+  .tab[aria-selected="true"] { background: var(--color-ink); border-color: var(--color-ink); color: #fff; }
 
   /* celular — elemento-assinatura da página (docs/s3-redesign.md). Aparece no
      hero digitando sozinho, e de novo em "pra quem é" (S3 6/9) com abas. */
@@ -87,8 +111,11 @@
   }
   .phone-screen {
     background: var(--color-sand); border-radius: 26px; overflow: hidden;
-    height: 520px; display: flex; flex-direction: column;
+    /* 460px no celular para o aparelho INTEIRO caber na primeira tela junto
+       do H1 (a 390×844 sobram ~90px); 520px onde há espaço de sobra. */
+    height: 460px; display: flex; flex-direction: column;
   }
+  @media (min-width: 900px) { .phone-screen { height: 520px; } }
   .phone-bar {
     background: var(--color-ink); color: #fff; padding: 14px 16px 12px;
     display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600;
@@ -98,7 +125,7 @@
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-display); font-size: 14px; flex-shrink: 0;
   }
-  .phone-bar .status { font-family: var(--font-mono); font-weight: 400; font-size: 10.5px; color: var(--color-mint); margin-top: 2px; }
+  .phone-bar .status { font-family: var(--font-mono); font-weight: 400; font-size: 11px; color: var(--color-mint); margin-top: 2px; }
   .phone-body { flex: 1; padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
 
   .bubble {
@@ -135,13 +162,42 @@
      dava 2.27:1 sobre o navy (abaixo do mínimo de 3:1 pra elemento não
      textual), o sky dá 7.76:1 e já é a cor do eyebrow desta mesma seção. */
   .plan-item {
-    display: flex; gap: 9px; padding-block: 7px;
-    font-size: 14.5px; color: var(--color-mist-2);
+    display: flex; gap: 10px; padding-block: 8px;
+    font-size: 16px; color: var(--color-mist-2);
     border-top: 1px solid rgba(255, 255, 255, 0.09);
   }
   .plan-item:first-child { border-top: none; }
+  /* O ícone é DESENHADO, não um caractere: "✓" é glifo de texto, muda de
+     forma com a fonte instalada e não tem espessura de traço controlada. O
+     mesmo pseudo-elemento agora recorta um SVG com máscara, então a cor
+     continua vindo do token. */
   .plan-item::before {
-    content: "✓"; color: var(--color-sky); font-weight: 700; flex-shrink: 0;
+    content: ""; flex-shrink: 0; width: 15px; height: 1.6em; background: var(--color-sky);
+    -webkit-mask: var(--icone-check) no-repeat center / 15px 15px;
+    mask: var(--icone-check) no-repeat center / 15px 15px;
+  }
+
+  /* Quando cada coisa é cobrada (seção Planos). É a segunda assinatura da
+     página, e de propósito fala a MESMA língua da primeira: o marcador em
+     monoespaçada é o mesmo recurso da hora dentro da bolha do celular. Por
+     isso não é um "timeline component" genérico — é a conversa continuando
+     no lugar onde o preço é dito. */
+  .pay { position: relative; padding-left: 28px; }
+  .pay::before {
+    content: ""; position: absolute; left: 5px; top: 14px; bottom: 14px;
+    width: 1px; background: rgba(255, 255, 255, 0.18);
+  }
+  .pay li { position: relative; padding-block: 10px; font-size: 16px; color: var(--color-mist-2); }
+  /* --color-sky (7,76:1 sobre o navy), não --color-signal: o signal dá 2,27:1
+     e some no fundo. Mesmo motivo do ✓ de .plan-item. */
+  .pay li::before {
+    content: ""; position: absolute; left: -28px; top: 18px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--color-sky); box-shadow: 0 0 0 3px var(--color-ink);
+  }
+  .pay-when {
+    display: block; font-family: var(--font-mono); font-size: 11.5px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-sky); margin-bottom: 3px;
   }
 
   /* nota de rodapé — a classe .fnote era usada no HTML mas NUNCA existiu no
@@ -149,14 +205,4 @@
   .fnote { font-size: 13px; color: var(--color-muted); }
   .fnote a { text-decoration: none; }
   .fnote a:hover { color: var(--color-ink); }
-
-  /* revelação no scroll — usado por toda seção, convertida ou não. O delay
-     escalonado por grid (quando faz sentido) entra como utilitário
-     delay-[Nms] direto no elemento, não aqui. */
-  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.in { opacity: 1; transform: translateY(0); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1; transform: none; transition: none; }
-  }
 }

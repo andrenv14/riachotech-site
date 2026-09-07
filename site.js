@@ -157,20 +157,4 @@
     });
     activateSeg(segTabs[0].getAttribute('data-seg'));
   }
-
-  // ---------- revelação no scroll ----------
-  var revealEls = document.querySelectorAll('.reveal');
-  if (reduce || !('IntersectionObserver' in window)) {
-    revealEls.forEach(function (el) { el.classList.add('in'); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
-  }
 })();
