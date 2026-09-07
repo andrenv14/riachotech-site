@@ -69,7 +69,7 @@ Playwright:
 | performance | 99 | 99 | 100 |
 | boas práticas | 100 | 100 | 100 |
 | SEO | 100 | 63 | 63 |
-| CLS | 0,020 | 0,032 | 0,023 |
+| CLS (quanto a página pula ao carregar) | 0,020 | 0,032 | 0,023 |
 | contraste reprovado (390/820/1280) | 0 | 0 | 0 |
 | corpo abaixo de 16 px | 0 | 0 | 0 |
 | alvo abaixo de 44×44 | 0 | 3 | 0 |
@@ -103,7 +103,8 @@ muda por plataforma e o ganho medido foi de 0,001.
 - Deploy: `git pull` em `/var/www/riachotech`. O `.git` mora dentro do
   diretório servido, e o Nginx nega dotfiles, `README.md`, `docs/`, `build/`,
   `nginx/` e `package*.json`. As negações estão no conf versionado.
-- `conectar/` é a página do Embedded Signup da plataforma da Meta, aberta pelo
-  cliente a partir de um link de convite assinado. Ela não guarda segredo: o id
+- `conectar/` é a página do Embedded Signup (o fluxo oficial da Meta para o
+  cliente conectar o número dele), aberta a partir de um link de convite
+  assinado. Ela não guarda segredo: o id
   do app e o da configuração são públicos por natureza, e o token do convite é
   validado no back-end.
