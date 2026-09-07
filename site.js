@@ -5,11 +5,16 @@
   // Decorativa (aria-hidden no #chat) — a transcrição fixa ao lado é o que o
   // leitor de tela lê. Ver docs/s3-redesign.md.
   var chat = document.getElementById('chat');
+  // Sem emoji no roteiro: o polegar que fechava o último turno vira quadrado
+  // vazio em sistema sem fonte de emoji instalada (Linux de mesa, e o
+  // Chromium que roda as capturas), bem no elemento-assinatura da primeira
+  // tela. A transcrição sr-only de index.html nunca teve o emoji — agora as
+  // duas dizem exatamente a mesma frase, que é o ponto de haver transcrição.
   var heroScript = [
     { who: 'in', text: 'oi, tem horário livre amanhã de tarde?', t: '14:02' },
     { who: 'out', text: 'Deixa eu conferir a agenda… tenho 15h ou 16h30 livres, qual fica melhor pra você?', t: '14:02' },
     { who: 'in', text: 'pode ser 16h30', t: '14:03' },
-    { who: 'out', text: 'Prontinho! Marcado amanhã às 16h30. Te mando um lembrete antes 👍', t: '14:03' }
+    { who: 'out', text: 'Prontinho! Marcado amanhã às 16h30. Te mando um lembrete antes.', t: '14:03' }
   ];
   var i = 0;
 

@@ -698,3 +698,34 @@ fatia REALMENTE entrega, não contra a intenção.
    `text-overflow` são todos `<p>` dentro de `.sr-only`, cuja caixa tem 1px por
    definição, e o `nested-cards` é `.phone` › `.phone-screen`, que é o único
    par de superfícies arredondadas aninhadas que sobrou na página.
+
+### Adendo de revisão da guia (07/09/2026)
+
+A guia leu a branch em `~/rev-site` na VPS e decidiu, pela regra do
+`AGENTS.md`, que ela **não vai ao Codex nem ao `revisor`/`/code-review`**: não
+toca `conectar/`, não toca input externo nem dado de cliente, e o `site.js` só
+perde o bloco do `.reveal`. O filtro que roda é o `conferidor-de-citacoes`
+sobre este plano, o `DESIGN.md` e a skill. Três ajustes vieram dela:
+
+- **O emoji saiu do roteiro do hero.** Sem fonte de emoji instalada (Linux de
+  mesa, e o Chromium que tira as capturas) ele vira quadrado vazio, na
+  primeira tela e dentro do elemento-assinatura. A transcrição `sr-only` nunca
+  o teve, então agora as duas dizem exatamente a mesma frase — que é o ponto
+  de existir transcrição.
+- **`nginx/riachotech.conf` passou a espelhar o deploy inteiro**: `gzip_types`
+  (o `gzip on` é global mas `gzip_types` está comentado no `nginx.conf`, e é
+  por isso que css e js iam sem compressão), `gzip_vary`, e `expires` com TTL
+  curto e `must-revalidate` em css/js — curto DE PROPÓSITO, porque `index.html`
+  referencia `site.css` e `site.js` sem versão na URL e cache longo entregaria
+  folha velha depois de um `git pull`. Aplicar na VPS é do fundador, com `sudo`.
+- **Travessões: o achado não se confirmou, e fica registrado por quê.** A guia
+  citou 13 (o número do detector ANTES desta fatia) e um `grep -c "—"` de 17
+  que mistura categorias. Medido depois: `em-dash-overuse` do detector = 0. A
+  classificação se rederiva por
+  `grep -n '—\|&mdash;' index.html`, e dá: 7 em `<title>`/meta (separador de
+  nome), 5 em comentário de código (não renderizado), 3 nos rótulos 01/02/03
+  (parte da exceção já declarada), 2 na transcrição de chat (fala da Sofia,
+  não se reescreve) e **3 em prosa de corpo**. Os três são aparte de verdade —
+  o lead do hero, a citação de "tem horário amanhã de tarde?" e o H2 de
+  segmentos — e a regra da skill é "travessão só para aparte de verdade", não
+  "nenhum travessão". Ficam.
