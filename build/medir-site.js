@@ -113,8 +113,13 @@ const AUDIT = () => {
     await p2.goto(URL, { waitUntil: 'networkidle' });
     await p2.waitForTimeout(4200);
     await p2.screenshot({ path: `${OUT}/${PREFIX}-${w}-dobra.png` });
-    if (w === 390) { await p2.evaluate(() => document.getElementById('segmentos').scrollIntoView()); await p2.waitForTimeout(1200);
-      await p2.screenshot({ path: `${OUT}/${PREFIX}-390-segmentos.png` }); }
+    // Páginas sem a seção de segmentos (privacidade, 404) passam direto: o
+    // script serve a qualquer tela do site, não só à home.
+    if (w === 390 && await p2.locator('#segmentos').count()) {
+      await p2.evaluate(() => document.getElementById('segmentos').scrollIntoView());
+      await p2.waitForTimeout(1200);
+      await p2.screenshot({ path: `${OUT}/${PREFIX}-390-segmentos.png` });
+    }
     await ctx2.close();
   }
   fs.writeFileSync(`${OUT}/${PREFIX}-medicao.json`, JSON.stringify(report, null, 1));
