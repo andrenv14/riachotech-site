@@ -729,3 +729,31 @@ sobre este plano, o `DESIGN.md` e a skill. Três ajustes vieram dela:
   o lead do hero, a citação de "tem horário amanhã de tarde?" e o H2 de
   segmentos — e a regra da skill é "travessão só para aparte de verdade", não
   "nenhum travessão". Ficam.
+
+### `privacidade.html` entra no escopo (07/09/2026)
+
+O fundador liberou a página na janela ("pode mexer sim, deixar aquilo ali
+bonito"). Ela estava declarada fora de escopo neste plano; o registro da
+mudança fica aqui para o plano não prometer diferente do que a fatia entrega.
+
+Ela carregava um sistema de design inteiro num `<style>` inline — `:root`
+próprio com os mesmos hex, `.wrap`, `.btn`, `.eyebrow` e anel de foco
+duplicados —, e por isso ficou para trás quando o sistema evoluiu: dentro dele
+ainda viviam `--teal` e `--clay`, mortos no `@theme`, e um creme fora da
+paleta. Agora consome o mesmo `site.css`.
+
+Medido antes e depois, nos três tamanhos: corpo abaixo de 16px **52 → 0**;
+alvo abaixo de 44×44 **18 de 19 → 3 de 19** (os três são link inline dentro de
+parágrafo, a exceção declarada); Lighthouse a11y **95 → 100**, sem auditoria
+reprovada. O que fechou os últimos 5 pontos foi `link-in-text-block`: os links
+do corpo se distinguiam só pela cor.
+
+**A invariante que a guia pediu está provada, não afirmada.** O texto do
+`<main>` é idêntico ao da `main` — 9811 bytes, `diff` vazio — pelo comando que
+`build/texto-visivel.js` documenta e que qualquer revisor repete. Na página
+inteira, incluindo moldura, a única palavra visível removida é o eyebrow
+"Riacho Tech" acima do H1, que está FORA do `<main>`: kicker sobre título, com
+o nav dizendo de quem é a página logo acima.
+
+Não tocado, e registrado: o `<meta robots noindex>` da política é decisão
+anterior a esta fatia e explica sozinho o SEO de 63 no Lighthouse dela.

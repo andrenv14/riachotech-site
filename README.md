@@ -36,8 +36,17 @@ O que mudou, e por quê:
   a fonte chega); contraste sem reprovação e zero alvo abaixo de 44px nos três
   tamanhos.
 
-Ferramentas do repositório: `npm run medir` (captura e mede a página),
-`npm run og` (regenera a prévia do link), `npm run build:css`.
+- **A política de privacidade entrou no fim**, por liberação do fundador: ela
+  tinha um sistema de design inteiro num `<style>` inline (com dois tokens já
+  mortos e um creme fora da paleta) e por isso ficara para trás. Agora consome
+  o mesmo `site.css`. Corpo abaixo de 16px **52 → 0**, alvo pequeno **18 → 3**
+  (os três são link inline em parágrafo), a11y **95 → 100**. O texto legal não
+  mudou uma palavra, e a prova é repetível: `build/texto-visivel.js --main` nas
+  duas versões, `diff` vazio.
+
+Ferramentas do repositório: `npm run medir` (captura e mede qualquer página),
+`npm run og` (regenera a prévia do link), `npm run build:css`, e
+`build/texto-visivel.js` (prova que um restyle não mexeu no conteúdo).
 
 ## Histórico: espelho manual (24–29/08)
 
