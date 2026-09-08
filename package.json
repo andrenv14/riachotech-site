@@ -1,17 +1,28 @@
 {
   "name": "riachotech-site",
   "private": true,
-  "description": "Site estático da Riacho Tech — sem build no servidor, o CSS compilado é commitado.",
+  "description": "Site da Riacho Tech — Next em export estático, servido pelo Nginx.",
   "scripts": {
-    "build:css": "tailwindcss -i ./build/tailwind-input.css -o ./site.css --minify",
-    "watch:css": "tailwindcss -i ./build/tailwind-input.css -o ./site.css --watch",
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
     "medir": "node build/medir-site.js",
+    "tells": "node build/detectar-tells.js",
     "og": "node build/og-image.js"
   },
+  "dependencies": {
+    "next": "15.5.4",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.3.3",
-    "sharp": "^0.35.4",
-    "tailwindcss": "^4.3.3",
-    "playwright": "1.62.1"
+    "@tailwindcss/postcss": "4.1.13",
+    "tailwindcss": "4.1.13",
+    "typescript": "5.9.2",
+    "@types/node": "22.18.1",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "playwright": "1.62.1",
+    "sharp": "0.35.4"
   }
 }
