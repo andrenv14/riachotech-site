@@ -99,9 +99,16 @@ export default function OQueElaFaz() {
               Nome, descrição, valor e foto de verdade, não uma lista de texto.
             </p>
             <div className="mt-4 flex items-center gap-3 rounded-[12px] bg-white/8 p-3">
-              <span
-                aria-hidden="true"
-                className="h-11 w-11 flex-shrink-0 rounded-[8px] bg-gradient-to-br from-sky/45 to-mist/25"
+              {/* Foto de verdade, e nao um quadradinho de gradiente. O texto ao
+                  lado promete "foto de verdade" e o placeholder anterior o
+                  desmentia na propria tela. 160x160 em webp, 6,6 KB.
+                  eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/catalogo-banho-tosa.webp"
+                alt=""
+                width={160}
+                height={160}
+                className="h-11 w-11 flex-shrink-0 rounded-[8px] object-cover"
               />
               <div className="min-w-0">
                 <div className="text-[13.5px] text-mist-2 truncate">Banho e tosa · porte médio</div>
