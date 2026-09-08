@@ -642,12 +642,18 @@
   /* Foto do catálogo: raio só em cima, e o valor é o do pai — ela encosta na
      borda, então não há padding para descontar. Embaixo ela encosta no texto,
      que é reto. */
+  /* A foto encosta no TOPO da peca, entao arredonda em cima e e' reta embaixo,
+     onde encontra o texto.
+
+     A regra de largura que existia aqui foi RESIDUO e deu defeito visivel: numa
+     versao intermediaria o catalogo ocupava oito colunas e a foto ficava ao
+     LADO do texto, entao acima de 820px o raio passava para o lado esquerdo. O
+     catalogo voltou a quatro colunas com a foto em cima, a media query ficou, e
+     acima de 820px a foto tinha canto reto em cima a' direita — uma orelha
+     saindo por cima do canto arredondado da peca — e um chanfro embaixo a'
+     esquerda. Achado do fundador. Regra que sobrevive ao layout que a
+     justificava vira defeito silencioso. */
   .peca-foto { border-radius: var(--radius-card) var(--radius-card) 0 0; }
-  /* Com a peca em LINHA, a foto encosta na borda esquerda e nao na de cima:
-     o raio acompanha o lado em que ela esta'. Mesma conta, outro eixo. */
-  @media (min-width: 820px) {
-    .peca-foto { border-radius: var(--radius-card) 0 0 var(--radius-card); }
-  }
 
   /* Bolha dentro da peça. Menor que a `.bubble` do celular de propósito: aqui
      ela é ilustração de um mecanismo, não conversa que se lê. */
@@ -661,14 +667,16 @@
     max-width: 82%; padding: 8px 11px; border-radius: 11px;
     font-size: 13px; line-height: 1.42;
   }
-  .fala-peca-sofia { background: var(--color-signal); color: #fff; border-bottom-left-radius: 3px; }
-  .fala-peca-dono  { background: var(--color-paper-2); color: var(--color-ink); border-bottom-left-radius: 3px; }
+  /* O canto reto marca de que lado a bolha "sai", entao ele acompanha o
+     alinhamento: negocio a' direita, cliente a' esquerda. */
+  .fala-peca-sofia { background: var(--color-signal); color: #fff; border-bottom-right-radius: 3px; }
+  .fala-peca-dono  { background: var(--color-paper-2); color: var(--color-ink); border-bottom-right-radius: 3px; }
   /* Fala do cliente dentro da peca: branca e a direita, a mesma convencao de
      lado e de cor que a `.bubble-cliente` do painel da `PraQuemE` usa. */
   .fala-peca-cliente {
     background: #fff; color: var(--color-ink);
     border: 1px solid var(--color-line);
-    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
   }
 
   /* Marca de autoria: é ela que o bloco "você" existe para mostrar. O que o

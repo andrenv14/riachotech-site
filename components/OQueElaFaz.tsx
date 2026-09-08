@@ -91,8 +91,8 @@ function Bloco({
    que a legenda afirma. `hora` é a mesma string que os lembretes citam, para as
    três peças nunca discordarem na mesma tela. */
 const HORARIOS = [
-  { chip: 'quinta, 16:30', dia: 'quinta, 12', hora: '16:30', fim: '17:00' },
-  { chip: 'sexta, 09:30', dia: 'sexta, 13', hora: '09:30', fim: '10:00' },
+  { chip: 'quinta, 16:30', dia: 'quinta, 12', hora: '16:30', fim: '17:00', fala: '16h30' },
+  { chip: 'sexta, 09:30', dia: 'sexta, 13', hora: '09:30', fim: '10:00', fala: '9h30' },
 ];
 
 const CODIGO_PIX =
@@ -256,7 +256,7 @@ export default function OQueElaFaz() {
                   <span className="font-mono text-[11px] text-muted">na véspera</span>
                 </div>
                 <div className="mt-2 text-[14px] leading-[1.45] text-ink">
-                  Oi, Camila! Passando pra lembrar da sua consulta amanhã às {h.hora}.
+                  Oi, Camila! Passando pra lembrar da sua consulta amanhã às {h.fala}.
                 </div>
               </div>
               <div className="peca px-4 py-3.5">
@@ -267,7 +267,7 @@ export default function OQueElaFaz() {
                   <span className="font-mono text-[11px] text-muted">no dia</span>
                 </div>
                 <div className="mt-2 text-[14px] leading-[1.45] text-ink">
-                  Camila, sua consulta é daqui a uma hora, às {h.hora}. Até já!
+                  Camila, sua consulta é daqui a uma hora, às {h.fala}. Até já!
                 </div>
               </div>
               {/* A guarda de antecedência, em produção desde 08/09: se a
@@ -323,12 +323,14 @@ export default function OQueElaFaz() {
                 a direita ao revelar — o que se mostra é a leitura, não a
                 reprodução.
 
-                A barra fica à DIREITA e em largura de bolha, e não atravessada
-                na peça: o áudio é mensagem do CLIENTE, e o lado é o mesmo que a
-                fala dele tem na peça de "você" e no painel da `PraQuemE`. De
-                quebra some o achado de raio não concêntrico do `detectar-tells`
-                — filho de largura cheia dentro de peça com padding pede raio 0,
-                e bolha de canto reto seria errada pelos dois motivos.
+                A barra fica à ESQUERDA e em largura de bolha, e não atravessada
+                na peça. O lado é o da tela do DONO, que é para quem esta seção
+                fala: o áudio chega do cliente, então entra pela esquerda, e a
+                resposta da Sofia sai à direita — o mesmo par de lados da peça de
+                "você". A largura de bolha também some com o achado de raio não
+                concêntrico do `detectar-tells`: filho de largura cheia dentro de
+                peça com padding pede raio 0, e bolha de canto reto seria errada
+                pelos dois motivos.
 
                 Sem JS a transcrição já vem aberta, então o conteúdo nunca
                 depende do clique. */}
@@ -337,7 +339,7 @@ export default function OQueElaFaz() {
                 type="button"
                 onClick={() => { setTranscrito(false); requestAnimationFrame(() => setTranscrito(true)); }}
                 aria-label="reencenar a leitura do áudio"
-                className="flex w-[86%] self-end items-center gap-3 rounded-[10px] border border-line bg-paper px-3 py-3 min-h-[44px] text-left transition-colors hover:bg-paper-2"
+                className="flex w-[86%] self-start items-center gap-3 rounded-[10px] border border-line bg-paper px-3 py-3 min-h-[44px] text-left transition-colors hover:bg-paper-2"
               >
                 <span aria-hidden="true" className="flex h-6 items-end gap-[2px]">
                   {ONDA.map((alt, i) => (
@@ -381,23 +383,30 @@ export default function OQueElaFaz() {
                 saem do mesmo número, e o histórico sabe qual foi de quem. Isso
                 é o mecanismo, não enfeite.
 
-                A fala do cliente abre a peça e vai à DIREITA, pela convenção de
-                lados que a `PraQuemE` fixou — cliente à direita, negócio à
-                esquerda. Ela entrou porque a peça mostrava a delegação sem
-                mostrar o que a provocou, e é o que a legenda pressupõe; de
+                Os LADOS aqui são o inverso dos da `PraQuemE`, e isso é
+                deliberado: lá o visitante se põe no lugar do CLIENTE testando a
+                Sofia, então a fala dele sai à direita. Nesta seção o texto fala
+                com o DONO o tempo todo ("a SUA agenda", "chama VOCÊ"), então
+                vale a tela do dono — o que chega do cliente entra pela esquerda
+                e o que sai do negócio vai à direita. Achado do fundador, e ele
+                pegou pelo bloco de áudio.
+
+                A fala do cliente abre a peça porque a peça mostrava a delegação
+                sem mostrar o que a provocou, e é o que a legenda pressupõe; de
                 quebra, é o que faz esta peça medir como as duas vizinhas da
-                faixa, sem espaçador. As duas de baixo ficam à esquerda porque
-                as duas são o lado do negócio. */}
+                faixa, sem espaçador. Sofia e você ficam do MESMO lado, e é esse
+                o ponto do bloco: as duas saem do mesmo número, e só a marca de
+                autoria as distingue. */}
             <div className="peca flex h-full flex-col gap-2.5 p-5">
-              <div className="fala-peca fala-peca-cliente self-end">
+              <div className="fala-peca fala-peca-cliente self-start">
                 é sobre um resultado de exame, prefiro falar com alguém
               </div>
-              <span className="autoria mt-auto pt-1">Sofia</span>
-              <div className="fala-peca fala-peca-sofia self-start">
+              <span className="autoria mt-auto pt-1 self-end">Sofia</span>
+              <div className="fala-peca fala-peca-sofia self-end">
                 Vou chamar alguém da equipe pra falar com você.
               </div>
-              <span className="autoria pt-1">você</span>
-              <div className="fala-peca fala-peca-dono self-start">
+              <span className="autoria pt-1 self-end">você</span>
+              <div className="fala-peca fala-peca-dono self-end">
                 Oi, Camila! Aqui é a Marina, eu assumo daqui.
               </div>
             </div>
