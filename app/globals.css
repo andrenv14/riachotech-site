@@ -388,6 +388,46 @@
       0 0 120px -30px color-mix(in oklab, var(--color-sky) 55%, transparent);
   }
 
+  /* MOVIMENTO — a regua do tempo de "Como funciona" se desenha quando a secao
+     entra na tela.
+
+     EXCECAO DECLARADA a "UM momento autoral por pagina" da design-site. O
+     primeiro e' o celular do hero. Este e' o segundo, e passa no teste que o
+     `overdrive.md` do impeccable exige: o que esta animacao COMUNICA? Ela
+     comunica TEMPO PASSANDO, que e' literalmente o argumento da secao — os
+     carimbos vao de 14:02 a 14:03 e a regua atravessa junto. Nao e' entrada
+     decorativa, e nao e' a mesma entrada repetida em toda secao, que e' o que
+     a regra existe para impedir.
+
+     Roda uma vez, na entrada, e respeita `prefers-reduced-motion` com a
+     alternativa que preserva a informacao: a regua aparece inteira, parada. */
+  /* O PADRAO E' A REGUA VISIVEL. Ela so comeca escondida quando o `js` esta no
+     <html>, o que um script inline no head coloca durante a analise do
+     documento, antes de qualquer pintura — entao nao ha piscada.
+
+     A primeira versao disto fazia o contrario: nascia em scaleX(0) e so
+     aparecia por JS. Sem JS ela sumia PARA SEMPRE, e isso viola a regra do
+     `overdrive.md` que eu mesmo citei para justificar este movimento: o que
+     existe sem o realce tem de continuar bom. Achado medindo o HTML gerado,
+     nao pensando. */
+  .regua { transform-origin: left center; }
+  .regua-ponto { opacity: 1; }
+
+  html.js .regua { transform: scaleX(0); }
+  html.js .regua-ponto { opacity: 0; }
+  html.js .visivel .regua { transform: scaleX(1); transition: transform .75s cubic-bezier(.22,.61,.36,1); }
+  html.js .visivel .regua-ponto { opacity: 1; transition: opacity .3s ease .1s; }
+  html.js .visivel li:nth-child(2) .regua { transition-delay: .12s; }
+  html.js .visivel li:nth-child(2) .regua-ponto { transition-delay: .22s; }
+  html.js .visivel li:nth-child(3) .regua { transition-delay: .24s; }
+  html.js .visivel li:nth-child(3) .regua-ponto { transition-delay: .34s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .regua { transform: none; }
+    html.js .regua-ponto { opacity: 1; }
+    html.js .visivel .regua, html.js .visivel .regua-ponto { transition: none; }
+  }
+
   .halo { position: relative; isolation: isolate; }
   .halo::before {
     content: ""; position: absolute; inset: -10% 0 auto; height: 130%; z-index: -1;
@@ -445,6 +485,12 @@
   @media (max-width: 899px) {
     .phone { width: 312px; max-width: none; margin-inline: auto; }
     .phone-screen { height: 596px; }
+  }
+  /* Entre 620 e 899 sobra largura e o aparelho ficava com tamanho de celular
+     no meio de uma tela larga. Cresce junto. */
+  @media (min-width: 620px) and (max-width: 899px) {
+    .phone { width: 372px; }
+    .phone-screen { height: 640px; }
   }
   /* `max-width: none` acima nao e' enfeite: o `.phone` herda `max-width: 100%`
      da regra base, e esse 100% resolve contra um pai que se ajusta ao PROPRIO

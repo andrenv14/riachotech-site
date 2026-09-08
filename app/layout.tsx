@@ -38,6 +38,12 @@ export const viewport: Viewport = { themeColor: '#16253D' };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${fraunces.variable} ${inter.variable} ${mono.variable}`}>
+      <head>
+        {/* Marca que o JS esta vivo, durante a ANALISE do documento e antes de
+            qualquer pintura. E' o que permite o movimento comecar escondido sem
+            piscar, e ao mesmo tempo deixar tudo visivel quando nao ha JS. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="bg-paper text-ink font-sans antialiased leading-[1.6]">{children}</body>
     </html>
   );

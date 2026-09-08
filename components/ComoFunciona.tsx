@@ -13,6 +13,8 @@
    grade de horários sendo consultada, e o compromisso escrito. Nada de grade
    de cards com ícone e título, que a `design-site` proíbe como estrutura. */
 
+import AoEntrar from '@/components/AoEntrar';
+
 type Passo = {
   hora: string;
   titulo: string;
@@ -114,6 +116,7 @@ export default function ComoFunciona() {
         {/* subgrid alinha hora, titulo, texto e artefato na MESMA linha nas
             tres colunas. Sem isso cada coluna comeca onde o texto dela acabou,
             e a fileira de artefatos fica esfarrapada. */}
+        <AoEntrar>
         <ol className="mt-14 space-y-12 min-[900px]:space-y-0 min-[900px]:grid min-[900px]:grid-cols-3 min-[900px]:gap-10 min-[900px]:grid-rows-[auto_auto_1fr_auto]">
           {PASSOS.map((p, i) => (
             <li key={p.titulo} className="relative min-[900px]:pt-8 min-[900px]:grid min-[900px]:row-span-4 min-[900px]:grid-rows-subgrid min-[900px]:gap-0">
@@ -121,11 +124,11 @@ export default function ComoFunciona() {
                   hora ancorada nela. No celular ela vira vertical. */}
               <span
                 aria-hidden="true"
-                className="hidden min-[900px]:block absolute top-[7px] left-0 right-0 h-px bg-line"
+                className="regua hidden min-[900px]:block absolute top-[7px] left-0 right-0 h-px bg-line"
               />
               <span
                 aria-hidden="true"
-                className="hidden min-[900px]:block absolute top-[3px] left-0 w-[9px] h-[9px] rounded-full bg-signal"
+                className="regua-ponto hidden min-[900px]:block absolute top-[3px] left-0 w-[9px] h-[9px] rounded-full bg-signal"
               />
               <time className="font-mono text-[12px] tracking-[.06em] text-signal-dark">
                 {p.hora}
@@ -140,6 +143,7 @@ export default function ComoFunciona() {
             </li>
           ))}
         </ol>
+        </AoEntrar>
       </div>
     </section>
   );
