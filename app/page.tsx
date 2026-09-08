@@ -55,7 +55,7 @@ export default function Home() {
                 {/* No celular a chamada vem DEPOIS do aparelho: ver ela
                     responder e' o argumento, e pedir o clique antes de mostrar
                     e' pedir fe. */}
-                <div className="mt-7 min-[900px]:hidden">
+                <div className="mt-7 flex justify-center min-[900px]:hidden">
                   <a href={ZAP} className="btn btn-primary text-[16px] px-7 py-[15px]">
                     Testar no seu WhatsApp
                   </a>

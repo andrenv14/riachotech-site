@@ -59,17 +59,25 @@ const ROTEIROS: Roteiro[] = [
   },
 ];
 
-/* A conversa nao comeca vazia. Com o aparelho maior, uma mensagem so deixava
-   uns 300px de areia morta no alto — tela grande e vazia le como produto sem
-   uso. A troca de abertura tambem TRABALHA: e' a Sofia fazendo o passo 3 do
-   proprio prompt dela, perguntar o ramo e adaptar o exemplo, entao ela
-   demonstra em vez de so cumprimentar. E nao inventa pessoa nenhuma: quem
-   responde e' o visitante, sem nome. */
+/* A conversa de abertura, reescrita em 08/09 depois de o fundador dizer que a
+   primeira versao estava horrivel. Ele tinha razao, e o defeito era em tres
+   camadas:
+
+     1. O visitante nao respondia o que a Sofia perguntou. Ela pedia o nome e
+        ele falava da barbearia — a troca nao fechava.
+     2. "sem voce largar a tesoura" era piada chamando atencao para si.
+     3. "Pergunta o que quiser, que eu respondo aqui mesmo" era recheio
+        instrucional: interface explicando como se usa, o mesmo defeito do
+        campo de digitar falso que ja tinha saido daqui.
+
+   Agora sao tres mensagens que fecham entre si: ela pergunta, ele responde a
+   pergunta E da o ramo de graca (como gente faz), e ela adapta o exemplo aquele
+   ramo. E' o passo 3 do prompt real dela, e serve de demonstracao em vez de
+   cumprimento. As sugestoes embaixo passam a ser a continuacao natural. */
 const ABERTURA: Fala[] = [
   { de: 'sofia', texto: 'Oi! Sou a Sofia, a assistente de IA da Riacho Tech. Qual é o seu nome?', hora: '14:02' },
-  { de: 'visitante', texto: 'oi! tô olhando isso pra minha barbearia', hora: '14:02' },
-  { de: 'sofia', texto: 'Boa. Numa barbearia eu confiro a agenda de cada barbeiro e marco na própria conversa, sem você largar a tesoura.', hora: '14:03' },
-  { de: 'sofia', texto: 'Pergunta o que quiser, que eu respondo aqui mesmo.', hora: '14:03' },
+  { de: 'visitante', texto: 'sou o Diego, tenho uma barbearia', hora: '14:02' },
+  { de: 'sofia', texto: 'Prazer, Diego. Numa barbearia eu consulto a agenda de cada barbeiro e marco na conversa.', hora: '14:03' },
 ];
 
 const hora = (passo: number) => {

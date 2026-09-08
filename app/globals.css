@@ -321,10 +321,18 @@
   .phone-bar { padding: 10px 16px 12px; }
 
   /* Área da conversa: rola de verdade, porque agora o visitante a alimenta. */
-  /* Conversa ancorada embaixo: com poucas mensagens, o vazio fica em cima e o
+  /* Conversa ancorada embaixo: com poucas mensagens o vazio fica em cima e o
      texto encosta nos botões, que é para onde a mão vai. Conforme o visitante
-     pergunta, ela preenche para cima. */
-  .phone-body { overflow-y: auto; scroll-behavior: smooth; justify-content: flex-end; }
+     pergunta, ela preenche para cima.
+
+     NAO se usa `justify-content: flex-end` para isso. Quando o conteudo passa
+     do tamanho do container, o excedente transborda para CIMA e fica
+     inalcancavel: o navegador nem o conta como area rolavel — medido em 08/09,
+     `scrollHeight` igual a `clientHeight` com a primeira mensagem visivelmente
+     cortada. A forma correta e' `margin-top: auto` no primeiro filho, que
+     empurra para baixo quando sobra espaco e nao quebra a rolagem quando falta. */
+  .phone-body { overflow-y: auto; scroll-behavior: smooth; justify-content: flex-start; }
+  .phone-body > *:first-child { margin-top: auto; }
   .phone-body::-webkit-scrollbar { width: 0; }
 
   /* Sugestoes como bolhas A DIREITA, dentro da area da conversa, no lugar
@@ -428,14 +436,15 @@
      que foi o defeito que a mudanca anterior consertou. A tela mais larga ja
      melhora sozinha, porque as mensagens e as sugestoes quebram menos. */
   @media (max-width: 899px) {
-    .phone { width: 352px; max-width: none; margin-inline: calc((100% - 352px) / 2); }
+    .phone { width: 312px; max-width: none; margin-inline: auto; }
+    .phone-screen { height: 596px; }
   }
-  @media (max-width: 407px) {
-    /* `max-width: none` e' necessario: o `.phone` herda `max-width: 100%` da
-       regra base, e esse 100% resolve contra um pai que se ajusta ao PROPRIO
-       celular. A conta se morde e travava a largura em 314px em vez dos 352
-       pedidos — medido em 390. */
-    .phone { width: calc(100vw - 38px); max-width: none; margin-inline: -19px; }
+  /* `max-width: none` acima nao e' enfeite: o `.phone` herda `max-width: 100%`
+     da regra base, e esse 100% resolve contra um pai que se ajusta ao PROPRIO
+     celular. A conta se morde e travava a largura em 314px quando eu pedia
+     352 — medido em 390. */
+  @media (max-width: 359px) {
+    .phone { width: calc(100vw - 56px); max-width: none; }
   }
   .phone-body { background: var(--color-sand); }
   .sugestoes { background: var(--color-sand); }
