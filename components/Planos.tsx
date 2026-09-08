@@ -32,7 +32,7 @@ export default function Planos({ zap }: { zap: string }) {
   const zapCombo = 'https://wa.me/5561999643707?text=Quero%20a%20assistente%20com%20site';
 
   return (
-    <section id="planos" className="bg-paper-2 py-24 min-[900px]:py-28">
+    <section id="planos" className="planos-luz py-24 min-[900px]:py-28">
       <div className="wrap">
         <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[16ch]">
           Duas coisas que fazemos, e o preço das duas é público.
@@ -46,8 +46,12 @@ export default function Planos({ zap }: { zap: string }) {
 
         <div className="mt-14 grid gap-6 min-[900px]:grid-cols-2 min-[900px]:gap-8 items-stretch">
 
-          {/* A assistente */}
-          <div className="flex flex-col rounded-[var(--radius-card)] bg-white border border-line p-7 min-[900px]:p-9">
+          {/* A assistente — e ela e' a oferta PRINCIPAL, o que o desenho nao
+              dizia: os dois cartoes eram gemeos, mesmo rotulo, mesmo peso,
+              mesma lista, e secao de preco sem hierarquia le como tabela. A
+              barra de acento no topo e' a mesma peca que marca o ramo escolhido
+              na `PraQuemE` — vocabulario que a pagina ja tem, nao enfeite novo. */}
+          <div className="cartao-plano cartao-principal flex flex-col p-7 min-[900px]:p-9">
             <div className="font-mono text-[11.5px] uppercase tracking-[.13em] text-signal">a assistente</div>
             <h3 className="mt-3 font-display text-[25px] text-ink leading-[1.25] max-w-[20ch]">
               Ela atende no WhatsApp do seu negócio
@@ -72,7 +76,7 @@ export default function Planos({ zap }: { zap: string }) {
           </div>
 
           {/* A landing page — mesmo peso, mesma coluna, mesmo tamanho */}
-          <div className="flex flex-col rounded-[var(--radius-card)] bg-white border border-line p-7 min-[900px]:p-9">
+          <div className="cartao-plano flex flex-col p-7 min-[900px]:p-9">
             <div className="font-mono text-[11.5px] uppercase tracking-[.13em] text-signal">a landing page</div>
             <h3 className="mt-3 font-display text-[25px] text-ink leading-[1.25] max-w-[20ch]">
               Uma página que faz o cliente te achar
@@ -98,7 +102,7 @@ export default function Planos({ zap }: { zap: string }) {
         </div>
 
         {/* O combo, e a linha do tempo de cobrança */}
-        <div className="mt-8 grid gap-8 rounded-[var(--radius-card)] bg-ink p-7 min-[900px]:p-9 min-[900px]:grid-cols-[1.1fr_0.9fr] min-[900px]:gap-12">
+        <div className="combo-luz mt-8 grid gap-8 rounded-[var(--radius-card)] p-7 min-[900px]:p-9 min-[900px]:grid-cols-[1.1fr_0.9fr] min-[900px]:gap-12">
           <div>
             <div className="font-mono text-[11.5px] uppercase tracking-[.13em] text-sky">as duas juntas</div>
             <div className="mt-4 flex items-baseline gap-2.5 flex-wrap">

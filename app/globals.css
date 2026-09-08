@@ -493,11 +493,34 @@
   .painel-conversa .fala {
     padding: 14px; display: flex; flex-direction: column; gap: 7px;
   }
-  /* O painel ganha altura para nao ficar um retangulo curto ao lado de uma
-     lista alta. A conversa encosta embaixo, como num aplicativo aberto. */
+  /* A altura MORREU, e o motivo esta' medido: com `min-height: 400px` e
+     `justify-content: flex-end` as quatro mensagens ficavam empilhadas no pe de
+     um campo de areia vazio de quase o dobro do tamanho delas — "quatro
+     mensagens num quadrado enorme", nas palavras do fundador, e ele estava
+     certo. O painel passa a medir pela conversa, e o desencontro de altura
+     contra a lista se resolve pelo `items-center` da grade, nao por ar dentro
+     da caixa.
+
+     Some junto a armadilha do `flex-end`: com overflow ele esconde conteudo
+     para cima e o navegador nem conta como rolavel. */
   @media (min-width: 900px) {
-    .painel-conversa .fala { min-height: 400px; justify-content: flex-end; padding: 18px; }
+    .painel-conversa .fala { padding: 18px; }
   }
+
+  /* A conversa ACONTECE. A `.bubble` ja nasce com `bubble-pop`; o que faltava
+     era o compasso — sem atraso as quatro apareciam de uma vez e o painel lia
+     como print, nao como conversa. Os intervalos sao DESIGUAIS de proposito: o
+     cliente responde rapido, a Sofia leva uma batida. Como a chave do React
+     inclui o ramo, trocar de ramo remonta as bolhas e o compasso toca de novo,
+     que e' o unico movimento desta secao e ele responde a um clique.
+
+     `prefers-reduced-motion` ja desliga `.bubble` na regra do bloco base; aqui
+     nao ha nada a repetir. */
+  .painel-conversa .fala .bubble:nth-child(2) { animation-delay: .30s; }
+  .painel-conversa .fala .bubble:nth-child(3) { animation-delay: .46s; }
+  .painel-conversa .fala .bubble:nth-child(4) { animation-delay: .78s; }
+  .painel-conversa .fala .bubble:nth-child(5) { animation-delay: .94s; }
+  .painel-conversa .fala .bubble:nth-child(6) { animation-delay: 1.26s; }
   /* cursor de mao em todo botao: o reset do Tailwind 4 nao poe */
   button:not(:disabled) { cursor: pointer; }
 
@@ -658,5 +681,71 @@
     background:
       radial-gradient(52% 60% at 50% 58%, color-mix(in oklab, var(--color-signal) 38%, transparent), transparent 72%),
       radial-gradient(64% 46% at 50% 86%, color-mix(in oklab, var(--color-sky) 12%, transparent), transparent 74%);
+  }
+}
+
+/* ===================================================================
+   Planos — "boa, mas bem morta" (fundador, 08/09/2026).
+   O que matava: fundo chapado, cartoes chapados com fio de 1px, e o unico
+   bloco com presenca era o escuro do combo. A estrutura fica como esta' —
+   ela nao e' o defeito. Entra profundidade, que e' a alavanca 1 da `nao-slop`.
+   =================================================================== */
+@layer components {
+
+  /* Chao da secao: um degrade quase imperceptivel do papel claro para o mais
+     fechado, e uma luz fria no alto a esquerda. Sem isso o `paper-2` era uma
+     parede lisa de ponta a ponta — o mesmo defeito que a `.vitrine` curou no
+     lado escuro da pagina, e a cura e' a mesma tecnica. */
+  .planos-luz { position: relative; isolation: isolate; background: var(--color-paper-2); }
+  .planos-luz::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(58% 44% at 8% 0%, color-mix(in oklab, #fff 78%, transparent), transparent 68%),
+      radial-gradient(46% 38% at 96% 88%, color-mix(in oklab, var(--color-signal) 9%, transparent), transparent 72%);
+  }
+
+  /* Cartao com ELEVACAO, nao com contorno. Fio de 1px sobre fundo quase da
+     mesma cor nao separa nada: o cartao ficava rente ao chao e a secao inteira
+     lia como um documento. A sombra e' de duas camadas — uma curta para o
+     contato e uma longa e aberta para a distancia —, que e' como objeto real
+     se descola de superficie. O contorno fica, mais fraco, so' para o cartao
+     nao sumir onde a sombra nao aparece. */
+  .cartao-plano {
+    background: #fff;
+    border: 1px solid color-mix(in oklab, var(--color-line) 60%, transparent);
+    border-radius: var(--radius-card);
+    box-shadow:
+      0 1px 2px rgba(20, 33, 61, .05),
+      0 18px 44px -22px rgba(20, 33, 61, .28);
+  }
+
+  /* O bloco do combo e' escuro no meio de uma secao clara e ja era o unico
+     vivo; ele ganha a mesma luz do hero para virar o ponto de chegada da
+     secao, e nao so' o terceiro retangulo. */
+  .combo-luz { position: relative; isolation: isolate; background: var(--color-ink); overflow: hidden; }
+  .combo-luz::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(56% 84% at 86% 18%, color-mix(in oklab, var(--color-signal) 46%, transparent), transparent 70%),
+      radial-gradient(40% 60% at 4% 96%, color-mix(in oklab, var(--color-sky) 12%, transparent), transparent 74%);
+  }
+}
+
+@layer components {
+  /* Barra de acento do cartao principal. Ela mora DENTRO do raio do cartao, e
+     por isso o raio dela e' o do cartao nas duas pontas de cima e reto embaixo
+     — mesma conta concentrica do resto da pagina, com padding zero neste eixo.
+     O cartao tambem sobe um degrau de elevacao: hierarquia se le antes pela
+     distancia do chao do que pela cor. */
+  .cartao-principal { position: relative; }
+  .cartao-principal::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--color-signal);
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+  .cartao-principal {
+    box-shadow:
+      0 1px 2px rgba(20, 33, 61, .06),
+      0 26px 56px -24px rgba(20, 33, 61, .34);
   }
 }

@@ -96,6 +96,8 @@ const RAMOS: Ramo[] = [
       { de: 'sofia', texto: 'Claro! Vai ser pelo convênio ou particular?' },
       { de: 'cliente', texto: 'particular' },
       { de: 'sofia', texto: 'Perfeito. Tenho quinta às 15h ou sexta às 9h30. Qual fica melhor?' },
+      { de: 'cliente', texto: 'quinta às 15h' },
+      { de: 'sofia', texto: 'Marcado, quinta às 15h. Mando um lembrete na véspera e outro uma hora antes.' },
     ],
   },
   {
@@ -107,6 +109,8 @@ const RAMOS: Ramo[] = [
       { de: 'sofia', texto: 'Certo. É sobre um caso novo ou algo que já está em andamento?' },
       { de: 'cliente', texto: 'caso novo' },
       { de: 'sofia', texto: 'Então reservo uma hora. Quinta às 14h está livre.' },
+      { de: 'cliente', texto: 'fechado' },
+      { de: 'sofia', texto: 'Reservado, quinta às 14h. Já está na agenda do escritório.' },
     ],
   },
   {
@@ -118,6 +122,8 @@ const RAMOS: Ramo[] = [
       { de: 'sofia', texto: 'Tenho. Corte e barba levam 40 minutos, e hoje ainda tem 17h com o Bruno.' },
       { de: 'cliente', texto: 'e se fosse coloração?' },
       { de: 'sofia', texto: 'Aí são duas horas, então o próximo espaço é amanhã de manhã.' },
+      { de: 'cliente', texto: 'deixa o corte e barba de hoje mesmo' },
+      { de: 'sofia', texto: 'Fechado: hoje às 17h com o Bruno, 40 minutos.' },
     ],
   },
   {
@@ -129,6 +135,8 @@ const RAMOS: Ramo[] = [
       { de: 'sofia', texto: 'Vamos lá! Qual o porte do seu cão?' },
       { de: 'cliente', texto: 'é um golden' },
       { de: 'sofia', texto: 'Porte grande leva mais tempo, então reservo duas horas. Amanhã às 10h?' },
+      { de: 'cliente', texto: 'pode ser' },
+      { de: 'sofia', texto: 'Marcado, amanhã às 10h. São R$80 — mando o Pix se quiser adiantar.' },
     ],
   },
   {
@@ -140,6 +148,8 @@ const RAMOS: Ramo[] = [
       { de: 'sofia', texto: 'A revisão completa está R$380 e leva meio período.' },
       { de: 'cliente', texto: 'pode ser na terça' },
       { de: 'sofia', texto: 'Marcado, terça de manhã. Mando um lembrete na véspera.' },
+      { de: 'cliente', texto: 'consigo pagar antes?' },
+      { de: 'sofia', texto: 'Consegue. Te mando o Pix dos R$380 agora, em mensagem separada.' },
     ],
   },
 ];
@@ -202,7 +212,14 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
           toque num ramo e veja como ela conversa
         </div>
 
-        <div className="mt-5 grid gap-8 min-[900px]:grid-cols-[0.74fr_1.26fr] min-[900px]:gap-14 min-[900px]:items-start">
+        {/* `items-center`, e o painel NAO e' mais `sticky`. O sticky prendia a
+            conversa no topo enquanto a lista rolava e a soltava no fim do
+            container: subindo e descendo com a roda do mouse ela "descia junto"
+            e tremia nas duas bordas do intervalo grudento. Ele comprava pouco —
+            a lista tem pouco mais que o dobro da altura do painel — e custava um
+            defeito visivel a cada rolagem. Sem ele, o painel fica parado e
+            centrado contra a lista. */}
+        <div className="mt-5 grid gap-8 min-[900px]:grid-cols-[0.74fr_1.26fr] min-[900px]:gap-14 min-[900px]:items-center">
           <ul>
             {RAMOS.map((r) => {
               const ativo = aberto === r.ramo;
@@ -243,7 +260,7 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
             })}
           </ul>
 
-          <div className="painel-conversa min-[900px]:sticky min-[900px]:top-[86px]">
+          <div className="painel-conversa">
             <div className="cabeca">
               <span className="av" aria-hidden="true">S</span>
               <span>Sofia</span>
