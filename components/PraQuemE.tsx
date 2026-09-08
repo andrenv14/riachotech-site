@@ -88,18 +88,38 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
   return (
     <section id="segmentos" className="bg-paper py-24 min-[900px]:py-28">
       <div className="wrap">
-        <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[15ch]">
-          Suas mãos estão ocupadas e o celular está vibrando.
-        </h2>
-        <div className="mt-5 grid gap-x-14 gap-y-4 min-[820px]:grid-cols-2 max-w-[76ch]">
-          <p className="text-[17px] text-muted">
-            Se você para, interrompe quem está na sua frente. Se não para, a
-            mensagem esfria e quem perguntou já perguntou pra outro.
-          </p>
-          <p className="text-[17px] text-muted">
-            É o mesmo problema numa cadeira de dentista, numa mesa de reunião e
-            num banho e tosa. Por isso a assistente é a mesma, e o preço também.
-          </p>
+        {/* Título à esquerda e a CENA à direita. A imagem entra aqui e em
+            nenhum outro lugar da página: é o único ponto em que a fotografia
+            faz o que o texto não faz — o comprador se reconhecer antes de ler.
+            O celular está de barriga para cima no balcão, com notificação, e as
+            mãos do dono estão ocupadas no fundo. É o título virando cena. */}
+        <div className="grid gap-10 min-[900px]:grid-cols-[1fr_0.85fr] min-[900px]:gap-14 min-[900px]:items-center">
+          <div>
+            <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[15ch]">
+              Suas mãos estão ocupadas e o celular está vibrando.
+            </h2>
+            <p className="mt-5 text-[17px] text-muted max-w-[46ch]">
+              Se você para, interrompe quem está na sua frente. Se não para, a
+              mensagem esfria e quem perguntou já perguntou pra outro.
+            </p>
+            <p className="mt-4 text-[17px] text-muted max-w-[46ch]">
+              É o mesmo problema numa cadeira de dentista, numa mesa de reunião e
+              num banho e tosa. Por isso a assistente é a mesma, e o preço também.
+            </p>
+          </div>
+
+          {/* `width`/`height` declarados porque a design-site exige e porque é
+              o que segura o CLS em zero. `loading="lazy"`: a seção é a quarta
+              da página, então ela nunca abre na primeira tela.
+              eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/dor-celular-no-balcao.webp"
+            alt="Um celular de barriga para cima no balcão de um pequeno negócio, com mensagens não lidas na tela, enquanto o dono trabalha ao fundo com as mãos ocupadas."
+            width={1200}
+            height={800}
+            loading="lazy"
+            className="w-full h-auto rounded-[var(--radius-card)] border border-line"
+          />
         </div>
 
         {/* rótulo em monoespaçada não é prosa do documento: <div>, como as
