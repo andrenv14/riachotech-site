@@ -3,7 +3,12 @@
 // contra uma produção que comprime produz um número pessimista que descreve
 // um servidor que não existe.
 const http = require('http'), fs = require('fs'), path = require('path'), zlib = require('zlib');
-const raiz = process.argv[2], porta = +process.argv[3];
+// `raiz` RESOLVIDA, e nao o que veio no argumento. Com o valor cru, `npm run
+// servir` (que passa `./out`) devolvia 404 em tudo: `path.join('./out', '/x')`
+// normaliza para `out/x`, que nao comeca com `./out`, e a guarda da linha de
+// baixo derrubava todo pedido. Resolvida, a comparacao passa a ser entre dois
+// caminhos absolutos — e so' assim a guarda de travessia mede o que promete.
+const raiz = path.resolve(process.argv[2]), porta = +process.argv[3];
 const TIPOS = { '.html':'text/html; charset=utf-8', '.css':'text/css', '.js':'text/javascript',
   '.png':'image/png', '.webp':'image/webp', '.woff2':'font/woff2', '.svg':'image/svg+xml', '.ico':'image/x-icon' };
 const COMPRIME = new Set(['.html', '.css', '.js', '.svg']);
