@@ -459,6 +459,36 @@
     html.js .visivel .faixa, html.js .visivel .chega { transition: none; }
   }
 
+  /* Painel de conversa da lista de ramos. As bolhas estavam soltas sobre o
+     fundo claro da secao, sem nenhuma superficie dizendo "isto e' uma
+     conversa" — o fundador apontou como esquisito, e estava. Elas ganham o
+     MESMO chao que a tela do celular tem (`--color-sand`), com cabecalho
+     curto, para o olho reconhecer o objeto sem eu precisar desenhar um segundo
+     aparelho inteiro na pagina. */
+  .painel-conversa {
+    background: var(--color-sand);
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(20, 33, 61, .07);
+    overflow: hidden;
+  }
+  .painel-conversa .cabeca {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 14px; background: var(--color-ink); color: #fff;
+    font-size: 12.5px; font-weight: 600;
+  }
+  .painel-conversa .cabeca .av {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--color-signal);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 11px; flex-shrink: 0;
+  }
+  .painel-conversa .cabeca .status {
+    font-family: var(--font-mono); font-weight: 400; font-size: 10px;
+    color: var(--color-mint); margin-left: 2px;
+  }
+  .painel-conversa .fala {
+    padding: 14px; display: flex; flex-direction: column; gap: 7px;
+  }
+
   .halo { position: relative; isolation: isolate; }
   .halo::before {
     content: ""; position: absolute; inset: -10% 0 auto; height: 130%; z-index: -1;

@@ -142,16 +142,27 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <div className="pb-8 flex flex-col gap-2 max-w-[46ch] min-[560px]:ml-[calc(14rem+2.5rem)]">
-                      {r.conversa.map((m, i) => (
-                        <div
-                          key={i}
-                          className={`bubble ${m.de === 'cliente' ? 'bubble-cliente' : 'bubble-sofia'} !opacity-100 !translate-y-0 !animate-none`}
-                          style={{ maxWidth: '86%' }}
-                        >
-                          {m.texto}
+                    <div className="pb-8 min-[560px]:ml-[calc(14rem+2.5rem)] max-w-[30rem]">
+                      <div className="painel-conversa">
+                        <div className="cabeca">
+                          <span className="av" aria-hidden="true">S</span>
+                          <span>Sofia</span>
+                          <span className="status">online</span>
+                          <span className="ml-auto font-mono text-[10px] font-normal text-sky-2">
+                            {r.ramo.split(' ')[0].toLowerCase()}
+                          </span>
                         </div>
-                      ))}
+                        <div className="fala">
+                          {r.conversa.map((m, i) => (
+                            <div
+                              key={i}
+                              className={`bubble ${m.de === 'cliente' ? 'bubble-cliente' : 'bubble-sofia'} !opacity-100 !translate-y-0 !animate-none`}
+                            >
+                              {m.texto}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
