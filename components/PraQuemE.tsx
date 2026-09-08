@@ -34,7 +34,7 @@ export default function PraQuemE({ zap }: { zap: string }) {
             curta, a da lista era longa, e centrar uma para compensar a outra
             so mudava o vazio de lugar. Com o titulo em cima, a lista usa a
             largura inteira e nao sobra buraco. */}
-        <h2 className="font-display font-semibold text-ink text-[clamp(26px,3.4vw,36px)] leading-[1.15] max-w-[16ch]">
+        <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[15ch]">
           Suas mãos estão ocupadas e o celular está vibrando.
         </h2>
         <div className="mt-5 grid gap-x-14 gap-y-4 min-[820px]:grid-cols-2 max-w-[76ch]">

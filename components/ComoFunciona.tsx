@@ -103,7 +103,7 @@ export default function ComoFunciona() {
   return (
     <section id="como-funciona" className="bg-paper-2 py-24 min-[900px]:pt-40 min-[900px]:pb-28">
       <div className="wrap">
-        <h2 className="font-display font-semibold text-ink text-[clamp(26px,3.4vw,36px)] leading-[1.15] max-w-[19ch]">
+        <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[16ch]">
           Da mensagem ao horário marcado, em uma conversa só.
         </h2>
         <p className="mt-4 text-[17px] text-muted max-w-[52ch]">
@@ -132,7 +132,7 @@ export default function ComoFunciona() {
                 {i > 0 && <span className="text-muted"> {i === 1 ? '· mesmo minuto' : '· um minuto depois'}</span>}
               </time>
 
-              <h3 className="mt-3 min-[900px]:mt-4 font-display text-[20px] text-ink leading-[1.25] max-w-[22ch]">
+              <h3 className="mt-3 min-[900px]:mt-4 font-display text-[22px] text-ink leading-[1.25] max-w-[22ch]">
                 {p.titulo}
               </h3>
               <p className="mt-2.5 text-[16px] text-muted max-w-[40ch]">{p.texto}</p>

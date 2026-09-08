@@ -26,7 +26,7 @@ function Bloco({
   return (
     <div className={`${span} border-t border-white/12 pt-6`}>
       <div className="font-mono text-[11px] uppercase tracking-[.13em] text-sky">{rotulo}</div>
-      <h3 className="mt-2.5 font-display text-[21px] leading-[1.25] text-mist-2 max-w-[24ch]">{titulo}</h3>
+      <h3 className="mt-2.5 font-display text-[23px] leading-[1.25] text-mist-2 max-w-[24ch]">{titulo}</h3>
       {children}
     </div>
   );
@@ -36,7 +36,7 @@ export default function OQueElaFaz() {
   return (
     <section id="recursos" className="bg-ink py-24 min-[900px]:py-28">
       <div className="wrap">
-        <h2 className="font-display font-semibold text-[clamp(26px,3.4vw,36px)] leading-[1.15] text-white max-w-[20ch]">
+        <h2 className="font-display font-semibold text-[clamp(30px,4.2vw,46px)] leading-[1.15] text-white max-w-[20ch]">
           Um atendente que não dorme, não esquece e não inventa horário.
         </h2>
         <p className="mt-4 text-[17px] text-mist max-w-[54ch]">

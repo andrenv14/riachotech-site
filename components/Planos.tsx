@@ -34,7 +34,7 @@ export default function Planos({ zap }: { zap: string }) {
   return (
     <section id="planos" className="bg-paper-2 py-24 min-[900px]:py-28">
       <div className="wrap">
-        <h2 className="font-display font-semibold text-ink text-[clamp(26px,3.4vw,36px)] leading-[1.15] max-w-[18ch]">
+        <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[16ch]">
           Duas coisas que fazemos, e o preço das duas é público.
         </h2>
         <p className="mt-4 text-[17px] text-muted max-w-[52ch]">
@@ -49,7 +49,7 @@ export default function Planos({ zap }: { zap: string }) {
           {/* A assistente */}
           <div className="flex flex-col rounded-[var(--radius-card)] bg-white border border-line p-7 min-[900px]:p-9">
             <div className="font-mono text-[11.5px] uppercase tracking-[.13em] text-signal">a assistente</div>
-            <h3 className="mt-3 font-display text-[23px] text-ink leading-[1.25] max-w-[20ch]">
+            <h3 className="mt-3 font-display text-[25px] text-ink leading-[1.25] max-w-[20ch]">
               Ela atende no WhatsApp do seu negócio
             </h3>
 
@@ -74,7 +74,7 @@ export default function Planos({ zap }: { zap: string }) {
           {/* A landing page — mesmo peso, mesma coluna, mesmo tamanho */}
           <div className="flex flex-col rounded-[var(--radius-card)] bg-white border border-line p-7 min-[900px]:p-9">
             <div className="font-mono text-[11.5px] uppercase tracking-[.13em] text-signal">a landing page</div>
-            <h3 className="mt-3 font-display text-[23px] text-ink leading-[1.25] max-w-[20ch]">
+            <h3 className="mt-3 font-display text-[25px] text-ink leading-[1.25] max-w-[20ch]">
               Uma página que faz o cliente te achar
             </h3>
 
