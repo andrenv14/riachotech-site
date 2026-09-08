@@ -411,6 +411,20 @@
      FORA dele. */
   .phone-screen { height: 524px; background: var(--color-ink); }
   @media (min-width: 900px) { .phone-screen { height: 596px; } }
+
+  /* No celular o aparelho ESCAPA do gutter de 28px do `.wrap`. Medido em 390:
+     a largura util era 334 e o aparelho ja ocupava 320, entao havia 14px de
+     folga — nao dava para crescer sem sair da margem. Ele passa a 352, com
+     19px de cada lado da tela, e a ALTURA nao acompanha de proposito: subir a
+     altura junto empurraria as bolhas clicaveis para baixo da dobra outra vez,
+     que foi o defeito que a mudanca anterior consertou. A tela mais larga ja
+     melhora sozinha, porque as mensagens e as sugestoes quebram menos. */
+  @media (max-width: 899px) {
+    .phone { width: 352px; margin-inline: calc((100% - 352px) / 2); }
+  }
+  @media (max-width: 407px) {
+    .phone { width: calc(100vw - 38px); margin-inline: -19px; }
+  }
   .phone-body { background: var(--color-sand); }
   .sugestoes { background: var(--color-sand); }
 
