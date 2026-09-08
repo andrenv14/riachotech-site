@@ -11,6 +11,13 @@ import { useEffect, useRef, useState } from 'react';
    Tech, e não sobre uma clínica genérica: decisão do fundador na janela dele
    em 08/09.
 
+   As sugestões sao bolhas A DIREITA, dentro da conversa, no lugar exato em
+   que a fala do visitante aparece depois de enviada — um toque envia. A
+   versao anterior tinha um campo de digitar falso com botao de enviar
+   desativado, so para indicar "aperte os botoes acima", e o fundador apontou
+   como remendo de UX em 08/09. Ele estava certo: interface que precisa
+   explicar como se usa nao esta explicada.
+
    Roteirizado de propósito, sem chamada de modelo: demonstração ao vivo com
    LLM abriria porta para abuso e gasto, e o incidente de loop já foi ~60% do
    gasto histórico de IA da casa.
@@ -67,7 +74,6 @@ export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
   const [digitando, setDigitando] = useState(false);
   const [ocupado, setOcupado] = useState(false);
   const [usados, setUsados] = useState<string[]>([]);
-  const [rascunho, setRascunho] = useState<Roteiro | null>(null);
   const corpo = useRef<HTMLDivElement>(null);
   const vivo = useRef(true);
 
@@ -77,11 +83,9 @@ export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
     if (el) el.scrollTop = el.scrollHeight;
   }, [falas, digitando]);
 
-  async function enviar() {
-    const r = rascunho;
-    if (!r || ocupado) return;
+  async function enviar(r: Roteiro) {
+    if (ocupado) return;
     setOcupado(true);
-    setRascunho(null);
     setUsados((u) => [...u, r.chip]);
 
     let passo = falas.length;
@@ -134,40 +138,24 @@ export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
         </div>
 
         {restantes.length > 0 && (
-          <div className="phone-perguntas">
+          <div className="sugestoes">
             {restantes.map((r) => (
               <button
                 key={r.chip}
                 type="button"
-                className="chip"
+                className="sugestao"
                 disabled={ocupado}
-                aria-pressed={rascunho?.chip === r.chip}
-                onClick={() => setRascunho(r)}
+                onClick={() => enviar(r)}
               >
                 {r.chip}
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M2 8h11.5M9 3.2 13.8 8 9 12.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </button>
             ))}
           </div>
         )}
 
-        <div className="phone-digitar">
-          <div className="phone-campo" data-vazio={rascunho ? 'false' : 'true'}>
-            {rascunho ? rascunho.pergunta
-              : restantes.length ? 'toque numa pergunta acima'
-              : 'quer continuar? fale com ela no WhatsApp'}
-          </div>
-          <button
-            type="button"
-            className="phone-enviar"
-            disabled={!rascunho || ocupado}
-            onClick={enviar}
-            aria-label="Enviar a mensagem"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M1.6 8h12.2M8.8 3l5 5-5 5" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
       </div>
     </div>
   );
