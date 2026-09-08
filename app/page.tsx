@@ -17,17 +17,17 @@ export default function Home() {
         <section className="hero-escuro relative pt-6 min-[900px]:pt-16 pb-0">
           <div className="wrap grid gap-10 min-[900px]:grid-cols-[1.05fr_.95fr] min-[900px]:gap-14 items-start">
 
-            <div className="min-[900px]:pt-6 min-[900px]:pb-28">
+            <div className="text-center min-[900px]:text-left min-[900px]:pt-6 min-[900px]:pb-28">
               {/* Sem rótulo acima do H1: é o hero padrão de SaaS de IA, e a
                   `design-site` o proíbe sem exceção. */}
-              <h1 className="font-display font-semibold text-white text-[clamp(42px,6.4vw,72px)] leading-[1.02] tracking-[-0.02em] max-w-[17ch]">
+              <h1 className="font-display font-semibold text-white text-[clamp(42px,6.4vw,72px)] leading-[1.02] tracking-[-0.02em] max-w-[17ch] mx-auto min-[900px]:mx-0">
                 Seu WhatsApp já pode{' '}
                 <em className="text-sky not-italic font-display italic">marcar horário</em>{' '}
                 sozinho.
               </h1>
 
               {/* 17 palavras. O teto do detector é 20; o texto antigo tinha 34. */}
-              <p className="mt-4 min-[900px]:mt-5 text-[17px] min-[900px]:text-[18px] text-mist max-w-[46ch]">
+              <p className="mt-4 min-[900px]:mt-5 text-[17px] min-[900px]:text-[18px] text-mist max-w-[46ch] mx-auto min-[900px]:mx-0">
                 A Sofia atende, confere sua agenda e marca o horário sozinha.
                 Você fica com as mãos livres.
               </p>

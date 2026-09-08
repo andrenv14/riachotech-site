@@ -409,8 +409,16 @@
      geral, que ja custou quatro voltas: em elemento muito arredondado com
      recorte, o que estiver ATRAS do canto tem de ter a cor do que estiver
      FORA dele. */
-  .phone-screen { height: 524px; background: var(--color-ink); }
-  @media (min-width: 900px) { .phone-screen { height: 596px; } }
+  .phone-screen { height: 600px; background: var(--color-ink); }
+  @media (min-width: 900px) { .phone-screen { height: 660px; } }
+
+  /* NO PC o aparelho cresce. Medido: a coluna dele tem 498px e ele ocupava
+     320 — 178px sobravam sem uso. Vai a 384, com 14px de padding de moldura
+     para a proporcao nao ficar estranha num aparelho maior. */
+  @media (min-width: 900px) {
+    .phone { width: 384px; padding: 14px; border-radius: 50px; }
+    .phone-screen { border-radius: 36px; }  /* 50 - 14, concentrico */
+  }
 
   /* No celular o aparelho ESCAPA do gutter de 28px do `.wrap`. Medido em 390:
      a largura util era 334 e o aparelho ja ocupava 320, entao havia 14px de
@@ -420,10 +428,14 @@
      que foi o defeito que a mudanca anterior consertou. A tela mais larga ja
      melhora sozinha, porque as mensagens e as sugestoes quebram menos. */
   @media (max-width: 899px) {
-    .phone { width: 352px; margin-inline: calc((100% - 352px) / 2); }
+    .phone { width: 352px; max-width: none; margin-inline: calc((100% - 352px) / 2); }
   }
   @media (max-width: 407px) {
-    .phone { width: calc(100vw - 38px); margin-inline: -19px; }
+    /* `max-width: none` e' necessario: o `.phone` herda `max-width: 100%` da
+       regra base, e esse 100% resolve contra um pai que se ajusta ao PROPRIO
+       celular. A conta se morde e travava a largura em 314px em vez dos 352
+       pedidos — medido em 390. */
+    .phone { width: calc(100vw - 38px); max-width: none; margin-inline: -19px; }
   }
   .phone-body { background: var(--color-sand); }
   .sugestoes { background: var(--color-sand); }

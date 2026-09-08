@@ -59,8 +59,17 @@ const ROTEIROS: Roteiro[] = [
   },
 ];
 
+/* A conversa nao comeca vazia. Com o aparelho maior, uma mensagem so deixava
+   uns 300px de areia morta no alto — tela grande e vazia le como produto sem
+   uso. A troca de abertura tambem TRABALHA: e' a Sofia fazendo o passo 3 do
+   proprio prompt dela, perguntar o ramo e adaptar o exemplo, entao ela
+   demonstra em vez de so cumprimentar. E nao inventa pessoa nenhuma: quem
+   responde e' o visitante, sem nome. */
 const ABERTURA: Fala[] = [
   { de: 'sofia', texto: 'Oi! Sou a Sofia, a assistente de IA da Riacho Tech. Qual é o seu nome?', hora: '14:02' },
+  { de: 'visitante', texto: 'oi! tô olhando isso pra minha barbearia', hora: '14:02' },
+  { de: 'sofia', texto: 'Boa. Numa barbearia eu confiro a agenda de cada barbeiro e marco na própria conversa, sem você largar a tesoura.', hora: '14:03' },
+  { de: 'sofia', texto: 'Pergunta o que quiser, que eu respondo aqui mesmo.', hora: '14:03' },
 ];
 
 const hora = (passo: number) => {
