@@ -46,9 +46,19 @@ barbearia, petshop, oficina) sem recarregar nada, e as cinco conversas fecham o
 agendamento: antes elas paravam na pergunta, e mostravam a Sofia oferecendo sem
 nunca marcar.
 
-| a primeira tela | "o que ela faz" | "pra quem é" |
-|---|---|---|
-| ![Primeira tela em 390 px](docs/imagens/home-390-dobra.webp) | ![Seção "o que ela faz" em 390 px](docs/imagens/home-390-recursos.webp) | ![Seção por ramo em 390 px](docs/imagens/home-390-segmentos.webp) |
+Da esquerda para a direita: a primeira tela, "o que ela faz" e "pra quem é".
+
+<p>
+  <img src="docs/imagens/home-390-dobra.webp" alt="Primeira tela do site em 390 px" width="255">
+  <img src="docs/imagens/home-390-recursos.webp" alt="Seção o que ela faz em 390 px" width="255">
+  <img src="docs/imagens/home-390-segmentos.webp" alt="Seção por ramo em 390 px" width="255">
+</p>
+
+<!-- Largura fixa em `<img>`, e não uma tabela de três colunas: numa tabela o
+     GitHub dimensiona cada coluna pelo conteúdo do cabeçalho, então "a primeira
+     tela" e "pra quem é" davam colunas de larguras diferentes e as três telas
+     saíam com tamanhos diferentes, embora os arquivos tenham os mesmos 780x1688.
+     Achado do fundador. -->
 
 E a seção de planos, que é onde o site precisa ser mais claro:
 
