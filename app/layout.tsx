@@ -24,6 +24,20 @@ export const metadata: Metadata = {
   title: 'Riacho Tech — Sofia, a assistente de agendamento no WhatsApp',
   description:
     'A Sofia atende, confere sua agenda e marca horário no WhatsApp sozinha, pra você focar no que só você faz.',
+  /* O ICONE DA ABA. Ele nao vinha por engano de omissao: o Next so' detecta
+     sozinho `app/icon.*` ou `app/favicon.ico`, e os nossos moram em `public/`
+     desde o site antigo, onde o `<link rel="icon">` era escrito a mao em cada
+     HTML. As tres paginas herdadas continuam com o link no proprio arquivo; a
+     home ficou sem, o navegador caiu no `/favicon.ico` que nao existe, e a aba
+     mostrava o globo generico. Achado do fundador, olhando a aba.
+
+     Declarado aqui e nao movido para `app/`, porque `public/favicon.png` e'
+     o mesmo arquivo que `privacidade.html` e `404.html` referenciam: mover
+     quebraria as duas. */
+  icons: {
+    icon: [{ url: '/favicon.png', type: 'image/png' }],
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: {
     type: 'website', url: 'https://riachotech.com.br/',
     title: 'Riacho Tech — Sofia, a assistente de agendamento no WhatsApp',
