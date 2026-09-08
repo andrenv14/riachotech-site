@@ -14,7 +14,7 @@ export default function Home() {
       <Nav zap={ZAP} />
 
       <main>
-        <section className="hero-escuro relative pt-6 min-[900px]:pt-16 pb-0">
+        <section className="hero-escuro textura relative pt-6 min-[900px]:pt-16 pb-0">
           <div className="wrap grid gap-10 min-[900px]:grid-cols-[1.05fr_.95fr] min-[900px]:gap-14 items-start">
 
             <div className="text-center min-[900px]:text-left min-[900px]:pt-6 min-[900px]:pb-28">

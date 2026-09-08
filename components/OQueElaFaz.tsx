@@ -129,7 +129,7 @@ export default function OQueElaFaz() {
   const h = HORARIOS[horario];
 
   return (
-    <section id="recursos" className="vitrine py-24 min-[900px]:py-28">
+    <section id="recursos" className="vitrine textura py-24 min-[900px]:py-28">
       <div className="wrap">
         <h2 className="font-display font-semibold text-[clamp(30px,4.2vw,46px)] leading-[1.15] text-white max-w-[20ch]">
           Um atendente que não dorme, não esquece e não inventa horário.

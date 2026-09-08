@@ -786,3 +786,94 @@
     .onda-passa { animation: none; background: var(--color-signal); }
   }
 }
+
+/* ===================================================================
+   Textura, corpo do celular e navbar — 08/09/2026.
+   "falta textura nas coisas", "o contorno do celular", "a navbar nao foi nem
+   feita" (fundador). As superficies eram cor chapada de ponta a ponta: a luz
+   dava profundidade, mas nenhuma superficie tinha GRAO, e cor lisa em tela
+   grande le como render, nao como material.
+   =================================================================== */
+@layer components {
+
+  /* O grao. Uma textura so', gerada por `feTurbulence` e embutida como data
+     URI: sem requisicao de rede, sem arquivo no repositorio e sem depender de
+     imagem que alguem precise regerar. Vai num `::after` com
+     `pointer-events: none`, entao nao muda layout, nao vira alvo de toque e nao
+     entra em nenhuma conta de contraste — ele fica POR CIMA, como grao de filme
+     fica, e a 4% nao desloca cor a ponto de mudar razao medida.
+
+     `background-size` fixo em 160px faz o grao ter o mesmo tamanho em qualquer
+     seccao; sem isso ele esticaria com a caixa e cada secao teria um grao
+     diferente. */
+  :root {
+    --grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+  .textura { position: relative; }
+  .textura::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: var(--grao);
+    background-size: 160px 160px;
+    opacity: .055;
+  }
+  /* Sem `mix-blend-mode`, e a razao esta' medida: com `overlay` o grao SUMIA
+     sobre o navy — overlay preserva tom escuro, entao ruido cinza medio sobre
+     base escura nao muda quase nada, e a primeira versao desta regra ficou
+     invisivel numa ampliacao de 4x. Composicao normal, com o ruido bem
+     transparente, aparece nos dois lados da pagina.
+
+     No claro ele pesa mais, porque cinza sobre papel escurece mais do que
+     clareia sobre navy. Menos forca para o material ser o mesmo nos dois. */
+  .textura-clara::after { opacity: .03; }
+
+  /* O CORPO do celular. Ele era `--color-ink`, a MESMA cor do fundo do hero:
+     o aparelho nao tinha corpo, e o que se via era so' o halo de luz em volta —
+     era isso o "contorno esquisito". Agora a moldura e' mais escura que o fundo,
+     entao ela existe como objeto, e o anel de luz por cima dela le como reflexo
+     de borda e nao como neon solto.
+
+     `--phone-corpo` vale para a moldura E para o fundo da tela, pela regra que
+     ja' custou quatro voltas aqui: em elemento muito arredondado com recorte, o
+     que estiver ATRAS do canto tem de ter a cor do que estiver FORA dele. */
+  :root { --phone-corpo: #0C1729; }
+  .phone { background: var(--phone-corpo); }
+  .phone-screen { background: var(--phone-corpo); }
+  .hero-escuro .phone {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, .11),
+      0 2px 0 rgba(255, 255, 255, .05) inset,
+      0 40px 90px -24px rgba(0, 0, 0, .78),
+      -30px 30px 90px -40px color-mix(in oklab, var(--color-signal) 70%, transparent);
+  }
+}
+
+@layer components {
+  /* A ABERTURA do celular do hero acontece, em vez de já estar lá.
+
+     Motivo: a primeira tela mostrava três mensagens prontas e o aparelho lia
+     como foto do produto — "o hero ta meio fraco" (fundador, 08/09). O compasso
+     é a mesma técnica do painel de ramos, e pelo mesmo motivo: a `.bubble` já
+     nasce com `bubble-pop`, o que faltava era o intervalo. Desiguais de
+     propósito — ela pergunta, ele leva um tempo para responder, ela responde
+     rápido.
+
+     Só as TRÊS primeiras. O que vem depois de um toque numa sugestão é
+     `nth-child(4)` para frente e entra sem atraso, porque a espera dali em
+     diante já é a do roteiro, em JS (`espera()` em `components/Telefone.tsx`) —
+     somar as duas daria uma conversa lenta.
+
+     Sem JS isto continua funcionando: animação de CSS não depende de script, e
+     as três estão no HTML do export. Com `prefers-reduced-motion` a regra base
+     de `.bubble` já desliga tudo. */
+  .hero-escuro .phone-body > .bubble:nth-child(1) { animation-delay: .25s; }
+  .hero-escuro .phone-body > .bubble:nth-child(2) { animation-delay: .95s; }
+  .hero-escuro .phone-body > .bubble:nth-child(3) { animation-delay: 1.45s; }
+
+  /* As sugestões chegam por último, depois da conversa se fechar: é quando o
+     convite a tocar passa a fazer sentido. Elas não são `.bubble`, então ganham
+     a entrada aqui. */
+  .hero-escuro .sugestoes { animation: bubble-pop .4s ease 2.05s both; opacity: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-escuro .phone-body > .bubble, .hero-escuro .sugestoes { animation: none; opacity: 1; }
+  }
+}

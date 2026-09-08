@@ -160,7 +160,7 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
   const [aberto, setAberto] = useState<string | null>(RAMOS[0].ramo);
 
   return (
-    <section id="segmentos" className="bg-paper py-24 min-[900px]:py-28">
+    <section id="segmentos" className="bg-paper textura textura-clara py-24 min-[900px]:py-28">
       <div className="wrap">
         {/* Título à esquerda e a CENA à direita. A imagem entra aqui e em
             nenhum outro lugar da página: é o único ponto em que a fotografia

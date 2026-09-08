@@ -32,8 +32,13 @@ const LINKS = [
 export default function Fechamento({ zap }: { zap: string }) {
   return (
     <footer className="bg-ink">
-      <div className="fecho-luz">
-        <div className="wrap pt-24 pb-20 min-[900px]:pt-32 min-[900px]:pb-24 text-center">
+      <div className="fecho-luz textura">
+        {/* O ar de BAIXO é menos da metade do de cima, e não por gosto: medido em
+            1280, o vão entre a última linha da chamada e a régua do rodapé era de
+            96px, contra 33px da régua até os links e 56px dos links até o fim da
+            página. O maior vão do rodapé estava separando o que menos precisava
+            ser separado, e era ele que incomodava (achado do fundador). */}
+        <div className="wrap pt-24 pb-14 min-[900px]:pt-32 min-[900px]:pb-16 text-center">
           <h2 className="mx-auto font-display font-semibold text-white text-[clamp(30px,4.4vw,48px)] leading-[1.1] max-w-[18ch]">
             Você acabou de conversar com uma cópia dela.
           </h2>

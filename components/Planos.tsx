@@ -32,7 +32,7 @@ export default function Planos({ zap }: { zap: string }) {
   const zapCombo = 'https://wa.me/5561999643707?text=Quero%20a%20assistente%20com%20site';
 
   return (
-    <section id="planos" className="planos-luz py-24 min-[900px]:py-28">
+    <section id="planos" className="planos-luz textura textura-clara py-24 min-[900px]:py-28">
       <div className="wrap">
         <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[16ch]">
           Duas coisas que fazemos, e o preço das duas é público.
