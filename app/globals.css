@@ -1016,3 +1016,68 @@
     box-shadow: 0 1px 2px rgba(20, 33, 61, .05);
   }
 }
+
+/* ===================================================================
+   /landing-page/ — a página que vende landing page.
+   Uma peça nova, e uma só: a landing page em miniatura do hero. Todo o
+   resto da página reusa o vocabulário que a home já construiu.
+   =================================================================== */
+@layer components {
+
+  /* Um bloco da página em miniatura. Ele é um `<button>` de largura cheia, e
+     essa escolha resolve o alvo de toque sem regra especial: a altura vem do
+     conteúdo (rótulo + título + apoio + botão desenhado), que passa dos 44px
+     por construção, e não de um `min-height` que alguém precisa lembrar de pôr.
+
+     A borda esquerda existe TRANSPARENTE desde o estado apagado, e não só no
+     aceso: se ela nascesse no acender, o conteúdo pularia 3px a cada toque. */
+  .mini-bloco {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    padding: 15px 20px 16px;
+    border-top: 1px solid var(--color-line);
+    border-left: 3px solid transparent;
+    transition: background-color .2s ease, border-left-color .2s ease;
+  }
+  /* O primeiro bloco encosta na barra do site, que já tem fio embaixo. Sem
+     isto são dois fios colados, que é o defeito que qualquer lista com
+     cabeçalho produz. */
+  .mini-bloco:first-of-type { border-top: none; }
+
+  /* A cor do aceso é o próprio `signal` diluído no branco, e não o `paper-2`:
+     o realce precisa dizer QUAL seção está selecionada, e um cinza levemente
+     mais escuro lê como bloco desabilitado. Diluído a 6% ele fica mais claro
+     que o `paper-2`, então o par mais apertado da página (`muted` sobre esta
+     superfície) fica ACIMA dos 4,64:1 que `muted` sobre `paper-2` mede — o
+     par que a `design-site` manda não apertar. */
+  .mini-bloco-acesa {
+    background: color-mix(in oklab, var(--color-signal) 6%, #fff);
+    border-left-color: var(--color-signal);
+  }
+  .mini-bloco:hover:not(.mini-bloco-acesa) {
+    background: color-mix(in oklab, var(--color-signal) 3%, #fff);
+  }
+
+  /* O botão DESENHADO dentro da página do cliente. Inter, nunca monoespaçada:
+     a `design-site` reserva a mono para rótulo e dado curto, e controle é
+     Inter — inclusive controle desenhado. */
+  .mini-zap {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 11px; padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--color-signal); color: #fff;
+    font-size: 11.5px; font-weight: 500; line-height: 1;
+  }
+
+  /* A mensagem chega como mensagem chega: de baixo, uma vez, a cada troca.
+     É resposta a interação, não movimento autoral — o momento autoral desta
+     página é a própria troca, e não uma entrada pendurada em cada seção. */
+  .mini-chega { animation: mini-chega .34s cubic-bezier(.22,.61,.36,1) both; }
+  @keyframes mini-chega {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mini-chega { animation: none; }
+    .mini-bloco { transition: none; }
+  }
+}

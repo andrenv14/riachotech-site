@@ -28,7 +28,14 @@ function Item({ children }: { children: React.ReactNode }) {
 }
 
 export default function Planos({ zap }: { zap: string }) {
-  const zapSite = 'https://wa.me/5561999643707?text=Quero%20um%20or%C3%A7amento%20de%20landing%20page';
+  /* O cartão da landing page manda para a PÁGINA dela, não direto para o
+     WhatsApp, e essa é a única assimetria entre os dois cartões desta seção.
+     Ela é deliberada: a assistente tem a página inteira em volta para explicar
+     o que é, e a landing page tinha só quatro linhas — pedir a conversa ali é
+     pedir decisão antes de haver o que decidir. `/landing-page/` é o argumento
+     que faltava, e o botão do combo continua indo direto porque quem clica nele
+     já leu as duas colunas. */
+  const paginaSite = '/landing-page/';
   const zapCombo = 'https://wa.me/5561999643707?text=Quero%20a%20assistente%20com%20site';
 
   return (
@@ -97,7 +104,7 @@ export default function Planos({ zap }: { zap: string }) {
               <Item>O conteúdo é seu; a escrita e o desenho ficam com a gente</Item>
             </ul>
 
-            <a href={zapSite} className="btn btn-ghost mt-auto self-start">Quero um orçamento</a>
+            <a href={paginaSite} className="btn btn-ghost mt-auto self-start">Ver como funciona</a>
           </div>
         </div>
 

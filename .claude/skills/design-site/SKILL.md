@@ -202,17 +202,22 @@ Cinco dimensões, 0–4, cada nota com a medida ao lado:
   consome o `site.css`, e era ele o último com paleta própria). Todo token do
   `@theme` tem consumidor.
 
-      grep -rnE '#[0-9a-fA-F]{3,6}\b' app/globals.css build/tailwind-input.css \
-        components/*.tsx app/*.tsx *.html \
+      grep -rnE '#[0-9a-fA-F]{3,6}\b' app/ components/ build/tailwind-input.css *.html \
         | grep -viE 'color-|theme-?[Cc]olor|%23|#fff\b|#ffffff\b'
 
-  **Os três primeiros caminhos entraram em 08/09/2026, e a lição é maior que o
-  comando:** a versão anterior varria só `build/tailwind-input.css` e `*.html`,
-  que era onde o site inteiro morava — a home mudou para `app/` e
-  `components/`, o grep continuou devolvendo vazio, e vazio foi lido como
-  aprovação. Rodado no lugar certo ele achou na hora um `--phone-corpo:
-  #0C1729` solto fora do `@theme`. **Comando de auditoria que não acompanha
-  a mudança de lugar do código não reprova nada: ele passa a medir o vazio.**
+  **O comando varre DIRETÓRIO, e não uma lista de globs — a segunda correção
+  da mesma doença, em 08/09/2026.** A primeira versão varria só
+  `build/tailwind-input.css` e `*.html`, que era onde o site inteiro morava; a
+  home mudou para `app/` e `components/`, o grep continuou devolvendo vazio, e
+  vazio foi lido como aprovação. Rodado no lugar certo ele achou na hora um
+  `--phone-corpo: #0C1729` solto fora do `@theme`. A correção daquele dia trocou
+  os caminhos por `components/*.tsx app/*.tsx` — e esses globs **não descem um
+  nível**: quando `app/landing-page/page.tsx` nasceu, a página nova ficou fora da
+  varredura sem nada acusar (medido: `ls app/*.tsx` não a lista). Glob é lista
+  com outro nome, e lista envelhece na primeira pasta nova. Varrer `app/` e
+  `components/` é um CRITÉRIO, e ele continua valendo na próxima subpasta.
+  **Comando de auditoria que não acompanha a mudança de lugar do código não
+  reprova nada: ele passa a medir o vazio.**
 
   Duas exceções, e só elas: o `themeColor` do `<head>` (grafado assim no TSX,
   e `theme-color` no HTML herdado), que é meta e precisa do valor literal, e o
@@ -225,7 +230,7 @@ Cinco dimensões, 0–4, cada nota com a medida ao lado:
   O `\b` no fim do padrão não é enfeite: sem ele, `href="#dados-negocio"` casa
   como se fosse a cor `#dad`.
 - **Integridade** — nenhum utilitário solto contradizendo token:
-  `grep -rn 'text-\[#\|bg-\[#\|\[rgba' components/*.tsx app/*.tsx *.html` vazio.
+  `grep -rn 'text-\[#\|bg-\[#\|\[rgba' app/ components/ *.html` vazio.
   Mesma correção de caminho do item acima, e pelo mesmo motivo.
 
 ## Acabamento (antes de chamar o fundador)

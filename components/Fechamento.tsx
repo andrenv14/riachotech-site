@@ -29,7 +29,23 @@ const LINKS = [
   { href: '/privacidade.html#exclusao', texto: 'Exclusão de dados' },
 ];
 
-export default function Fechamento({ zap }: { zap: string }) {
+/* O TEXTO é parametrizado desde a página `/landing-page/`, e o padrão é o da
+   home. O que NÃO se parametriza é o desenho: uma coluna centrada, luz atrás da
+   última frase, rodapé quieto embaixo. Cada página fecha com o argumento dela,
+   e o objeto continua sendo um só. */
+export default function Fechamento({
+  zap,
+  titulo = 'Você acabou de conversar com uma cópia dela.',
+  texto = 'A de verdade está no WhatsApp agora, no número da Sofia. Manda uma mensagem e veja ela atender você do mesmo jeito que atenderia o seu cliente.',
+  botao = 'Falar no WhatsApp',
+  nota = 'a Sofia responde na hora, a qualquer hora',
+}: {
+  zap: string;
+  titulo?: string;
+  texto?: string;
+  botao?: string;
+  nota?: string;
+}) {
   return (
     <footer className="bg-ink textura fecho-luz">
       <div>
@@ -40,24 +56,22 @@ export default function Fechamento({ zap }: { zap: string }) {
             ser separado, e era ele que incomodava (achado do fundador). */}
         <div className="wrap pt-24 pb-14 min-[900px]:pt-32 min-[900px]:pb-16 text-center">
           <h2 className="mx-auto font-display font-semibold text-white text-[clamp(30px,4.4vw,48px)] leading-[1.1] max-w-[18ch]">
-            Você acabou de conversar com uma cópia dela.
+            {titulo}
           </h2>
           <p className="mx-auto mt-5 text-[17px] leading-[1.6] text-mist max-w-[46ch]">
-            A de verdade está no WhatsApp agora, no número da Sofia. Manda uma
-            mensagem e veja ela atender você do mesmo jeito que atenderia o seu
-            cliente.
+            {texto}
           </p>
 
           <div className="mt-9">
             <a href={zap} className="btn btn-primary text-[16px] px-7 py-[15px]">
-              Falar no WhatsApp
+              {botao}
             </a>
           </div>
 
           <div className="mt-6 font-mono text-[12px] leading-[1.8] text-sky-2">
             +55 61 99964 3707
             <br />
-            a Sofia responde na hora, a qualquer hora
+            {nota}
           </div>
         </div>
       </div>

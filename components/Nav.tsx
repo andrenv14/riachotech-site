@@ -30,14 +30,26 @@ import { useEffect, useState } from 'react';
    rolagem já entrega. O que o celular mantém é o que ele precisa: a marca e,
    depois do hero, a chamada. */
 
-const SECOES = [
+/* As seções da HOME. Elas são o padrão, e não a única lista possível: desde a
+   página `/landing-page/` a barra serve mais de uma página, e cada uma passa as
+   próprias âncoras por `secoes`. Parametrizado em vez de duplicado — a barra
+   tem quatro comportamentos (fio depois do hero, link corrente, botão que
+   entra, alvo de 44px) que nenhuma cópia ia manter em dia. */
+const SECOES_HOME = [
   { id: 'como-funciona', texto: 'Como funciona' },
   { id: 'recursos', texto: 'O que ela faz' },
   { id: 'segmentos', texto: 'Pra quem é' },
   { id: 'planos', texto: 'Planos' },
 ];
 
-export default function Nav({ zap }: { zap: string }) {
+export default function Nav({
+  zap,
+  secoes = SECOES_HOME,
+}: {
+  zap: string;
+  secoes?: { id: string; texto: string }[];
+}) {
+  const SECOES = secoes;
   const [passouDoHero, setPassouDoHero] = useState(false);
   const [atual, setAtual] = useState<string | null>(null);
 
@@ -98,7 +110,13 @@ export default function Nav({ zap }: { zap: string }) {
                 key={s.id}
                 href={`#${s.id}`}
                 aria-current={ativo ? 'true' : undefined}
-                className={`relative inline-flex items-center min-h-[44px] transition-colors ${
+                /* `min-w-[44px]` além do `min-h`: o alvo é uma ÁREA, e a
+                   altura sozinha não o fecha. Passou despercebido enquanto o
+                   link mais curto da barra foi "Planos"; a página
+                   `/landing-page/` trouxe "Preço", que mede 42px de largura e
+                   reprovou em 820 e em 1280. Nos links largos o `min-w` e o
+                   `justify-center` não mudam nada — por isso a home não muda. */
+                className={`relative inline-flex items-center justify-center min-h-[44px] min-w-[44px] transition-colors ${
                   ativo ? 'text-white' : 'text-mist hover:text-white'
                 }`}
               >
