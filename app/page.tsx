@@ -1,5 +1,6 @@
 import Nav from '@/components/Nav';
 import Telefone from '@/components/Telefone';
+import ComoFunciona from '@/components/ComoFunciona';
 
 const ZAP = 'https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia';
 
@@ -59,11 +60,7 @@ export default function Home() {
           <div id="fim-do-hero" aria-hidden="true" className="h-px" />
         </section>
 
-        <section id="como-funciona" className="bg-paper-2 pt-32 pb-24">
-          <div className="wrap">
-            <p className="font-mono text-[12px] text-muted">seção em construção</p>
-          </div>
-        </section>
+        <ComoFunciona />
 
         <section id="planos" className="bg-ink text-mist py-24">
           <div className="wrap">
