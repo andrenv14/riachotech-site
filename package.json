@@ -9,7 +9,8 @@
     "medir": "node build/medir-site.js",
     "tells": "node build/detectar-tells.js",
     "og": "node build/og-image.js",
-    "conferir": "node build/conferir-estaticas.js"
+    "conferir": "node build/conferir-estaticas.js",
+    "servir": "node build/servir-gzip.js ./out 8111"
   },
   "dependencies": {
     "next": "15.5.4",
