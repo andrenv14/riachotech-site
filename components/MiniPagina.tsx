@@ -1,183 +1,149 @@
-'use client';
+/* O ARTEFATO do herói: uma landing page inteira, alta, CORTADA pela borda de
+   baixo do herói.
 
-import { useState } from 'react';
+   Por que ela mudou de forma em 08/09/2026, e o motivo é de conceito, não de
+   acabamento. A versão anterior mostrava uma página BAIXA e chapada, inteira
+   dentro da caixa — e o fundador chamou o herói de fraquíssimo. Ele estava
+   certo pelo motivo mais duro possível: numa página que vende landing page, o
+   herói mostrava uma página PIOR do que aquela em que o leitor já estava. O
+   artefato desmentia a oferta em vez de sustentá-la.
 
-/* O ARTEFATO da página que vende landing page: uma landing page inteira,
-   desenhada como peça clara sobre o navy, com as seções tocáveis.
+   As duas correções, e as duas vêm da `nao-slop`:
 
-   Por que ele é assim, e não outra coisa:
+   - ELA SANGRA. Página cortada pela viewport lê como janela para algo maior;
+     página sentada dentro de uma caixa centralizada lê como ilustração. É a
+     alavanca 2 medida no concorrente, e era a que faltava aqui.
+   - ELA É BONITA POR DENTRO. Hierarquia de verdade — um topo que domina, lista
+     de serviços com PREÇO alinhado à direita, tipo em três escalas. Página de
+     vender não é feita de faixas de peso igual; era isso que fazia a peça ler
+     como formulário.
 
-   - É a peça `.peca` de `app/globals.css`, a mesma da seção "O que ela faz" da
-     home. Objeto claro sobre escuro lê como tela capturada do produto. Nada de
-     desenhar um segundo aparelho: o celular já mora no hero da home, e o mesmo
-     objeto do produto desenhado de dois jeitos lê como duas coisas.
-   - A página aparece INTEIRA, sem corte. Isso não é acaso de layout: o que se
-     vende é uma página só, e mostrar a página só cabendo na peça é o argumento
-     acontecendo em vez de ser afirmado.
-   - Cada bloco é um `<button>` de largura cheia, e é por isso que ele passa nos
-     44px de alvo de toque sem regra especial: quem dá altura é o conteúdo do
-     bloco, não um `min-height` pendurado.
+   O QUE ELA NÃO TEM, e é declarado: foto. As duas fotos do repositório já são
+   usadas na home, e reusar qualquer uma aqui leria como "só temos uma foto". A
+   faixa do topo é o lugar onde a foto do CLIENTE entra — quando houver uma, ela
+   troca o fundo `sand` e nada mais na peça precisa mudar.
 
-   O QUE A INTERAÇÃO MOSTRA é o mecanismo que a casa vende, e só ele: cada seção
-   tem um botão de WhatsApp com o texto já preenchido, e tocar a seção mostra o
-   texto que chega do outro lado. Não existe API, não existe horário livre
-   aparecendo no site, e a peça não sugere que exista — a versão com API está
-   fora da oferta em `docs/contexto/negocio.md` do sofia-bot.
+   ELA NÃO É MAIS INTERATIVA, e isso também é decisão: a conversa que os botões
+   geram ganhou seção própria, onde cabe mostrá-la inteira. Aqui ela seria uma
+   segunda coisa disputando a mesma tela. Sem estado, sem `use client`, sem JS.
 
-   O botão desenhado DENTRO do bloco é parte do desenho da página do cliente,
-   não um controle desta página: quem responde ao toque é o bloco inteiro, que o
-   contém. Assim não há affordance que não faz nada.
-
-   Sem JS a peça continua inteira e legível, com a primeira seção acesa e a
-   mensagem dela à mostra: o que se perde é a troca, não o conteúdo. */
-
-/* O negócio é inventado, e é preciso que seja: nome de cliente, telefone de
+   O negócio é inventado, e é preciso que seja: nome de cliente, telefone de
    cliente e captura de conversa real não entram no site. Mesmo critério da
    "Camila Nunes" e do "Bruno" da home. */
-const SECOES = [
-  {
-    id: 'topo',
-    rotulo: 'topo',
-    titulo: 'Cabelo bom, hora marcada.',
-    apoio: 'Corte, coloração e escova no Sudoeste.',
-    botao: 'Marcar horário',
-    mensagem: 'Oi! Vim pelo site. Queria marcar um horário.',
-  },
-  {
-    id: 'servicos',
-    rotulo: 'serviços',
-    titulo: 'O que a gente faz',
-    apoio: 'Corte · Coloração · Escova · Hidratação',
-    botao: 'Perguntar sobre coloração',
-    mensagem: 'Oi! Vim pelo site. Queria saber sobre coloração.',
-  },
-  {
-    id: 'horarios',
-    rotulo: 'horários',
-    titulo: 'Quando a gente abre',
-    apoio: 'Terça a sábado, das 9h às 19h.',
-    botao: 'Ver se tem sábado',
-    mensagem: 'Oi! Vim pelo site. Vocês têm horário no sábado?',
-  },
+
+const SERVICOS = [
+  { nome: 'Corte', preco: 'R$ 60' },
+  { nome: 'Coloração', preco: 'R$ 180' },
+  { nome: 'Escova', preco: 'R$ 45' },
+  { nome: 'Hidratação', preco: 'R$ 70' },
 ];
 
-export default function MiniPagina() {
-  const [ativa, setAtiva] = useState(0);
-  const secao = SECOES[ativa];
-
+function Zap({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full max-w-[420px] mx-auto min-[900px]:mx-0">
+    <span className="mini-zap">
+      <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true" fill="currentColor">
+        <path d="M8 0a8 8 0 00-6.9 12L0 16l4.1-1.1A8 8 0 108 0zm4.6 11.3c-.2.5-1 1-1.4 1-.4.1-.8.1-1.3-.1a11 11 0 01-4.8-4.2c-.4-.6-.6-1.2-.6-1.8 0-.6.3-1 .5-1.2.2-.2.4-.3.6-.3h.4c.1 0 .3 0 .5.4l.6 1.5c0 .1.1.3 0 .4l-.3.4-.2.3c-.1.1-.2.2 0 .4a7.4 7.4 0 003.2 2.6c.2.1.3.1.4 0l.7-.8c.1-.2.3-.1.4-.1l1.4.7c.2.1.3.2.4.3v.6z" />
+      </svg>
+      {children}
+    </span>
+  );
+}
 
-      {/* A PÁGINA. `overflow-hidden` fica de fora de propósito: quem arredonda
-          é o filho, com o próprio raio. Recorte no pai deixa um fio da cor do
-          pai entre o filho de canto reto e a borda — a família de defeito que
-          já custou quatro voltas no celular da home. */}
-      <div className="peca">
+function Secao({ rotulo, children }: { rotulo: string; children: React.ReactNode }) {
+  return (
+    <div className="px-6 py-7 border-t border-[color:var(--color-line)]">
+      <div className="font-mono text-[9.5px] uppercase tracking-[.13em] text-muted">{rotulo}</div>
+      {children}
+    </div>
+  );
+}
 
-        {/* A barra do site do cliente. Ela não é tocável: é moldura, e marcar
-            como controle o que não responde é a affordance falsa que esta peça
-            existe para não ter. */}
-        <div className="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-[color:var(--color-line)]">
-          <div className="font-display text-[15px] text-ink leading-none">Salão Aurora</div>
-          <div className="font-mono text-[9.5px] uppercase tracking-[.12em] text-muted">sudoeste</div>
+export default function MiniPagina() {
+  return (
+    /* `aria-hidden`: a peça é a FIGURA de uma página, não uma página. Para quem
+       usa leitor de tela, ouvir "Salão Aurora · Corte R$ 60" no meio do herói de
+       outra empresa é ruído que promete um negócio que não existe. O que ela
+       ilustra está dito em texto no herói e na seção das mensagens. */
+    <div className="peca w-full max-w-[420px] overflow-hidden" aria-hidden="true">
+
+      <div className="flex items-center justify-between gap-3 px-6 py-4">
+        <div className="font-display text-[17px] text-ink leading-none">Salão Aurora</div>
+        <div className="font-mono text-[9.5px] uppercase tracking-[.12em] text-muted">sudoeste</div>
+      </div>
+
+      {/* A FOTO do negócio, na faixa larga logo abaixo do nome. Ela NÃO leva
+          texto por cima, e isso foi decisão de desenho: texto sobre foto exige
+          véu escuro para passar nos 4,5:1, e o véu mudaria o clima da peça
+          inteira. Com o título por baixo, o contraste continua sendo o do texto
+          sobre `sand`, que já está medido.
+
+          `width` e `height` declarados porque a `design-site` exige e porque é
+          o que segura o CLS em zero — e ele está em zero. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/salao-cadeira-840.webp"
+        alt=""
+        width={840}
+        height={360}
+        className="block w-full h-auto"
+      />
+
+      {/* O TOPO da página do cliente, e é ele que domina. */}
+      <div className="mini-topo px-6 pt-7 pb-9">
+        <div className="font-display text-[32px] leading-[1.08] text-ink max-w-[11ch]">
+          Cabelo bom, hora marcada.
         </div>
+        {/* `div`, e não `<p>`: o texto DENTRO da peça é legenda de figura, e o
+            chão de 16px do projeto vale para corpo de leitura — `<p>` e `<li>`.
+            A home resolve o mesmo caso do mesmo jeito, e por isso as falas do
+            celular dela são span, nunca parágrafo. Marcar figura como parágrafo
+            é que era o erro, não o tamanho. */}
+        <div className="mt-3 text-[14px] leading-[1.45] text-ink/75 max-w-[26ch]">
+          Corte, coloração e escova no Sudoeste, com hora marcada de verdade.
+        </div>
+        <Zap>Marcar horário</Zap>
+      </div>
 
-        {SECOES.map((s, i) => {
-          const acesa = i === ativa;
-          return (
-            <button
-              key={s.id}
-              type="button"
-              aria-pressed={acesa}
-              onClick={() => setAtiva(i)}
-              className={`mini-bloco ${i === 0 ? 'mini-bloco-topo' : ''} ${
-                acesa ? 'mini-bloco-acesa' : ''
-              }`}
+      <Secao rotulo="serviços">
+        {/* PREÇO alinhado à direita, com fio entre as linhas: é o que uma página
+            de negócio de verdade tem, e é o que dá à peça a tensão de escala que
+            faltava — nome em Inter, valor em display. */}
+        <ul className="mt-4">
+          {SERVICOS.map((s) => (
+            <li
+              key={s.nome}
+              className="flex items-baseline justify-between gap-4 py-2.5 border-b border-[color:var(--color-line)] last:border-b-0"
             >
-              {/* O rótulo mono existe nas SEÇÕES, e não no topo. "SERVIÇOS" e
-                  "HORÁRIOS" são coisas que uma página de verdade escreve; "TOPO"
-                  não é — era anotação minha sobre a peça, e uma página anotada
-                  lê como diagrama de página, não como página. Foi o defeito que
-                  o fundador chamou de "herói fraquíssimo", junto com o topo ter
-                  a mesma altura das outras faixas. */}
-              {i > 0 && (
-                <span className="font-mono text-[9.5px] uppercase tracking-[.13em] text-muted">
-                  {s.rotulo}
-                </span>
-              )}
+              <span className="text-[15px] text-ink">{s.nome}</span>
+              <span className="font-display text-[16px] text-ink">{s.preco}</span>
+            </li>
+          ))}
+        </ul>
+        <Zap>Perguntar sobre coloração</Zap>
+      </Secao>
 
-              {/* A ESCALA DENTRO DA PEÇA, e ela é o que fazia a peça inteira
-                  ler como formulário em vez de página: os três blocos tinham
-                  título quase do mesmo tamanho, e página de verdade tem um topo
-                  que domina. O topo vai a 27px contra os 16px das seções, que é
-                  a mesma tensão de escala que a seção de preço da home usa. */}
-              <span
-                className={`block font-display leading-[1.1] text-ink ${
-                  i === 0 ? 'text-[30px] max-w-[12ch]' : 'mt-1.5 text-[16px]'
-                }`}
-              >
-                {s.titulo}
-              </span>
-
-              {/* Sobre o `sand` a linha de apoio NÃO usa `muted`: medido,
-                  `muted` sobre a faixa quente dá 4,18:1, abaixo dos 4,5 que o
-                  chão exige. A `design-site` já avisa que `muted` sobre
-                  `paper-2` é o par mais apertado do site, com 4,64 — sobre
-                  `sand` ele fica pior ainda. Nas faixas brancas `muted` continua
-                  valendo, e ali ele passa com folga. */}
-              <span
-                className={`block leading-[1.45] ${
-                  i === 0 ? 'mt-2.5 text-[14px] text-ink/75' : 'mt-1 text-[13px] text-muted'
-                }`}
-              >
-                {s.apoio}
-              </span>
-
-              {/* O botão da página do CLIENTE. É desenho — quem escuta o toque
-                  é o bloco em volta —, então ele não é um `<button>` aninhado,
-                  que seria HTML inválido e um alvo que engole o clique do pai. */}
-              <span className="mini-zap">
-                <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true" fill="currentColor">
-                  <path d="M8 0a8 8 0 00-6.9 12L0 16l4.1-1.1A8 8 0 108 0zm4.6 11.3c-.2.5-1 1-1.4 1-.4.1-.8.1-1.3-.1a11 11 0 01-4.8-4.2c-.4-.6-.6-1.2-.6-1.8 0-.6.3-1 .5-1.2.2-.2.4-.3.6-.3h.4c.1 0 .3 0 .5.4l.6 1.5c0 .1.1.3 0 .4l-.3.4-.2.3c-.1.1-.2.2 0 .4a7.4 7.4 0 003.2 2.6c.2.1.3.1.4 0l.7-.8c.1-.2.3-.1.4-.1l1.4.7c.2.1.3.2.4.3v.6z" />
-                </svg>
-                {s.botao}
-              </span>
-            </button>
-          );
-        })}
-
-        {/* Rodapé do site do cliente: fecha a página para o olho entender que
-            ela ACABOU ali, que é o que "uma página só" quer dizer.
-
-            CURTO e à DIREITA porque o painel de mensagem sobe por cima do canto
-            inferior ESQUERDO da peça. Com o texto longo à esquerda, o painel
-            cortava a linha no meio de uma palavra — e palavra cortada ao meio lê
-            como defeito de recorte, não como um objeto na frente do outro. */}
-        <div className="px-5 py-3 border-t border-[color:var(--color-line)] text-right font-mono text-[9.5px] uppercase tracking-[.12em] text-muted">
-          instagram · como chegar
+      <Secao rotulo="horários">
+        <div className="mt-3 font-display text-[19px] leading-[1.25] text-ink">
+          Terça a sábado, das 9h às 19h
         </div>
-      </div>
-
-      {/* A MENSAGEM que aquele botão manda. Peça própria, e no PC ela SOBE por
-          cima do pé da página e escapa para a esquerda: é o outro lado do mesmo
-          mecanismo, e objeto que se sobrepõe lê como estando mais perto — a
-          profundidade que a `nao-slop` mede como a alavanca mais forte.
-
-          O deslocamento também conserta um vão medido: com a peça sentada
-          embaixo da página, sobrava um quarto de tela vazio à esquerda dela, no
-          canto do herói. `z-10` porque sem ele a sobreposição fica por baixo e
-          o efeito se inverte. */}
-      <div className="peca relative z-10 mt-5 min-[900px]:-mt-12 min-[900px]:-ml-28 max-w-[330px] p-4">
-        <div className="font-mono text-[9.5px] uppercase tracking-[.13em] text-muted">
-          chega assim no seu whatsapp
+        <div className="mt-2 text-[14px] leading-[1.45] text-muted">
+          Domingo e segunda a gente descansa.
         </div>
-        {/* `key` na bolha: sem ele o React reaproveita o nó e o texto troca sem
-            que a animação de entrada rode. Com ele, cada mensagem é um elemento
-            novo e a chegada se vê. */}
-        <div key={secao.id} className="mt-2.5 flex justify-end">
-          <span className="fala-peca fala-peca-cliente mini-chega">{secao.mensagem}</span>
+        <Zap>Ver se tem sábado</Zap>
+      </Secao>
+
+      {/* A última seção existe para ser CORTADA: é ela que diz que a página
+          continua abaixo da dobra. Se um dia a peça deixar de sangrar, esta
+          seção precisa ganhar fim — meia seção visível dentro de uma caixa
+          fechada lê como defeito, não como corte. */}
+      <Secao rotulo="onde fica">
+        <div className="mt-3 font-display text-[19px] leading-[1.25] text-ink">
+          Quadra comercial, Sudoeste
         </div>
-      </div>
+        <div className="mt-2 text-[14px] leading-[1.45] text-muted">
+          Estacionamento na porta, e dá pra ir a pé das quadras vizinhas.
+        </div>
+      </Secao>
     </div>
   );
 }

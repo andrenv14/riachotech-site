@@ -1019,98 +1019,39 @@
 
 /* ===================================================================
    /landing-page/ — a página que vende landing page.
-   Uma peça nova, e uma só: a landing page em miniatura do hero. Todo o
-   resto da página reusa o vocabulário que a home já construiu.
+   Duas classes, e só. Todo o resto da página reusa o vocabulário que a home
+   construiu.
    =================================================================== */
 @layer components {
 
-  /* Um bloco da página em miniatura. Ele é um `<button>` de largura cheia, e
-     essa escolha resolve o alvo de toque sem regra especial: a altura vem do
-     conteúdo (rótulo + título + apoio + botão desenhado), que passa dos 44px
-     por construção, e não de um `min-height` que alguém precisa lembrar de pôr.
+  /* O TOPO da página em miniatura do herói é o HERÓI DELA. Foi o defeito que
+     fazia a peça inteira ler como formulário: faixas de peso idêntico separadas
+     por fio, sem nada dominando — que é a descrição de um formulário, não a de
+     uma landing page.
 
-     A borda esquerda existe TRANSPARENTE desde o estado apagado, e não só no
-     aceso: se ela nascesse no acender, o conteúdo pularia 3px a cada toque. */
-  .mini-bloco {
-    display: block; width: 100%; text-align: left; cursor: pointer;
-    padding: 15px 20px 16px;
-    border-top: 1px solid var(--color-line);
-    border-left: 3px solid transparent;
-    transition: background-color .2s ease, border-left-color .2s ease;
-  }
-  /* O primeiro bloco encosta na barra do site, que já tem fio embaixo. Sem
-     isto são dois fios colados, que é o defeito que qualquer lista com
-     cabeçalho produz. */
-  .mini-bloco:first-of-type { border-top: none; }
+     A cor é o `sand`, o mesmo da tela do celular da home: já é da paleta, é
+     quente contra o branco das seções de baixo, e por não ser `signal` nem
+     `ink` ela não faz a página do CLIENTE parecer uma página da Riacho.
 
-  /* A cor do aceso é o próprio `signal` diluído no branco, e não o `paper-2`:
-     o realce precisa dizer QUAL seção está selecionada, e um cinza levemente
-     mais escuro lê como bloco desabilitado. Diluído a 6% ele fica mais claro
-     que o `paper-2`, então o par mais apertado da página (`muted` sobre esta
-     superfície) fica ACIMA dos 4,64:1 que `muted` sobre `paper-2` mede — o
-     par que a `design-site` manda não apertar. */
-  .mini-bloco-acesa {
-    background: color-mix(in oklab, var(--color-signal) 6%, #fff);
-    border-left-color: var(--color-signal);
-  }
-  .mini-bloco:hover:not(.mini-bloco-acesa) {
-    background: color-mix(in oklab, var(--color-signal) 3%, #fff);
-  }
+     É também o SLOT DA FOTO: no dia em que houver uma foto do cliente, ela
+     entra aqui no lugar do fundo e nada mais na peça precisa mudar.
+
+     Cuidado registrado, medido em 08/09/2026: realce que compõe sobre um fundo
+     QUENTE entra muito mais fraco do que sobre branco. Quando esta faixa ainda
+     era selecionável, o realce de seleção misturava 9% de `signal` (azul) nela
+     e o resultado era cinza NEUTRO — `oklab(0.879 -0.0015 0.0020)`, com a e b
+     em zero, sendo o token `#e8e4dc`. A faixa que devia ser a mais quente da
+     peça era a única cinza dela. */
+  .mini-topo { background: var(--color-sand); }
 
   /* O botão DESENHADO dentro da página do cliente. Inter, nunca monoespaçada:
      a `design-site` reserva a mono para rótulo e dado curto, e controle é
      Inter — inclusive controle desenhado. */
   .mini-zap {
     display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 11px; padding: 7px 12px;
+    margin-top: 16px; padding: 8px 13px;
     border-radius: 999px;
     background: var(--color-signal); color: #fff;
-    font-size: 11.5px; font-weight: 500; line-height: 1;
-  }
-
-  /* A mensagem chega como mensagem chega: de baixo, uma vez, a cada troca.
-     É resposta a interação, não movimento autoral — o momento autoral desta
-     página é a própria troca, e não uma entrada pendurada em cada seção. */
-  .mini-chega { animation: mini-chega .34s cubic-bezier(.22,.61,.36,1) both; }
-  @keyframes mini-chega {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .mini-chega { animation: none; }
-    .mini-bloco { transition: none; }
-  }
-}
-
-@layer components {
-  /* O TOPO da página em miniatura é o HERÓI dela, e não mais um bloco igual aos
-     outros. Foi o defeito que fez a peça inteira ler como formulário: três
-     faixas brancas de peso idêntico, separadas por fio, sem nada dominando —
-     que é a descrição de um formulário, não a de uma landing page.
-
-     A cor é o `sand`, o mesmo da tela do celular da home: já é da paleta, é
-     quente contra o branco das seções de baixo, e por não ser `signal` nem
-     `ink` ela não faz a página do CLIENTE parecer uma página da Riacho. */
-  .mini-bloco-topo {
-    /* O topo é MAIS ALTO que as seções de baixo, e a diferença tem de se ver:
-       faixa de mesma altura que as vizinhas não é herói, é linha de lista. */
-    background: var(--color-sand);
-    padding: 30px 20px 32px;
-  }
-
-  /* O aceso compõe com o fundo de cada bloco em vez de sobrescrevê-lo, e sobre
-     o `sand` ele entra MUITO mais fraco que sobre o branco. Não é ajuste de
-     gosto: `signal` é azul e `sand` é quente, e 9% de azul sobre bege dá cinza
-     NEUTRO. Como o topo nasce selecionado, era esse o estado que aparecia — a
-     faixa que devia ser a mais quente da peça era a única cinza dela, e foi
-     medido pelo computado, `oklab(0.879 -0.0015 0.0020)`, com a e b em zero.
-
-     A 3% a marca de seleção existe sem desmontar a cor, e quem carrega o estado
-     é a barra de acento à esquerda, que vale igual nas duas famílias de bloco. */
-  .mini-bloco-topo.mini-bloco-acesa {
-    background: color-mix(in oklab, var(--color-signal) 3%, var(--color-sand));
-  }
-  .mini-bloco-topo:hover:not(.mini-bloco-acesa) {
-    background: color-mix(in oklab, var(--color-signal) 1.5%, var(--color-sand));
+    font-size: 12px; font-weight: 500; line-height: 1;
   }
 }

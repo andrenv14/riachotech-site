@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Nav from '@/components/Nav';
 import Fechamento from '@/components/Fechamento';
 import MiniPagina from '@/components/MiniPagina';
+import AsMensagens from '@/components/AsMensagens';
 
 /* A página que vende LANDING PAGE, e a decisão do fundador é que ela precisa
    SER a amostra do serviço que vende: se não for a melhor página do site, ela
@@ -58,24 +59,10 @@ export const metadata: Metadata = {
 };
 
 const SECOES_NAV = [
-  { id: 'amostra', texto: 'A amostra' },
+  { id: 'mensagens', texto: 'As mensagens' },
   { id: 'pra-quem', texto: 'Pra quem é' },
   { id: 'escopo', texto: 'O que entra' },
   { id: 'preco', texto: 'Preço' },
-];
-
-/* As conferências que a página passa antes de subir. São PROPRIEDADES, não
-   contagens: "sem rolagem lateral em celular, tablet e PC" continua verdadeiro
-   quando entrar uma quarta largura, e "quatro larguras" não continuaria. Cada
-   uma corresponde a uma medida real de `build/medir-site.js` e do portão de
-   `build/conferir-estaticas.js`, e nenhuma delas afirma nota de ferramenta —
-   nota muda sozinha, propriedade não. */
-const CONFERIDO = [
-  'Abre rápido, mesmo com internet ruim',
-  'No celular funciona igual ao computador',
-  'Letra grande o bastante pra ler sem apertar o olho',
-  'Botão que o dedo acerta de primeira',
-  'Nada dança na tela enquanto carrega',
 ];
 
 const PRA_QUEM = [
@@ -125,9 +112,14 @@ export default function LandingPage() {
       <main>
         {/* HERÓI. Mesma família da home — navy, textura, a luz que deriva —
             porque é a mesma casa; o que muda é o objeto no centro. */}
-        <section className="hero-escuro textura relative pt-6 pb-20 min-[900px]:pt-16 min-[900px]:pb-24">
+        {/* `overflow-hidden` é o que RECORTA a peça na borda de baixo, e é o
+            herói inteiro que faz o corte — não uma caixa em volta dela. Sem
+            isso a peça esticaria a seção e voltaria a caber dentro dela, que
+            era exatamente o defeito. A luz do herói já mora em caixa recortada
+            própria, então ela não é afetada. */}
+        <section className="hero-escuro textura relative overflow-hidden pt-6 pb-0 min-[900px]:pt-16 min-[900px]:pb-24">
           <div className="luz-hero" aria-hidden="true" />
-          <div className="wrap grid gap-12 min-[900px]:grid-cols-[1.12fr_.88fr] min-[900px]:gap-14 items-start">
+          <div className="wrap relative grid gap-12 min-[900px]:grid-cols-[1.12fr_.88fr] min-[900px]:gap-14 items-start">
 
             <div className="text-center min-[900px]:text-left min-[900px]:pt-6">
               {/* Sem rótulo acima do H1: é o hero padrão de SaaS de IA, e a
@@ -150,9 +142,14 @@ export default function LandingPage() {
                 botão que abre a conversa.
               </p>
 
-              {/* UMA chamada na primeira tela, e no PC ela vem antes da peça:
-                  o botão do topo só aparece depois que esta sai de vista. */}
-              <div className="mt-8 hidden min-[900px]:block">
+              {/* UMA chamada na primeira tela, em TODAS as larguras. No
+                  celular ela subiu para cá: enquanto a peça respondia ao toque,
+                  valia a regra da home — ver a coisa funcionar antes de pedir o
+                  clique. A peça agora é figura, não demonstração, então segurar
+                  a chamada atrás dela só empurrava o botão para fora da tela. E
+                  é isso que libera a peça para ser a última coisa do herói, que
+                  é o que faz ela sangrar também no celular. */}
+              <div className="mt-8">
                 <a href={ZAP} className="btn btn-primary text-[16px] px-7 py-[15px]">
                   Quero um orçamento
                 </a>
@@ -163,64 +160,29 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="relative z-10 flex justify-center min-[900px]:justify-end">
-              {/* `w-full max-w-[420px]` AQUI, e não só dentro da peça: item de
-                  container flex encolhe para o conteúdo, então o `w-full` da
-                  peça passava a valer sobre uma caixa do tamanho do painel de
-                  mensagem — a página em miniatura saía com 330px em vez dos 420
-                  do desenho, nas três larguras. */}
-              <div className="w-full max-w-[420px]">
+            {/* NO PC a peça é ABSOLUTA: assim ela não entra na conta da altura
+                da seção, e é a coluna da esquerda que decide onde o herói
+                termina. É isso que garante o corte — com a peça no fluxo, a
+                seção crescia até caber nela e o sangramento não acontecia.
+
+                No CELULAR ela volta ao fluxo e é recortada por altura máxima,
+                porque ali não há coluna ao lado para dar altura à seção. O
+                gesto é o mesmo nas duas larguras: a página continua abaixo. */}
+            <div className="relative z-10 min-[900px]:static">
+              {/* O CORTE do celular termina RENTE à borda de baixo do herói —
+                  daí o `pb-0` na seção. Com respiro embaixo, o mesmo recorte lia
+                  como "o cartão acabou aqui"; encostado na virada de cor, lê
+                  como a página seguindo por baixo da dobra, que é o que ele quer
+                  dizer e o que o PC já dizia. */}
+              <div className="flex justify-center max-h-[400px] overflow-hidden min-[900px]:max-h-none min-[900px]:overflow-visible min-[900px]:absolute min-[900px]:top-8 min-[900px]:right-0 min-[900px]:w-[420px] min-[900px]:justify-end">
                 <MiniPagina />
-                {/* No celular a chamada vem DEPOIS da peça, pela mesma razão da
-                    home: ver a coisa funcionar é o argumento, e pedir o clique
-                    antes de mostrar é pedir fé. */}
-                <div className="mt-8 flex justify-center min-[900px]:hidden">
-                  <a href={ZAP} className="btn btn-primary text-[16px] px-7 py-[15px]">
-                    Quero um orçamento
-                  </a>
-                </div>
               </div>
             </div>
           </div>
           <div id="fim-do-hero" aria-hidden="true" className="h-px" />
         </section>
 
-        {/* A AMOSTRA. É a seção que só existe porque a página cumpre o chão —
-            e é o argumento mais honesto que esta oferta tem, porque o leitor
-            pode conferir sozinho, agora, sem acreditar em nada. */}
-        <section id="amostra" className="bg-paper-2 textura textura-clara py-24 min-[900px]:py-28">
-          <div className="wrap grid gap-10 min-[900px]:grid-cols-[1fr_.85fr] min-[900px]:gap-16 items-start">
-            <div>
-              <h2 className="font-display font-semibold text-ink text-[clamp(30px,4.2vw,46px)] leading-[1.08] max-w-[15ch]">
-                A amostra é esta página.
-              </h2>
-              <p className="mt-5 text-[17px] leading-[1.6] text-muted max-w-[50ch]">
-                Você já está dentro dela. A sua sai do mesmo trabalho, e dá pra
-                conferir agora: diminua a janela, abra no celular, aumente a
-                letra. Nada quebra.
-              </p>
-              <p className="mt-4 text-[17px] leading-[1.6] text-muted max-w-[50ch]">
-                Isso não é capricho. Página que quebra no celular perde
-                justamente quem chegou pelo Instagram, que é de onde vem quase
-                todo mundo.
-              </p>
-            </div>
-
-            <div className="peca-clara p-7 min-[900px]:p-8">
-              <div className="font-mono text-[11px] uppercase tracking-[.13em] text-muted">
-                conferido antes de subir
-              </div>
-              <p className="mt-4 text-[16px] leading-[1.55] text-muted">
-                Em celular, tablet e computador, um por um.
-              </p>
-              <ul className="mt-5">
-                {CONFERIDO.map((c) => (
-                  <Marcado key={c}>{c}</Marcado>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
+        <AsMensagens />
 
         {/* PRA QUEM É. Sem cartão e sem ícone: são três situações, separadas
             por fio, e o que carrega cada uma é a frase — não uma caixa. */}
