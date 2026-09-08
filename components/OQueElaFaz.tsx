@@ -47,10 +47,15 @@ function Bloco({
   return (
     <div className={`${span} row-span-3 grid grid-rows-subgrid border-t border-white/12 pt-6`}>
       <div className="font-mono text-[11px] uppercase tracking-[.13em] text-sky">{rotulo}</div>
-      <div>{children}</div>
+      {/* `self-end`: a faixa da peca mede pela peca mais alta, e sem isto a
+          sobra caia ENTRE a peca e o titulo — medido em 1280, o vao ia de 28px
+          no catalogo a 146px no lembrete, e a linha de titulos parecia solta.
+          Ancorada no pe, a distancia peca->titulo e' a mesma nos cinco blocos e
+          a sobra sai para cima, sob o rotulo, onde le como respiro. */}
+      <div className="self-end">{children}</div>
       <div>
         <h3 className="font-display text-[21px] leading-[1.25] text-white max-w-[26ch]">{titulo}</h3>
-        <p className="mt-2.5 text-[16px] leading-[1.55] text-mist max-w-[42ch]">{legenda}</p>
+        <p className="mt-3.5 text-[16px] leading-[1.55] text-mist max-w-[42ch]">{legenda}</p>
       </div>
     </div>
   );
@@ -75,8 +80,8 @@ export default function OQueElaFaz() {
             rotulo="agenda"
             titulo="Olha a sua agenda no instante da pergunta"
             legenda="Marca, cancela e remarca no seu Google Agenda, e oferece dois ou três
-              horários livres em vez de despejar a grade inteira. Se o negócio tem várias
-              pessoas atendendo, cada uma tem a própria agenda e a própria duração."
+              horários livres em vez da grade inteira. Cada pessoa que atende tem a própria
+              agenda e a própria duração."
           >
             {/* O ARTEFATO que faltava, e o bloco maior estava sem nenhum: o
                 evento como ele nasce no Google Agenda. A barra de cor à
@@ -125,24 +130,44 @@ export default function OQueElaFaz() {
             span="min-[820px]:col-span-4"
             rotulo="lembrete"
             titulo="Avisa antes da hora, sozinha"
-            legenda="Mensagem de utilidade pela API oficial, com o texto aprovado pela Meta."
+            legenda="Um aviso no dia anterior e outro uma hora antes, os dois por mensagem
+              de utilidade da API oficial, com o texto aprovado pela Meta."
           >
             {/* Era uma bolha de conversa; virou o AVISO como o cliente o vê
                 chegar. O único movimento desta seção está aqui, e ele significa
                 alguma coisa: um lembrete CHEGA. Sem JS, nasce visível.
 
-                16:30, e não 08:00 como antes: o lembrete de 24 h sai 24 h antes,
-                e o evento acima é às 16:30. A hora antiga contradizia a
+                São DOIS avisos porque são dois lembretes: o de 24 h e o de 1 h,
+                que entrou em produção em 08/09. Mostrar só um dizia menos do que
+                o produto faz — e, de quebra, deixava esta peça baixa demais ao
+                lado das duas vizinhas da mesma faixa.
+
+                As horas saem do evento da peça de agenda, que é às 16:30 de
+                quinta: o de 24 h sai na quarta no mesmo horário, o de 1 h sai
+                às 15:30 de quinta. A hora antiga (08:00) contradizia a
                 antecedência do próprio produto na mesma tela. */}
-            <AoEntrar><div className="chega peca px-4 py-3.5">
-              <div className="flex items-baseline justify-between gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-[.09em] text-muted">
-                  modelo de utilidade
-                </span>
-                <span className="font-mono text-[11px] text-muted">16:30</span>
+            <AoEntrar><div className="chega flex flex-col gap-2.5">
+              <div className="peca px-4 py-3.5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[.09em] text-muted">
+                    24 h antes
+                  </span>
+                  <span className="font-mono text-[11px] text-muted">qua · 16:30</span>
+                </div>
+                <div className="mt-2 text-[14px] leading-[1.45] text-ink">
+                  Oi, Camila! Passando pra lembrar da sua consulta amanhã às 16h30.
+                </div>
               </div>
-              <div className="mt-2 text-[14px] leading-[1.45] text-ink">
-                Oi, Camila! Passando pra lembrar da sua consulta amanhã às 16h30.
+              <div className="peca px-4 py-3.5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[.09em] text-muted">
+                    1 h antes
+                  </span>
+                  <span className="font-mono text-[11px] text-muted">qui · 15:30</span>
+                </div>
+                <div className="mt-2 text-[14px] leading-[1.45] text-ink">
+                  Camila, sua consulta é daqui a uma hora, às 16h30. Até já!
+                </div>
               </div>
             </div></AoEntrar>
           </Bloco>
