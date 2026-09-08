@@ -577,3 +577,86 @@
 
   @media (prefers-reduced-motion: reduce) { .phone-body { scroll-behavior: auto; } }
 }
+
+/* ===================================================================
+   "O que ela faz" e o fechamento — passada de design de 08/09/2026.
+   =================================================================== */
+@layer components {
+
+  /* PROFUNDIDADE. A seção era navy chapado, e fundo liso é a primeira causa
+     de página morta na `nao-slop` (alavanca 1, medida no concorrente). A luz é
+     da MESMA família do hero — mesmos tokens, mesma técnica —, mas nasce à
+     esquerda e embaixo, para as duas telas escuras não serem a mesma tela.
+     Fica atrás do conteúdo por `z-index: -1` sobre `isolation: isolate`, como
+     em `.hero-escuro`. */
+  .vitrine { position: relative; isolation: isolate; background: var(--color-ink); }
+  .vitrine::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(44% 38% at 10% 18%, color-mix(in oklab, var(--color-signal) 30%, transparent), transparent 70%),
+      radial-gradient(54% 46% at 94% 84%, color-mix(in oklab, var(--color-sky) 11%, transparent), transparent 74%);
+  }
+
+  /* A PEÇA — o artefato daquela capacidade, e a decisão central desta passada.
+     Ele é um objeto CLARO sobre o navy, não uma caixa de `white/8`: superfície
+     clara sobre escuro lê como coisa capturada da tela do produto, e a caixa
+     translúcida lia como div. É o mesmo argumento do celular do hero, sem
+     desenhar um segundo aparelho — que seria repetir a `PraQuemE`, onde a
+     conversa por ramo já mora.
+
+     SEM `overflow: hidden`: quem arredonda é o filho, com o próprio raio. O
+     recorte no pai é a família de defeito que já custou quatro voltas no
+     celular — no canto sobra um fio da cor do PAI entre o filho de canto reto
+     e a borda arredondada. Sem recorte não há fio. */
+  .peca {
+    background: #fff;
+    border-radius: var(--radius-card);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, .10),
+      0 18px 40px -20px rgba(0, 0, 0, .75);
+  }
+
+  /* Foto do catálogo: raio só em cima, e o valor é o do pai — ela encosta na
+     borda, então não há padding para descontar. Embaixo ela encosta no texto,
+     que é reto. */
+  .peca-foto { border-radius: var(--radius-card) var(--radius-card) 0 0; }
+
+  /* Bolha dentro da peça. Menor que a `.bubble` do celular de propósito: aqui
+     ela é ilustração de um mecanismo, não conversa que se lê. */
+  /* 82%, e nao 92%: a 92% a bolha encostava nos dois cantos internos da peca e
+     o `detectar-tells` acusava raio nao concentrico — pai de raio 14 com 14 de
+     padding pede filho de raio 0, e o filho tinha 11. O detector estava certo
+     pelo motivo certo: bolha que enche a caixa nao le como bolha, le como
+     campo de texto. Com a folga, a curva do filho para de disputar com a do
+     pai e a peca volta a parecer conversa. */
+  .fala-peca {
+    max-width: 82%; padding: 8px 11px; border-radius: 11px;
+    font-size: 13px; line-height: 1.42;
+  }
+  .fala-peca-sofia { background: var(--color-signal); color: #fff; border-bottom-left-radius: 3px; }
+  .fala-peca-dono  { background: var(--color-paper-2); color: var(--color-ink); border-bottom-left-radius: 3px; }
+
+  /* Marca de autoria: é ela que o bloco "você" existe para mostrar. O que o
+     dono escreve entra no histórico marcado como dele — não é enfeite de
+     layout, é o mecanismo. */
+  .autoria {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--color-muted);
+  }
+
+  /* LUZ DO FECHAMENTO. A página abre com luz no alto à direita e passou a
+     fechar com luz embaixo ao centro, atrás da última frase: as duas pontas
+     escuras se respondem em vez de a página desmanchar num navy chapado.
+     Mesma técnica e mesmos tokens de `.hero-escuro`. */
+  .fecho-luz { position: relative; isolation: isolate; }
+  /* O `inset` estoura a caixa embaixo DE PROPÓSITO. Com `inset: 0` o segundo
+     degradê era cortado rente à borda de baixo do bloco e a emenda aparecia
+     como um fio horizontal acima do rodapé — luz não tem borda reta, e o olho
+     acha a que tiver. Estourando, quem termina a luz é a própria queda dela. */
+  .fecho-luz::before {
+    content: ""; position: absolute; inset: -30px 0 -220px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(52% 60% at 50% 58%, color-mix(in oklab, var(--color-signal) 38%, transparent), transparent 72%),
+      radial-gradient(64% 46% at 50% 86%, color-mix(in oklab, var(--color-sky) 12%, transparent), transparent 74%);
+  }
+}
