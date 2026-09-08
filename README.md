@@ -1,237 +1,166 @@
-# riachotech-site
+# O site da Riacho Tech
 
-Site institucional da Riacho Tech, no ar em
-[riachotech.com.br](https://riachotech.com.br). A home é Next 15 + TypeScript em
-export estático — o servidor continua sem rodar build, só que agora o HTML sai
-pronto do `npm run build` em vez de ser escrito à mão. Três páginas herdadas
-(`privacidade.html`, `404.html` e `conectar/`) seguem em HTML com Tailwind
-compilado e commitado, e não mudam uma palavra.
+Duas páginas que vendem: a **home**, que apresenta a assistente de agendamento
+por WhatsApp, e a **`/landing-page/`**, que vende o serviço de landing page. No
+ar em [riachotech.com.br](https://riachotech.com.br).
 
-**Repositórios irmãos:**
-[`sofia-vitrine`](https://github.com/andrenv14/sofia-vitrine), a arquitetura do
-produto · [`sofia-eval`](https://github.com/andrenv14/sofia-eval), a avaliação
-de comportamento do modelo · [`sofia-agents`](https://github.com/andrenv14/sofia-agents), o processo
-de trabalho.
+São Next 15 em export estático — o servidor não roda build, recebe HTML pronto.
+Três páginas herdadas (`privacidade.html`, `404.html` e `conectar/`) seguem em
+HTML puro e não mudam.
+
+**Irmãos:** [`sofia-vitrine`](https://github.com/andrenv14/sofia-vitrine), a
+arquitetura do produto · [`sofia-eval`](https://github.com/andrenv14/sofia-eval),
+a avaliação de comportamento do modelo ·
+[`sofia-agents`](https://github.com/andrenv14/sofia-agents), o processo de
+trabalho.
+
+## O que tem aqui
+
+| Onde | O que é |
+|---|---|
+| [`app/`](app/), [`components/`](components/) | as duas páginas em React |
+| [`app/globals.css`](app/globals.css) | os tokens da marca — cor, tipografia, raio |
+| [`build/`](build/) | os cinco scripts que medem e travam o que vai ao ar |
+| [`public/`](public/) | as fotos e as páginas herdadas |
 
 ---
 
-## O site
+## 1. A home
 
-A primeira tela, em 1280 px. O celular da direita é markup da própria página, e
-a conversa de abertura chega mensagem a mensagem em vez de já estar lá. Não é
-captura de WhatsApp e não há cliente real nela — as perguntas são sobre a
-própria Riacho, porque o botão ao lado leva para o número onde a Sofia atende
-de verdade.
+![Primeira tela da home, 1280 px](docs/imagens/home-1280-dobra.webp)
 
-![Primeira tela do site em 1280 px](docs/imagens/home-1280-dobra.webp)
+O celular da direita é markup da própria página, não captura de WhatsApp. A
+conversa chega mensagem a mensagem, e as perguntas são sobre a própria Riacho —
+o botão ao lado leva ao número onde a assistente atende de verdade.
 
-"O que ela faz" é a seção que carrega o argumento. Cada bloco mostra o
-**artefato** daquela capacidade em vez de afirmá-la: o evento como nasce no
-Google Agenda, as duas mensagens da cobrança, os dois lembretes, o item do
-catálogo, o áudio transcrito e a conversa mudando de mão com a marca de quem
-falou. Três dos seis respondem ao toque — escolher um horário reescreve o evento
-**e** os dois lembretes, porque as três peças leem o mesmo objeto.
+A seção de capacidades mostra o **artefato** de cada uma em vez de afirmá-la: o
+evento como nasce no Google Agenda, as mensagens da cobrança, os lembretes, o
+item do catálogo com foto e preço. Três das seis respondem ao toque — escolher
+um horário reescreve o evento e os dois lembretes, porque as peças leem o mesmo
+objeto.
 
-![Seção "o que ela faz" em 1280 px](docs/imagens/home-1280-recursos.webp)
+![Seção de capacidades, 1280 px](docs/imagens/home-1280-capacidades.webp)
 
-"Como funciona" conta o fluxo pela HORA, e não por `01 — 02 — 03`: um ordinal
-diz "este é o segundo", a hora diz "isto levou um minuto", que é o argumento de
-venda. O rastro azul atravessa os três passos um de cada vez.
+E os planos, que é onde o site precisa ser mais claro:
 
-![Seção "como funciona" em 1280 px](docs/imagens/home-1280-como-funciona.webp)
+![Seção de planos, 1280 px](docs/imagens/home-1280-planos.webp)
 
-Em 390 px, três telas de celular — a primeira, o começo de "o que ela faz" e a
-lista de ramos. A lista troca o exemplo por ramo (clínica, escritório,
-barbearia, petshop, oficina) sem recarregar nada, e as cinco conversas fecham o
-agendamento: antes elas paravam na pergunta, e mostravam a Sofia oferecendo sem
-nunca marcar.
-
-Da esquerda para a direita: a primeira tela, "o que ela faz" e "pra quem é".
+Em 390 px:
 
 <p>
-  <img src="docs/imagens/home-390-dobra.webp" alt="Primeira tela do site em 390 px" width="255">
-  <img src="docs/imagens/home-390-recursos.webp" alt="Seção o que ela faz em 390 px" width="255">
-  <img src="docs/imagens/home-390-segmentos.webp" alt="Seção por ramo em 390 px" width="255">
+  <img src="docs/imagens/home-390-dobra.webp" alt="Primeira tela da home em 390 px" width="255">
+  <img src="docs/imagens/home-390-capacidades.webp" alt="Seção de capacidades em 390 px" width="255">
 </p>
 
-<!-- Largura fixa em `<img>`, e não uma tabela de três colunas: numa tabela o
-     GitHub dimensiona cada coluna pelo conteúdo do cabeçalho, então "a primeira
-     tela" e "pra quem é" davam colunas de larguras diferentes e as três telas
-     saíam com tamanhos diferentes, embora os arquivos tenham os mesmos 780x1688.
-     Achado do fundador. -->
+## 2. A `/landing-page/`
 
-E a seção de planos, que é onde o site precisa ser mais claro:
+![Primeira tela da landing page, 1280 px](docs/imagens/landing-1280-dobra.webp)
 
-![Seção de planos em 1280 px](docs/imagens/home-1280-planos.webp)
+Ela precisa **ser** a amostra do que vende: se não for a melhor página do site,
+desmente a própria oferta. Herda inteiro o vocabulário da home.
 
-## Stack
+A peça do herói **atravessa** a borda de baixo e termina dentro da seção
+seguinte. Isso é deliberado, e a alternativa foi testada: recortar a peça rente
+à virada de cor dá um corte reto num cartão branco, que lê como amputação.
 
-- **Home** — Next 15, React 19, TypeScript, Tailwind 4, `output: 'export'`. Sem
-  servidor: o `npm run build` gera arquivos estáticos. Os tokens de cor,
-  tipografia e raio vivem no `@theme` de `app/globals.css`, que é a fonte
-  executável da marca.
-- **Fontes** — Fraunces, Inter e IBM Plex Mono vêm por `next/font`, baixadas no
-  BUILD e servidas do próprio domínio. Isso mudou desde a versão anterior deste
-  README, que dizia o contrário: antes elas vinham do Google Fonts pela rede, e
-  se a rede falhasse a página renderizava com fonte de sistema sem nada acusar.
-  As três páginas herdadas ainda dependem do Google Fonts.
-- **Páginas herdadas** — `privacidade.html` e `404.html` consomem o `site.css`,
-  Tailwind compilado a partir de `build/tailwind-input.css` e commitado, porque
-  o servidor não roda build. `conectar/` tem `<style>` próprio.
-- **Zero biblioteca de animação.** Todo movimento é CSS, e todo movimento
-  desliga com `prefers-reduced-motion`.
+Para atravessar, ela precisa ser **absoluta e transbordar**, as duas coisas
+juntas — com só uma das duas, falha pela que falta. Absoluta, não entra na conta
+da altura do herói; sem recorte, o que passa disso invade a seção clara.
 
-## O que vale olhar aqui
+No celular não há espaço para atravessar, então a peça é cortada rente à dobra e
+**desvanece** antes da borda. Sem o desvanecimento o corte caía onde calhasse —
+partiu "Corte · R$ 60" com as letras 34% visíveis, e meia letra cortada lê como
+falha de renderização. A máscara resolve por critério: o conteúdo some antes da
+borda, seja qual for.
 
-**`build/conferir-estaticas.js`** é o portão do export, e roda dentro do
-`npm run build`. São 11 conferências, e a que mais importa: a âncora
+<p>
+  <img src="docs/imagens/landing-390-dobra.webp" alt="Primeira tela da landing page em 390 px" width="255">
+</p>
+
+O preço é público e está na página, sem "fale com um especialista":
+
+![Seção de preço da landing page, 1280 px](docs/imagens/landing-1280-preco.webp)
+
+## 3. O que trava o que vai ao ar
+
+Cinco scripts em [`build/`](build/). Os dois primeiros são os que importam.
+
+**`conferir-estaticas.js`** roda dentro do `npm run build` e reprova o export se
+algo essencial sumir. São 11 conferências, e a que mais importa: a âncora
 `#uso-limitado-google` da política de privacidade tem de continuar existindo —
-ela está num e-mail ao time de verificação OAuth do Google, e um revisor vai
-abri-la. O portão também prova que o texto legal saiu idêntico ao da origem, e
-tem um controle negativo (uma âncora inventada que ele precisa NÃO encontrar),
-porque comando que devolve vazio não distingue "não achei" de "não olhei".
+ela está num e-mail ao time de verificação do Google, e alguém vai abri-la. Tem
+também um controle negativo: uma âncora inventada que ele precisa **não**
+encontrar, porque comando que devolve vazio não distingue "não achei" de "não
+olhei".
 
-**`build/medir-site.js`** abre qualquer página em 390, 820 e 1280 px e devolve
-números: contraste reprovado por par cor/fundo composto, corpo abaixo de 16 px,
-alvo de toque menor que 44×44, rolagem horizontal, erro de console. Nenhuma
-mudança visual vai ao ar sem passar por ele.
+**`medir-site.js`** abre qualquer página em 390, 820 e 1280 px e devolve números:
+contraste reprovado, texto de corpo abaixo de 16 px, alvo de toque menor que
+44×44, rolagem horizontal, erro de console. Nenhuma mudança visual vai ao ar sem
+passar por ele.
 
-**`build/detectar-tells.js`** conta os padrões que fazem uma página parecer
-gerada: densidade de travessão, rótulo mono repetido, rótulo numerado, hero que
-não cabe na tela, duas chamadas querendo a mesma coisa na primeira tela, e raio
-de canto não concêntrico. Ele conta; o julgamento é de quem lê.
+Os outros três: `detectar-tells.js` conta padrões que fazem uma página parecer
+gerada por IA — ele conta, o julgamento é de quem lê; `texto-visivel.js` compara
+o texto de uma página antes e depois de uma mudança, e foi ele que garantiu que
+a política de privacidade mudasse de forma sem perder uma palavra;
+`servir-gzip.js` serve o export com compressão, que é o que o servidor faz —
+medir sem gzip dá um número pessimista sobre um servidor que não existe.
 
-**`build/texto-visivel.js`** extrai o texto visível de uma página antes e depois
-de uma mudança e compara os dois. Foi ele que garantiu que a política de
-privacidade mudasse de forma sem perder uma palavra.
+## 4. Medido
 
-**`build/servir-gzip.js`** serve o export COM compressão, que é o que a VPS faz.
-Medir sem gzip contra uma produção que comprime dá um número pessimista sobre um
-servidor que não existe — a diferença medida foi de 27 pontos de Lighthouse.
-
-**`.claude/skills/`** é como se trabalha neste site. A `design-site` traz o chão
-de regras (contraste, medida de linha, alvos, estados, foco visível) e o fluxo
-de acabamento; a `nao-slop` traz o que vem antes e depois disso — declarar a
-leitura antes de desenhar, e os tells contáveis depois. Escrevi as duas a partir
-do que serve no kit `impeccable` do `pbakaus`
-([Apache 2.0](https://github.com/pbakaus/impeccable)) e da `taste-skill` do
-`Leonxlnx`, que não instalei: o primeiro traz um hook que reescreve
-`.claude/settings.local.json` a cada edição de interface, e permissão só muda
-quando uma pessoa decide.
-
-## Medido
-
-Nas três páginas, com o servidor local com gzip e o Chromium do Playwright:
+Medido em 08/09/2026, nas três páginas, com gzip e o Chromium do Playwright.
+Os números de contraste, corpo e alvo se rederivam com `npm run medir`; os de
+Lighthouse, com o Chromium sobre `npm run servir`.
 
 | | home | privacidade | 404 |
 |---|---:|---:|---:|
 | acessibilidade | 100 | 100 | 100 |
 | performance | 89 | 93 | 95 |
 | boas práticas | 96 | 100 | 96 |
-| SEO | 100 | 63 | 60 |
-| CLS (quanto a página pula ao carregar) | 0 | 0,021 | 0 |
-| contraste reprovado (390/820/1280) | 0 | 0 | 0 |
-| corpo abaixo de 16 px | 0 | 0 | 0 |
-| alvo abaixo de 44×44 | 0 | 3 em 390, 5 acima | 0 |
+| contraste reprovado | 0 | 0 | 0 |
+| texto de corpo abaixo de 16 px | 0 | 0 | 0 |
+| alvo de toque abaixo de 44×44 | 0 | 3 a 5 | 0 |
 
-O SEO baixo nas duas últimas é `is-crawlable`, e é de propósito: as duas têm
-`<meta robots noindex>`.
+Os alvos da política são links dentro de parágrafo, exceção declarada. São 3 em
+390 px e 5 nas larguras maiores: um link que cabe numa linha em tela larga quebra
+em duas na estreita, e quebrado deixa de ser contado. **Medida de acessibilidade
+lida numa largura só é medida incompleta** — o mesmo engano já tinha escondido
+dois alvos da home, que a barra de topo cobria em 390 px.
 
-Os alvos da política são links dentro de parágrafo — exceção declarada na skill.
-**São 3 em 390 px e 5 em 820 e 1280**, e a versão anterior deste README dizia
-"3" porque só o número de 390 tinha sido lido. Os dois que só aparecem acima de
-390 são o link "Google API Services User Data Policy", que em telas largas cabe
-numa linha e nas estreitas quebra em duas — quebrado, ele deixa de ser contado
-como um alvo baixo. É o mesmo engano que a barra de topo escondeu por semanas:
-lá os dois únicos alvos reprovados da home sumiam da medição porque em 390 o
-nav os esconde. **Medida de acessibilidade lida numa largura só é medida
-incompleta**, e as duas vezes o buraco ficou do mesmo lado.
-
-A performance da home não é meta, e isso é decisão do dono: CLS zero não se
-troca por pontos. O número oscila de 89 a 93 entre rodadas — o que se persegue é
-regressão grande, e uma apareceu: a luz do hero, animando desde o primeiro
-quadro, custou 4 pontos e meio segundo de LCP. Dois segundos de atraso no início
-da animação devolveram os dois, e ninguém vê diferença numa ida e volta de 26 s.
-
-## Escopo
-
-O redesign de 08/09/2026 mexeu na home inteira e não tocou nas três páginas
-herdadas. O que mudou de fundo:
-
-- **artefato no lugar de afirmação** — a seção de capacidades mostrava dois
-  blocos sem nenhuma prova, e um deles era o principal;
-- **peças alinhadas por faixa** — em cada faixa de blocos, as peças esticam e o
-  conteúdo se distribui, então topo e pé caem na mesma linha em qualquer
-  largura. Antes o vão entre a peça e o título ia de 28 a 146 px na mesma faixa;
-- **textura em duas escalas** — grão fino de perto e mancha larga de longe, as
-  duas em SVG embutido no CSS, sem arquivo nem requisição. Grão fino sozinho
-  some: o olho o integra e volta a ver cor lisa;
-- **movimento que informa** — a conversa do hero chegando, o rastro do tempo, o
-  lembrete que chega, a seção corrente acesa na barra. Nenhum é entrada de
-  seção, que é o padrão que a `nao-slop` reprova.
-
-O que **não** se faz aqui: telefone de cliente, nome de cliente, captura de
-conversa real, e nada que se pareça com credencial. A peça do Pix mostra a chave
-como e-mail, que é o `contato@riachotech.com.br` já publicado no rodapé — uma
-versão anterior desenhava um código copia-e-cola plausível, e invenção com cara
-de chave é pior que invenção nenhuma, porque quem lê não tem como saber que é
-falsa.
-
-## `/landing-page/` — a página que vende landing page
-
-Ela precisa SER a amostra do serviço que vende: se não for a melhor página do
-site, desmente a própria oferta. Herda inteiro o vocabulário da home (`.peca`,
-`.textura`, as luzes, `.cartao-plano`, `.combo-luz`, `.fala-peca`,
-`.plan-item`); as duas classes próprias são `.mini-topo` e `.mini-zap`.
-
-**A peça do herói ATRAVESSA a borda de baixo do herói** e termina dentro da
-seção das mensagens — é o gesto do celular da home, e ele existe porque a
-alternativa falha: recortar a peça rente à virada de cor dá um corte reto num
-cartão branco, que lê como amputação e não como continuação.
-
-Para isso ela é **absoluta E transborda**, as duas coisas juntas. Absoluta, não
-entra na conta da altura do herói, então quem decide onde o navy termina é a
-coluna de texto e não sobra vão morto ao lado; sem recorte, o que passa disso
-invade a seção clara. Ter só uma das duas falha pela que falta — foi medido nas
-duas direções. Ela passa por cima da seção seguinte porque `.hero-escuro` tem
-`z-index: 1` e a seção de baixo não tem.
-
-**A seção das mensagens começa com um respiro grande no PC**, para o conteúdo
-dela nascer abaixo do pé da peça. O valor é medido, e este comando o rederiva —
-`folga` negativa quer dizer que a peça cresceu e o respiro precisa crescer
-junto (rode `npm run servir` antes):
-
-```
-node -e "const{chromium}=require('playwright');(async()=>{const b=await chromium.launch();for(const w of [1850,1280,1024,900]){const p=await b.newPage({viewport:{width:w,height:1000}});await p.goto('http://127.0.0.1:8111/landing-page/?v='+Date.now(),{waitUntil:'networkidle'});await p.waitForTimeout(2200);console.log(w,await p.evaluate(()=>{const q=document.querySelector('.peca').getBoundingClientRect(),i=document.querySelector('#mensagens img').getBoundingClientRect();return{folga:Math.round(i.top-q.bottom)}}));await p.close()}await b.close()})()"
-```
-
-**As duas fotos** (`public/salao-cadeira-840.webp` e
-`public/mensagem-que-chega-900.webp`) foram geradas pelo fundador a partir de
-`~/para-revisao/prompts-imagens-landing-page.md`. A do salão mora na faixa do
-topo da peça, com o título POR BAIXO e nunca por cima: texto sobre foto exigiria
-véu escuro para passar nos 4,5:1, e o véu mudaria o clima da peça inteira.
-
-## Operação
+## 5. Operação
 
 - `npm run build` gera o export em `out/` e roda o portão das 11 conferências.
-- `npm run servir` sobe `out/` em `127.0.0.1:8111` com gzip, que é o que a VPS
-  entrega. O servidor manda `max-age=300`: ao recarregar depois de um build, use
-  `?v=alguma-coisa` na URL, senão você mede a página anterior.
-- `npm run medir` mede qualquer página nos três tamanhos; `npm run tells` conta
-  os tells; `npm run og` regenera a prévia do link a partir dos próprios tokens.
-- **O DEPLOY MUDOU em 08/09/2026, e a forma antiga é armadilha.** O diretório
-  servido (`/var/www/riachotech`) deixou de ser um clone deste repositório e
-  passou a conter **só o conteúdo de `out/`**. Deploy é `npm run build` e depois
-  `rsync -a --delete --exclude='.git' out/ /var/www/riachotech/`.
-  **`git pull` no diretório servido NÃO é deploy — é pior que quebrar:** ele
-  devolve a página ANTIGA, sem erro nenhum, porque o `.git` de lá segue parado
-  no commit anterior de propósito, e é ele que dá o rollback
-  (`git checkout . && git clean -fd`). O estado se rederiva com
-  `git -C /var/www/riachotech status --porcelain | grep index.html`, que tem de
-  devolver `M`. Dois requisitos travam qualquer forma futura: a URL
-  `privacidade.html` **com** `.html` não muda, e a âncora
-  `#uso-limitado-google` não some.
-- `conectar/` é a página do Embedded Signup (o fluxo oficial da Meta para o
-  cliente conectar o número dele), aberta a partir de um link de convite
-  assinado. Ela não guarda segredo: o id do app e o da configuração são públicos
-  por natureza, e o token do convite é validado no back-end.
+- `npm run servir` sobe `out/` em `127.0.0.1:8111` com gzip. Ele manda
+  `max-age=300`: ao recarregar depois de um build, use `?v=algo` na URL, senão
+  você mede a página anterior.
+- `npm run medir` mede qualquer página nos três tamanhos.
+
+**O deploy mudou em 08/09/2026, e a forma antiga é armadilha.** O diretório
+servido (`/var/www/riachotech`) deixou de ser um clone deste repositório e passou
+a conter só o conteúdo de `out/`:
+
+```
+npm run build
+rsync -a --delete --exclude='.git' out/ /var/www/riachotech/
+```
+
+**`git pull` no diretório servido não é deploy — e é pior que quebrar: devolve a
+página antiga sem erro nenhum.** O `.git` de lá segue parado no commit anterior
+de propósito, e é ele que dá o rollback (`git checkout . && git clean -fd`). O
+estado se confere com `git -C /var/www/riachotech status --porcelain | grep index.html`,
+que tem de devolver `M`.
+
+Dois requisitos travam qualquer mudança futura de forma: a URL `privacidade.html`
+**com** `.html` não muda, e a âncora `#uso-limitado-google` não some.
+
+## 6. O que não se faz aqui
+
+Telefone de cliente, nome de cliente, captura de conversa real, e nada que se
+pareça com credencial. A peça do Pix mostra a chave como e-mail — o
+`contato@riachotech.com.br`, que já está publicado no rodapé. Uma versão anterior
+desenhava um código copia-e-cola plausível, e invenção com cara de chave é pior
+que invenção nenhuma: quem lê não tem como saber que é falsa.
+
+As fotos são geradas, e duas regras valem para todas: nenhuma leva texto por cima
+(o véu escuro necessário para passar no contraste mudaria o clima da peça) e
+nenhuma tem rosto (rosto gerado denuncia imagem falsa em tamanho pequeno, e
+passaria a parecer cliente nosso).
