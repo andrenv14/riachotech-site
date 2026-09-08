@@ -40,14 +40,15 @@ venda. O rastro azul atravessa os três passos um de cada vez.
 
 ![Seção "como funciona" em 1280 px](docs/imagens/home-1280-como-funciona.webp)
 
-A mesma página em 390 px, e a seção que troca o exemplo por ramo (clínica,
-escritório, barbearia, petshop, oficina) sem recarregar nada. As cinco conversas
-fecham o agendamento — antes elas paravam na pergunta, e mostravam a Sofia
-oferecendo sem nunca marcar:
+Em 390 px, três telas de celular — a primeira, o começo de "o que ela faz" e a
+lista de ramos. A lista troca o exemplo por ramo (clínica, escritório,
+barbearia, petshop, oficina) sem recarregar nada, e as cinco conversas fecham o
+agendamento: antes elas paravam na pergunta, e mostravam a Sofia oferecendo sem
+nunca marcar.
 
-| 390 px, a primeira tela | 390 px, "pra quem é" |
-|---|---|
-| ![Primeira tela em 390 px](docs/imagens/home-390-dobra.webp) | ![Seção por ramo em 390 px](docs/imagens/home-390-segmentos.webp) |
+| a primeira tela | "o que ela faz" | "pra quem é" |
+|---|---|---|
+| ![Primeira tela em 390 px](docs/imagens/home-390-dobra.webp) | ![Seção "o que ela faz" em 390 px](docs/imagens/home-390-recursos.webp) | ![Seção por ramo em 390 px](docs/imagens/home-390-segmentos.webp) |
 
 E a seção de planos, que é onde o site precisa ser mais claro:
 
