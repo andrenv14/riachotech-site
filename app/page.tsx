@@ -2,6 +2,8 @@ import Nav from '@/components/Nav';
 import Telefone from '@/components/Telefone';
 import ComoFunciona from '@/components/ComoFunciona';
 import OQueElaFaz from '@/components/OQueElaFaz';
+import PraQuemE from '@/components/PraQuemE';
+import Planos from '@/components/Planos';
 
 const ZAP = 'https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia';
 
@@ -37,9 +39,9 @@ export default function Home() {
                 </a>
               </div>
 
-              <p className="mt-7 font-mono text-[12px] text-muted tracking-[.02em]">
+              <div className="mt-7 font-mono text-[12px] text-muted tracking-[.02em]">
                 API oficial da Meta · Google Agenda · Pix na conversa
-              </p>
+              </div>
 
               <p className="mt-10 text-[16px] text-muted max-w-[38ch] min-[900px]:hidden">
                 Toque numa pergunta e veja ela responder de verdade.
@@ -52,9 +54,9 @@ export default function Home() {
             <div className="relative z-10 flex justify-center min-[900px]:justify-end min-[900px]:translate-y-24">
               <div>
                 <Telefone />
-                <p className="hidden min-[900px]:block mt-4 text-center font-mono text-[11.5px] text-muted">
+                <div className="hidden min-[900px]:block mt-4 text-center font-mono text-[11.5px] text-muted">
                   toque numa pergunta
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -65,11 +67,9 @@ export default function Home() {
 
         <OQueElaFaz />
 
-        <section id="planos" className="bg-ink text-mist py-24">
-          <div className="wrap">
-            <p className="font-mono text-[12px] text-sky-2">seção em construção</p>
-          </div>
-        </section>
+        <PraQuemE zap={ZAP} />
+
+        <Planos zap={ZAP} />
       </main>
     </>
   );
