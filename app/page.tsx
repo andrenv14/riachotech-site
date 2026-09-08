@@ -1,6 +1,7 @@
 import Nav from '@/components/Nav';
 import Telefone from '@/components/Telefone';
 import ComoFunciona from '@/components/ComoFunciona';
+import OQueElaFaz from '@/components/OQueElaFaz';
 
 const ZAP = 'https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia';
 
@@ -40,7 +41,7 @@ export default function Home() {
                 API oficial da Meta · Google Agenda · Pix na conversa
               </p>
 
-              <p className="mt-10 text-[14px] text-muted max-w-[38ch] min-[900px]:hidden">
+              <p className="mt-10 text-[16px] text-muted max-w-[38ch] min-[900px]:hidden">
                 Toque numa pergunta e veja ela responder de verdade.
               </p>
             </div>
@@ -61,6 +62,8 @@ export default function Home() {
         </section>
 
         <ComoFunciona />
+
+        <OQueElaFaz />
 
         <section id="planos" className="bg-ink text-mist py-24">
           <div className="wrap">

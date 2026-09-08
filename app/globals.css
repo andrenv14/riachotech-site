@@ -357,9 +357,13 @@
   .phone-enviar:hover:not(:disabled) { background: var(--color-signal-dark); }
   .phone-enviar:active:not(:disabled) { transform: scale(.94); }
   .phone-enviar:disabled { opacity: .35; cursor: default; }
+  /* Altura mínima de 44px: o `medir` acusou os chips a 32px, e alvo de toque
+     abaixo de 44 e' achado de acessibilidade num aparelho que a pessoa usa
+     com o polegar. O tamanho da LETRA continua 12px; o que cresce e' a area. */
   .chip {
     font-family: var(--font-sans); font-size: 12px; line-height: 1.2;
-    padding: 8px 11px; border-radius: 999px; cursor: pointer;
+    min-height: 44px; display: inline-flex; align-items: center;
+    padding: 8px 13px; border-radius: 999px; cursor: pointer;
     border: 1px solid var(--color-signal); color: var(--color-signal); background: #fff;
     transition: background .15s ease, color .15s ease, transform .15s ease;
   }

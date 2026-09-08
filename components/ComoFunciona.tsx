@@ -23,7 +23,7 @@ type Passo = {
 function Mensagem() {
   return (
     <div className="rounded-[14px] bg-white border border-line px-4 py-3 max-w-[300px] shadow-[0_1px_2px_rgba(20,33,61,.05)]">
-      <p className="text-[14px] text-ink leading-[1.45]">oi, tem horário livre amanhã de tarde?</p>
+      <div className="text-[14px] text-ink leading-[1.45]">oi, tem horário livre amanhã de tarde?</div>
       <span className="mt-1.5 block text-right font-mono text-[10px] text-muted">14:02</span>
     </div>
   );
@@ -40,7 +40,7 @@ function Grade() {
   ];
   return (
     <div className="rounded-[14px] bg-white border border-line p-3.5 max-w-[300px] shadow-[0_1px_2px_rgba(20,33,61,.05)]">
-      <p className="font-mono text-[10px] uppercase tracking-[.12em] text-muted">amanhã, quinta</p>
+      <div className="font-mono text-[11px] uppercase tracking-[.12em] text-muted">amanhã, quinta</div>
       <div className="mt-2.5 grid grid-cols-3 gap-1.5">
         {faixas.map((f) => (
           <span
@@ -55,7 +55,7 @@ function Grade() {
           </span>
         ))}
       </div>
-      <p className="mt-2.5 text-[12.5px] text-muted">dois livres, o resto já ocupado</p>
+      <div className="mt-2.5 text-[12.5px] text-muted">dois livres, o resto já ocupado</div>
     </div>
   );
 }
@@ -66,9 +66,9 @@ function Compromisso() {
       <div className="flex">
         <span className="w-1.5 bg-signal" aria-hidden="true" />
         <div className="px-4 py-3">
-          <p className="font-mono text-[10px] uppercase tracking-[.12em] text-muted">google agenda</p>
-          <p className="mt-1 font-display text-[17px] text-ink leading-[1.25]">Limpeza · Marina Alves</p>
-          <p className="mt-0.5 font-mono text-[12px] text-muted">quinta, 16:30 · 40 min</p>
+          <div className="font-mono text-[11px] uppercase tracking-[.12em] text-muted">google agenda</div>
+          <div className="mt-1 font-display text-[17px] text-ink leading-[1.25]">Limpeza · Marina Alves</div>
+          <div className="mt-0.5 font-mono text-[12px] text-muted">quinta, 16:30 · 40 min</div>
         </div>
       </div>
     </div>
@@ -135,7 +135,7 @@ export default function ComoFunciona() {
               <h3 className="mt-3 min-[900px]:mt-4 font-display text-[20px] text-ink leading-[1.25] max-w-[22ch]">
                 {p.titulo}
               </h3>
-              <p className="mt-2.5 text-[15px] text-muted max-w-[40ch]">{p.texto}</p>
+              <p className="mt-2.5 text-[16px] text-muted max-w-[40ch]">{p.texto}</p>
               <div className="mt-6 min-[900px]:mt-8 min-[900px]:self-start">{p.artefato}</div>
             </li>
           ))}

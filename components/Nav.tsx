@@ -26,9 +26,9 @@ export default function Nav({ zap }: { zap: string }) {
   return (
     <header className="sticky top-0 z-50 bg-paper/95 backdrop-blur-[2px] border-b border-line">
       <nav className="wrap flex items-center justify-between h-[62px]">
-        <a href="/" className="flex items-center gap-2.5 font-display text-[19px] text-ink">
+        <a href="/" className="flex items-center gap-2.5 font-display text-[19px] text-ink min-h-[44px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="Riacho Tech" width={340} height={91} className="h-[26px] w-auto" />
+          <img src="/logo.png" alt="Riacho Tech" width={340} height={91} className="h-[30px] w-auto" />
         </a>
         <div className="hidden min-[820px]:flex items-center gap-7 text-[15px] font-medium">
           <a href="#como-funciona" className="text-muted hover:text-ink">Como funciona</a>

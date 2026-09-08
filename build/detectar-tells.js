@@ -70,16 +70,28 @@ const AUDIT = () => {
   }
   const ctasDuplicados = Object.values(porIntencao).filter(v => v.length > 1);
 
-  // 6. raio concêntrico: filho arredondado dentro de pai arredondado com padding
+  // 6. raio concêntrico — SÓ quando o filho PREENCHE o pai.
+  //
+  //    A primeira versão desta regra rodou contra o próprio redesign em
+  //    08/09/2026 e acusou um falso positivo: uma miniatura de foto de 44px
+  //    dentro de um card com 12px de folga. Ali os dois cantos não se
+  //    encostam, e obedecer a regra ao pé da letra mandaria deixar a
+  //    miniatura QUADRADA, que é pior. Concentricidade só importa quando as
+  //    curvas ficam lado a lado — a tela dentro da moldura do celular, que foi
+  //    o caso que originou a regra. O corte é o filho ocupar quase toda a
+  //    largura útil do pai. Detector que grita à toa deixa de ser lido.
   const raios = [];
   for (const pai of document.querySelectorAll('*')) {
     const cp = getComputedStyle(pai);
     const rPai = parseFloat(cp.borderTopLeftRadius);
     const pad = parseFloat(cp.paddingTop);
     if (!(rPai > 8) || !(pad > 0)) continue;
+    const larguraUtil = pai.getBoundingClientRect().width - parseFloat(cp.paddingLeft) - parseFloat(cp.paddingRight);
     for (const filho of pai.children) {
       const rf = parseFloat(getComputedStyle(filho).borderTopLeftRadius);
       if (!(rf > 0)) continue;
+      const preenche = larguraUtil > 0 && filho.getBoundingClientRect().width >= larguraUtil * 0.9;
+      if (!preenche) continue;
       const esperado = rPai - pad;
       if (Math.abs(rf - esperado) >= 1) {
         raios.push({
