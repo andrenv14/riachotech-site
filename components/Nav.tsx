@@ -24,15 +24,15 @@ export default function Nav({ zap }: { zap: string }) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-paper/95 backdrop-blur-[2px] border-b border-line">
+    <header className="sticky top-0 z-50 bg-ink border-b border-white/10">
       <nav className="wrap flex items-center justify-between h-[62px]">
         <a href="/" className="flex items-center gap-2.5 font-display text-[19px] text-ink min-h-[44px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="Riacho Tech" width={340} height={91} className="h-[30px] w-auto" />
+          <img src="/logo.png" alt="Riacho Tech" width={340} height={91} className="h-[30px] w-auto [filter:brightness(0)_invert(1)]" />
         </a>
         <div className="hidden min-[820px]:flex items-center gap-7 text-[15px] font-medium">
-          <a href="#como-funciona" className="text-muted hover:text-ink">Como funciona</a>
-          <a href="#planos" className="text-muted hover:text-ink">Planos</a>
+          <a href="#como-funciona" className="text-mist hover:text-white">Como funciona</a>
+          <a href="#planos" className="text-mist hover:text-white">Planos</a>
         </div>
         <a
           href={zap}

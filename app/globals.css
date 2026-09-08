@@ -356,6 +356,23 @@
      e é o maior responsável pela sensação de página viva. Aqui é um halo em
      oklab a partir dos próprios tokens — não é gradiente decorativo de topo,
      que a `design-site` proíbe: é luz de fundo atrás do assunto. */
+  /* Chão escuro do hero, com uma fonte de luz só. */
+  .hero-escuro { position: relative; isolation: isolate; background: var(--color-ink); }
+  .hero-escuro::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(52% 46% at 72% 34%, color-mix(in oklab, var(--color-signal) 58%, transparent), transparent 68%),
+      radial-gradient(70% 60% at 88% 12%, color-mix(in oklab, var(--color-sky) 20%, transparent), transparent 72%);
+  }
+  /* O aparelho deixa de ter sombra caida e passa a ter halo: ele esta ILUMINADO
+     por aquela fonte, entao o que aparece em volta e' luz, nao sombra. */
+  .hero-escuro .phone {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, .06),
+      0 30px 90px -20px rgba(0, 0, 0, .65),
+      0 0 120px -30px color-mix(in oklab, var(--color-sky) 55%, transparent);
+  }
+
   .halo { position: relative; isolation: isolate; }
   .halo::before {
     content: ""; position: absolute; inset: -10% 0 auto; height: 130%; z-index: -1;
