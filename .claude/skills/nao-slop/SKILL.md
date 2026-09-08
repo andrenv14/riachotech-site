@@ -83,7 +83,59 @@ resposta.
 - O **binário** do `npx impeccable detect`: só com o fundador dizendo sim na
   janela, como a `design-site` já manda.
 
-## 5 — O chão continua onde estava
+## 5 — Medido no redesign de 08/09/2026
+
+Cinco coisas que custaram volta e que se aplicam a QUALQUER tela nova. Não é
+diário: cada uma é regra, com o número que a produziu ao lado.
+
+**Textura precisa de DUAS escalas.** Grão fino sozinho some — o olho integra
+ruído de alta frequência a um metro da tela e volta a ver cor lisa, que é
+exatamente a queixa que a textura foi corrigir. Vai o grão de perto (ladrilho de
+160px) mais uma mancha larga de baixa frequência (ladrilho de 560px), que é a
+variação que se enxerga de longe. E **não use `mix-blend-mode: overlay` sobre
+fundo escuro**: overlay preserva tom escuro, então ruído cinza médio sobre navy
+não muda quase nada. A primeira versão ficou invisível e só apareceu numa
+ampliação de 4× de um pedaço liso do fundo — a 1× eu teria dado por feito.
+
+**Para alinhar uma faixa de artefatos, a peça ESTICA e `mt-auto` distribui.**
+Três tentativas, e as duas primeiras erram de jeitos que parecem certos: com o
+padrão do grid a sobra cai ENTRE a peça e o título (medido: vão de 28px a 146px
+na mesma faixa); com `align-self: end` a sobra sobe para debaixo do rótulo, o
+que é melhor **e ainda não resolve, porque a ORDEM de quem sobra muda entre
+1280 e 820** — não existe ajuste de conteúdo que feche as duas larguras ao mesmo
+tempo. Esticando não há sobra. `mt-auto` no último bloco, e nunca
+`justify-content: flex-end`: com overflow ele esconde conteúdo para cima e o
+navegador nem conta como rolável.
+
+**Quando o vão não fecha com espaço, o defeito é a CONTAGEM.** Cinco blocos numa
+grade de três colunas é 3+2 e não fecha por construção — a faixa de baixo fica
+com uma peça larga e uma estreita, e nenhum ajuste conserta, porque o problema é
+quantos são. A saída foi um sexto bloco, e ele não foi inventado para encher a
+grade: era uma capacidade em produção que a página não contava. Se não houver
+conteúdo verdadeiro para o bloco que falta, o desenho é que está errado.
+
+**Regra que sobrevive ao layout que a justificava vira defeito silencioso.** Uma
+media query arredondava a foto pelo lado esquerdo, escrita para uma versão em
+que ela ficava ao lado do texto. O layout voltou a ter a foto em cima, a regra
+ficou, e acima de 820px sobrou uma orelha de canto reto por cima do canto
+arredondado da peça. Passou por duas medições minhas sem ser vista, porque
+nenhuma delas olha canto. **Ao desfazer um layout, varra as regras que só
+existiam por causa dele.**
+
+**O mesmo objeto do produto desenhado de dois jeitos lê como duas coisas.** O
+cartão do Google Agenda aparecia em duas seções da mesma página — numa com
+título em serifa e barra sangrando na borda, na outra com sans, barra estreita e
+linha de autoria. O leitor passa pelos dois na mesma rolagem. Artefato repetido
+vira componente, não segunda interpretação.
+
+**E o instrumento erra igual ao desenho.** Duas medições minhas mentiram nesta
+fatia, as duas por olhar o lugar errado: um script pegava `querySelector('.peca')`
+— a PRIMEIRA peça de um bloco que tem duas empilhadas — e reportava 101px de vão
+onde a tela mostrava 28; e um teste procurava a hora no formato antigo depois de
+o texto mudar. Quando a tela e a medição discordam, **a tela ganha**, e o
+próximo passo é consertar o instrumento, não o desenho.
+
+## 6 — O chão continua onde estava
 
 Contraste, medida, escala de espaço, alvos, estados, WCAG, Lighthouse, o
 `npm run medir` e a auditoria de tema: tudo em `.claude/skills/design-site/SKILL.md`.

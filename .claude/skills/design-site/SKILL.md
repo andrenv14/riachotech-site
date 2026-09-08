@@ -5,13 +5,36 @@ description: Crítica, auditoria e acabamento de qualquer tela do site da Riacho
 
 # design-site
 
-O site é estático, Tailwind 4 compilado e commitado (`npm run build:css`),
-servido por `git pull` na VPS. Fontes de verdade, nesta ordem, e nenhuma se
-reescreve por esta skill: **texto** → `~/sofia-bot/docs/contexto/negocio.md`
-(oferta, preço, o que a assistente faz — verificado no código); **visual** →
+O site tem DOIS mundos, e confundi-los é o jeito mais rápido de rodar um
+comando que não existe (esta skill já mandou rodar um script `build:css` que
+nunca existiu neste `package.json` — a citação fica sem o prefixo `npm run` de
+propósito, para o comando falso não ser copiável nem casar com quem varre a
+skill atrás de comandos):
+
+- **a home** é Next 15 + TypeScript em export estático. Os tokens vivem no
+  `@theme` de `app/globals.css`, o CSS sai do build e nada de estilo se
+  commita compilado. `npm run build` gera o export E roda o portão de
+  `build/conferir-estaticas.js`.
+- **`privacidade.html`, `404.html` e `/conectar/`** são as três páginas
+  herdadas, copiadas para o export sem uma palavra reescrita (decisão do
+  fundador). As duas primeiras consomem o `site.css`, que é Tailwind
+  compilado a partir de `build/tailwind-input.css` e **é commitado**; a
+  `/conectar/` tem `<style>` próprio. As três ainda buscam fonte no Google
+  Fonts pela rede, e a home não — se um dia elas forem mexidas, isso é a
+  primeira coisa a resolver.
+
+O formato do deploy está EM ABERTO (decisão do fundador: "a gente vê quando
+for"), então nenhuma frase aqui promete como ele é. Dois requisitos travam a
+forma, e valem para qualquer desenho: a URL `privacidade.html` **com** `.html`
+não muda, e a âncora `#uso-limitado-google` não some — ela está num e-mail ao
+time de verificação OAuth do Google.
+
+Fontes de verdade, nesta ordem, e nenhuma se reescreve por esta skill:
+**texto** → `~/sofia-bot/docs/contexto/negocio.md` (oferta, preço, o que a
+assistente faz — verificado no código); **visual** →
 `~/sofia-bot/docs/brand-riacho-tech.md` (tokens do kit do Canva) espelhado em
-`DESIGN.md` (raiz) e em `build/tailwind-input.css` (o `@theme` é a fonte
-executável). Se `DESIGN.md` e o CSS discordarem, o CSS está certo e o
+`DESIGN.md` (raiz) e no `@theme` de `app/globals.css`, que é a fonte
+executável. Se `DESIGN.md` e o CSS discordarem, o CSS está certo e o
 `DESIGN.md` se corrige no mesmo commit.
 
 ## Fluxo
@@ -164,31 +187,56 @@ Cinco dimensões, 0–4, cada nota com a medida ao lado:
 
 - **Acessibilidade** — Lighthouse mobile, que não pode cair de 100; `medir`
   sem reprovação de contraste; ordem de tabulação; hierarquia `h1→h2→h3`.
-- **Performance** — Lighthouse ≥ 98; CLS ≤ 0,03; imagem com proporção declarada.
+- **Performance** — **CLS 0** e imagem com proporção declarada são o chão, e
+  esses não se negociam. O número do Lighthouse **não é meta**: decisão do
+  fundador em 08/09/2026 — "não sei o que é isso, se ficar bonito está bom" — e
+  ele proibiu explicitamente trocar CLS zero por pontos. O que a home mede hoje,
+  com gzip, é 90 a 93, e o "≥ 98" que estava escrito aqui nunca foi atingido
+  desde que a página ganhou fonte própria e imagem: teto que ninguém cumpre não
+  é teto, é linha que se aprende a ignorar. Regressão GRANDE continua sendo
+  achado — foi assim que uma animação começando junto da primeira pintura
+  custou 4 pontos e meio segundo de LCP, e um atraso de 2s devolveu os dois.
 - **Responsividade** — 390/820/1280; alvos; overflow.
 - **Tema** — zero hex de marca fora do `@theme`, **no repositório inteiro** (e
   não só no que a fatia tocou: desde 07/09/2026 o `privacidade.html` também
   consome o `site.css`, e era ele o último com paleta própria). Todo token do
   `@theme` tem consumidor.
 
-      grep -nE '#[0-9a-fA-F]{3,6}\b' build/tailwind-input.css *.html \
-        | grep -viE 'color-|theme-color|%23|#fff\b|#ffffff\b'
+      grep -rnE '#[0-9a-fA-F]{3,6}\b' app/globals.css build/tailwind-input.css \
+        components/*.tsx app/*.tsx *.html \
+        | grep -viE 'color-|theme-?[Cc]olor|%23|#fff\b|#ffffff\b'
 
-  Duas exceções, e só elas: o `theme-color` do `<head>`, que é meta e precisa
-  do valor literal, e o branco puro (`#fff`) — que não é cor de marca, é o
-  fundo da bolha do cliente, e o doc de marca diz que ela é branca, não areia.
-  Qualquer outra linha na saída é achado. O `\b` no fim do padrão não é
-  enfeite: sem ele, `href="#dados-negocio"` casa como se fosse a cor `#dad`.
+  **Os três primeiros caminhos entraram em 08/09/2026, e a lição é maior que o
+  comando:** a versão anterior varria só `build/tailwind-input.css` e `*.html`,
+  que era onde o site inteiro morava — a home mudou para `app/` e
+  `components/`, o grep continuou devolvendo vazio, e vazio foi lido como
+  aprovação. Rodado no lugar certo ele achou na hora um `--phone-corpo:
+  #0C1729` solto fora do `@theme`. **Comando de auditoria que não acompanha
+  a mudança de lugar do código não reprova nada: ele passa a medir o vazio.**
+
+  Duas exceções, e só elas: o `themeColor` do `<head>` (grafado assim no TSX,
+  e `theme-color` no HTML herdado), que é meta e precisa do valor literal, e o
+  branco puro (`#fff`) — que não é cor de marca, é o fundo da bolha do cliente,
+  e o doc de marca diz que ela é branca, não areia. Qualquer outra linha na
+  saída é achado, **inclusive dentro de comentário**: hex citado em prosa faz o
+  comando gritar por quem não violou nada, e a saída deixa de ser lida. Prosa
+  descreve a cor, não a soletra.
+
+  O `\b` no fim do padrão não é enfeite: sem ele, `href="#dados-negocio"` casa
+  como se fosse a cor `#dad`.
 - **Integridade** — nenhum utilitário solto contradizendo token:
-  `grep -n 'text-\[#\|bg-\[#\|\[rgba' *.html` vazio.
+  `grep -rn 'text-\[#\|bg-\[#\|\[rgba' components/*.tsx app/*.tsx *.html` vazio.
+  Mesma correção de caminho do item acima, e pelo mesmo motivo.
 
 ## Acabamento (antes de chamar o fundador)
 
 Estados de todo controle, capturados; alinhamento óptico, não só matemático;
 texto longo e curto (o nome mais longo das abas, em 390); console sem erro;
-`npm run build:css` rodado e `site.css` commitado junto; captura final nos
-três tamanhos em `~/para-revisao/`, **lida** antes de chamar — regra do
-`AGENTS.md`: fatia de front-end confere em screenshot, sempre.
+`npm run build` rodado, com as 11 conferências do portão passando; captura
+final nos três tamanhos em `~/para-revisao/`, **lida** antes de chamar — regra
+do `AGENTS.md`: fatia de front-end confere em screenshot, sempre. Se a mudança
+tocar as três páginas herdadas, aí sim `site.css` recompilado e commitado
+junto.
 
 ## Texto que é compromisso público
 
@@ -206,7 +254,14 @@ do documento é trabalho separado, e só com a palavra do fundador.
 ## Regras que não mudam
 
 Texto da oferta e preço vêm do `negocio.md`. Nada de telefone de cliente, nome
-de cliente ou captura de conversa real. `site.css` compilado é commitado; a
-VPS não tem build. Achado sobre o `sofia-bot` ou o painel vira item da
-`fila.md` do `sofia-bot`, não trabalho daqui. Deploy é `git pull` na VPS,
-pela guia; linha de Nginx é do fundador. `/conectar` não se edita sem revisão.
+de cliente ou captura de conversa real — **e nada que se PAREÇA com credencial**:
+em 08/09/2026 a peça do Pix desenhava um BR Code plausível, com "RIACHO TECH"
+dentro, e o fundador o mandou tirar. Invenção com cara de chave é pior que
+invenção nenhuma, porque quem lê não tem como saber que é falsa. O que a página
+pode mostrar é o que ela já publica: o `contato@riachotech.com.br`, que é chave
+Pix de tipo e-mail e está no rodapé.
+
+`site.css` compilado é commitado, e só ele — a home não commita CSS. Achado
+sobre o `sofia-bot` ou o painel vira item da `fila.md` do `sofia-bot`, não
+trabalho daqui. O formato do deploy está em aberto e é decisão do fundador;
+linha de Nginx é dele. `/conectar` não se edita sem revisão.

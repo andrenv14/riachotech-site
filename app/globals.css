@@ -17,6 +17,14 @@
   --color-mist:        #CFE0DD;  /* corpo sobre navy */
   --color-mist-2:      #E4EFEC;  /* item de lista sobre navy */
   --color-mint:        #BFEBD3;  /* status "online" no celular */
+  /* Navy mais FUNDO que o `ink`, e ele existe por um motivo e nao por gosto: a
+     moldura do celular era `--color-ink`, a mesma cor do fundo do hero, e o
+     aparelho nao tinha corpo — via-se so' o halo de luz em volta de um vazio.
+     Vale para a moldura E para o fundo da tela, pela regra de canto arredondado
+     com recorte: o que estiver ATRAS do canto tem de ter a cor do que estiver
+     FORA dele. Estava solto como `--phone-corpo` fora do `@theme`, e foi o
+     proprio grep da skill `design-site` que o pegou. */
+  --color-ink-2:       #0C1729;
 
   --font-display: "Fraunces", serif;
   --font-sans:    "Inter", sans-serif;
@@ -284,7 +292,7 @@
      "vazando pixel" (medido em 08/09/2026 com `detectar-tells.js`). A regra
      geral está na skill `nao-slop`: raio do filho = raio do pai − padding. */
   /* A moldura é de COR CHAPADA, e isso não é preguiça: com o gradiente que
-     havia aqui antes, o topo da moldura ficava mais claro (#1d2f4d) que a
+     havia aqui antes, o topo da moldura ficava mais claro que a
      barra de status, que é `--color-ink` chapado. Nos cantos arredondados da
      tela o tom mais claro aparecia por trás do mais escuro, desenhando dois
      arcos — o "pixel vazando" que o fundador apontou em 08/09/2026, a segunda
@@ -858,12 +866,11 @@
      entao ela existe como objeto, e o anel de luz por cima dela le como reflexo
      de borda e nao como neon solto.
 
-     `--phone-corpo` vale para a moldura E para o fundo da tela, pela regra que
+     `--color-ink-2` vale para a moldura E para o fundo da tela, pela regra que
      ja' custou quatro voltas aqui: em elemento muito arredondado com recorte, o
      que estiver ATRAS do canto tem de ter a cor do que estiver FORA dele. */
-  :root { --phone-corpo: #0C1729; }
-  .phone { background: var(--phone-corpo); }
-  .phone-screen { background: var(--phone-corpo); }
+  .phone { background: var(--color-ink-2); }
+  .phone-screen { background: var(--color-ink-2); }
   .hero-escuro .phone {
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, .11),
