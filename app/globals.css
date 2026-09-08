@@ -380,8 +380,22 @@
 
   /* Tela mais curta: com uma mensagem só sobrava um campo morto de areia
      ocupando três quartos do aparelho. */
-  .phone-screen { height: 524px; }
+  /* QUARTA causa do "pixel branco" no canto de cima, e a de raiz. As tres
+     anteriores foram raio nao concentrico, gradiente na moldura e sombra
+     interna de luz. Esta: `.phone-screen` tinha fundo AREIA, que e' claro, e a
+     barra de status e' um retangulo de cantos retos dentro de uma tela de
+     cantos arredondados com overflow:hidden. No canto, a suavizacao do recorte
+     mistura a areia do fundo com o navy da moldura, e sobra um fio claro.
+
+     A cura e' o fundo da TELA ser o mesmo navy da moldura; a areia passa a ser
+     do corpo da conversa, que nao encosta em canto arredondado nenhum. Regra
+     geral, que ja custou quatro voltas: em elemento muito arredondado com
+     recorte, o que estiver ATRAS do canto tem de ter a cor do que estiver
+     FORA dele. */
+  .phone-screen { height: 524px; background: var(--color-ink); }
   @media (min-width: 900px) { .phone-screen { height: 596px; } }
+  .phone-body { background: var(--color-sand); }
+  .sugestoes { background: var(--color-sand); }
 
   @media (prefers-reduced-motion: reduce) { .phone-body { scroll-behavior: auto; } }
 }

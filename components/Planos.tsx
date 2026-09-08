@@ -40,8 +40,8 @@ export default function Planos({ zap }: { zap: string }) {
         <p className="mt-4 text-[17px] text-muted max-w-[52ch]">
           Existe programa mais barato, em que você mesmo monta os caminhos:
           digite 1 para agendar, digite 2 para preço. Aqui é outra coisa. A
-          assistente conversa de verdade, e eu configuro ela inteira pro seu
-          negócio.
+          assistente conversa de verdade e chega configurada pro seu negócio,
+          sem você montar fluxo nem aprender ferramenta nenhuma.
         </p>
 
         <div className="mt-14 grid gap-6 min-[900px]:grid-cols-2 min-[900px]:gap-8 items-stretch">
@@ -87,10 +87,10 @@ export default function Planos({ zap }: { zap: string }) {
             </div>
 
             <ul className="mt-7 mb-8">
-              <Item>Uma página, escrita e desenhada por mim</Item>
-              <Item>Botão de WhatsApp com a mensagem já pronta</Item>
-              <Item>Abre rápido no celular, que é onde seu cliente está</Item>
-              <Item>Feita pra ser lida, não pra ganhar prêmio</Item>
+              <Item>Uma página, com as seções fechadas por escrito antes de começar</Item>
+              <Item>Uma rodada de revisão inclusa no preço</Item>
+              <Item>Botão de WhatsApp com a mensagem já preenchida em cada seção</Item>
+              <Item>Você entrega o conteúdo; a escrita e o desenho vêm junto</Item>
             </ul>
 
             <a href={zapSite} className="btn btn-ghost mt-auto self-start">Quero um orçamento</a>
