@@ -46,7 +46,7 @@ const SECOES = [
   {
     id: 'servicos',
     rotulo: 'serviços',
-    titulo: 'O que fazemos',
+    titulo: 'O que a gente faz',
     apoio: 'Corte · Coloração · Escova · Hidratação',
     botao: 'Perguntar sobre coloração',
     mensagem: 'Oi! Vim pelo site. Queria saber sobre coloração.',
@@ -90,21 +90,48 @@ export default function MiniPagina() {
               type="button"
               aria-pressed={acesa}
               onClick={() => setAtiva(i)}
-              className={`mini-bloco ${acesa ? 'mini-bloco-acesa' : ''}`}
+              className={`mini-bloco ${i === 0 ? 'mini-bloco-topo' : ''} ${
+                acesa ? 'mini-bloco-acesa' : ''
+              }`}
             >
-              <span className="font-mono text-[9.5px] uppercase tracking-[.13em] text-muted">
-                {s.rotulo}
-              </span>
+              {/* O rótulo mono existe nas SEÇÕES, e não no topo. "SERVIÇOS" e
+                  "HORÁRIOS" são coisas que uma página de verdade escreve; "TOPO"
+                  não é — era anotação minha sobre a peça, e uma página anotada
+                  lê como diagrama de página, não como página. Foi o defeito que
+                  o fundador chamou de "herói fraquíssimo", junto com o topo ter
+                  a mesma altura das outras faixas. */}
+              {i > 0 && (
+                <span className="font-mono text-[9.5px] uppercase tracking-[.13em] text-muted">
+                  {s.rotulo}
+                </span>
+              )}
 
+              {/* A ESCALA DENTRO DA PEÇA, e ela é o que fazia a peça inteira
+                  ler como formulário em vez de página: os três blocos tinham
+                  título quase do mesmo tamanho, e página de verdade tem um topo
+                  que domina. O topo vai a 27px contra os 16px das seções, que é
+                  a mesma tensão de escala que a seção de preço da home usa. */}
               <span
-                className={`mt-1.5 block font-display leading-[1.2] text-ink ${
-                  i === 0 ? 'text-[21px]' : 'text-[16px]'
+                className={`block font-display leading-[1.1] text-ink ${
+                  i === 0 ? 'text-[30px] max-w-[12ch]' : 'mt-1.5 text-[16px]'
                 }`}
               >
                 {s.titulo}
               </span>
 
-              <span className="mt-1 block text-[13px] leading-[1.45] text-muted">{s.apoio}</span>
+              {/* Sobre o `sand` a linha de apoio NÃO usa `muted`: medido,
+                  `muted` sobre a faixa quente dá 4,18:1, abaixo dos 4,5 que o
+                  chão exige. A `design-site` já avisa que `muted` sobre
+                  `paper-2` é o par mais apertado do site, com 4,64 — sobre
+                  `sand` ele fica pior ainda. Nas faixas brancas `muted` continua
+                  valendo, e ali ele passa com folga. */}
+              <span
+                className={`block leading-[1.45] ${
+                  i === 0 ? 'mt-2.5 text-[14px] text-ink/75' : 'mt-1 text-[13px] text-muted'
+                }`}
+              >
+                {s.apoio}
+              </span>
 
               {/* O botão da página do CLIENTE. É desenho — quem escuta o toque
                   é o bloco em volta —, então ele não é um `<button>` aninhado,

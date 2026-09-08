@@ -1081,3 +1081,36 @@
     .mini-bloco { transition: none; }
   }
 }
+
+@layer components {
+  /* O TOPO da página em miniatura é o HERÓI dela, e não mais um bloco igual aos
+     outros. Foi o defeito que fez a peça inteira ler como formulário: três
+     faixas brancas de peso idêntico, separadas por fio, sem nada dominando —
+     que é a descrição de um formulário, não a de uma landing page.
+
+     A cor é o `sand`, o mesmo da tela do celular da home: já é da paleta, é
+     quente contra o branco das seções de baixo, e por não ser `signal` nem
+     `ink` ela não faz a página do CLIENTE parecer uma página da Riacho. */
+  .mini-bloco-topo {
+    /* O topo é MAIS ALTO que as seções de baixo, e a diferença tem de se ver:
+       faixa de mesma altura que as vizinhas não é herói, é linha de lista. */
+    background: var(--color-sand);
+    padding: 30px 20px 32px;
+  }
+
+  /* O aceso compõe com o fundo de cada bloco em vez de sobrescrevê-lo, e sobre
+     o `sand` ele entra MUITO mais fraco que sobre o branco. Não é ajuste de
+     gosto: `signal` é azul e `sand` é quente, e 9% de azul sobre bege dá cinza
+     NEUTRO. Como o topo nasce selecionado, era esse o estado que aparecia — a
+     faixa que devia ser a mais quente da peça era a única cinza dela, e foi
+     medido pelo computado, `oklab(0.879 -0.0015 0.0020)`, com a e b em zero.
+
+     A 3% a marca de seleção existe sem desmontar a cor, e quem carrega o estado
+     é a barra de acento à esquerda, que vale igual nas duas famílias de bloco. */
+  .mini-bloco-topo.mini-bloco-acesa {
+    background: color-mix(in oklab, var(--color-signal) 3%, var(--color-sand));
+  }
+  .mini-bloco-topo:hover:not(.mini-bloco-acesa) {
+    background: color-mix(in oklab, var(--color-signal) 1.5%, var(--color-sand));
+  }
+}

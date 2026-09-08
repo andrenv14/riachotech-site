@@ -71,45 +71,45 @@ const SECOES_NAV = [
    `build/conferir-estaticas.js`, e nenhuma delas afirma nota de ferramenta —
    nota muda sozinha, propriedade não. */
 const CONFERIDO = [
-  'Cor conferida par a par, para nenhum texto sumir no fundo',
-  'Botão grande o bastante para o dedo, e não só para o mouse',
-  'Sem rolagem lateral no celular, no tablet e no computador',
-  'Nada pula de lugar enquanto a página carrega',
-  'A fonte vem do próprio domínio, então nada depende de outro servidor',
+  'Abre rápido, mesmo com internet ruim',
+  'No celular funciona igual ao computador',
+  'Letra grande o bastante pra ler sem apertar o olho',
+  'Botão que o dedo acerta de primeira',
+  'Nada dança na tela enquanto carrega',
 ];
 
 const PRA_QUEM = [
   {
     rotulo: 'só tem o Instagram',
-    titulo: 'O link da bio leva pro perfil, e perfil não responde pergunta.',
+    titulo: 'O link da bio joga a pessoa no seu perfil.',
     texto:
-      'Quem chega quer saber o que você faz, quanto custa e se tem horário. A página responde isso e entrega a pessoa no seu WhatsApp já falando.',
+      'E perfil não responde pergunta. Quem chega quer saber o que você faz, quanto custa e se tem horário, e desiste antes de achar.',
   },
   {
     rotulo: 'manda print de tabela',
-    titulo: 'Preço e horário param de morar num print que você reenvia.',
+    titulo: 'Seu preço mora num print que você reenvia toda semana.',
     texto:
-      'Fica tudo num endereço só, que você manda uma vez e atualiza quando mudar, em vez de procurar a imagem certa na galeria.',
+      'Fica tudo num endereço só. Você manda uma vez, e atualiza quando o preço mudar em vez de procurar a imagem certa na galeria.',
   },
   {
     rotulo: 'paga anúncio',
-    titulo: 'Quem clica cai onde dá pra entender e chamar.',
+    titulo: 'O clique cai no perfil e se perde ali.',
     texto:
-      'Anúncio que joga a pessoa num perfil gasta o clique duas vezes: ela ainda precisa descobrir sozinha o que você faz e como falar com você.',
+      'Quem clicou ainda tem que descobrir sozinho o que você faz e como falar com você. É um passo a mais entre o interesse e a conversa.',
   },
 ];
 
 const VOCE_MANDA = [
   'O que o seu negócio faz, do seu jeito',
   'As fotos que você quiser mostrar',
-  'Preço, horário de funcionamento e onde fica',
+  'Preço, horário e onde fica',
   'O número de WhatsApp que recebe as mensagens',
 ];
 
 const SAI = [
   'Uma página no ar, no seu endereço',
   'Botão de WhatsApp em cada seção, com a mensagem já escrita',
-  'Aberta e conferida no celular, no tablet e no computador',
+  'Conferida no celular, no tablet e no computador',
   'Uma rodada de revisão, depois que você vir tudo pronto',
 ];
 
@@ -132,21 +132,22 @@ export default function LandingPage() {
             <div className="text-center min-[900px]:text-left min-[900px]:pt-6">
               {/* Sem rótulo acima do H1: é o hero padrão de SaaS de IA, e a
                   `design-site` o proíbe sem exceção. */}
-              {/* DUAS linhas no PC, e o texto foi escolhido para isso: a
-                  quebra natural cai depois de "termina", e "Sua página termina"
-                  cabe na coluna. A frase anterior — "Uma página que termina no
-                  seu WhatsApp." — dizia o mesmo em três linhas, e o h1 de três
-                  linhas é o único achado que a home carrega. Herdar a exceção
-                  dela sem precisar seria transformar um caso decidido uma vez
-                  em padrão da casa. */}
-              <h1 className="font-display font-semibold text-white text-[clamp(40px,5.6vw,62px)] leading-[1.04] tracking-[-0.02em] max-w-[16ch] mx-auto min-[900px]:mx-0">
-                Sua página termina{' '}
-                <em className="text-sky not-italic font-display italic">no WhatsApp</em>.
+              {/* A ESCALA É A DA HOME: 72px, o mesmo `clamp` do h1 de lá.
+                  A versão anterior descia a 62px para caber em duas linhas e
+                  zerar o achado do `detectar-tells` — era otimizar para o
+                  contador em vez de para a página, e custou justamente a
+                  presença que o herói precisa ter. O h1 de três linhas é
+                  decisão do fundador na home, e aqui vale igual: o detector
+                  conta, quem julga é quem olha. */}
+              <h1 className="font-display font-semibold text-white text-[clamp(42px,6.4vw,72px)] leading-[1.02] tracking-[-0.02em] max-w-[17ch] mx-auto min-[900px]:mx-0">
+                Sua página faz o cliente{' '}
+                <em className="text-sky not-italic font-display italic">te chamar</em>{' '}
+                no WhatsApp.
               </h1>
 
               <p className="mt-5 text-[17px] min-[900px]:text-[18px] text-mist max-w-[46ch] mx-auto min-[900px]:mx-0">
-                Cada seção tem um botão que abre a conversa com a mensagem já
-                escrita. O cliente chega falando.
+                Ele vê o que você faz, quanto custa e onde fica. E toca num
+                botão que abre a conversa.
               </p>
 
               {/* UMA chamada na primeira tela, e no PC ela vem antes da peça:
@@ -194,12 +195,12 @@ export default function LandingPage() {
                 A amostra é esta página.
               </h2>
               <p className="mt-5 text-[17px] leading-[1.6] text-muted max-w-[50ch]">
-                Você já está dentro dela. A sua sai do mesmo trabalho, com as
-                mesmas conferências antes de subir — e você pode conferir esta
-                agora: diminua a janela, abra no celular, aumente a letra.
+                Você já está dentro dela. A sua sai do mesmo trabalho, e dá pra
+                conferir agora: diminua a janela, abra no celular, aumente a
+                letra. Nada quebra.
               </p>
               <p className="mt-4 text-[17px] leading-[1.6] text-muted max-w-[50ch]">
-                Não é enfeite de engenheiro. Página que quebra no celular perde
+                Isso não é capricho. Página que quebra no celular perde
                 justamente quem chegou pelo Instagram, que é de onde vem quase
                 todo mundo.
               </p>
@@ -209,6 +210,9 @@ export default function LandingPage() {
               <div className="font-mono text-[11px] uppercase tracking-[.13em] text-muted">
                 conferido antes de subir
               </div>
+              <p className="mt-4 text-[16px] leading-[1.55] text-muted">
+                Em celular, tablet e computador, um por um.
+              </p>
               <ul className="mt-5">
                 {CONFERIDO.map((c) => (
                   <Marcado key={c}>{c}</Marcado>
@@ -223,7 +227,7 @@ export default function LandingPage() {
         <section id="pra-quem" className="vitrine textura py-24 min-[900px]:py-28">
           <div className="wrap">
             <h2 className="font-display font-semibold text-white text-[clamp(30px,4.2vw,46px)] leading-[1.12] max-w-[19ch]">
-              Ela resolve alguma coisa pra quem está numa destas.
+              Você já perdeu cliente por não ter pra onde mandar ele.
             </h2>
 
             <div className="mt-14 grid gap-10 min-[820px]:grid-cols-3 min-[820px]:gap-8">
@@ -253,9 +257,9 @@ export default function LandingPage() {
             </h2>
             <p className="mt-5 text-[17px] leading-[1.6] text-muted max-w-[52ch]">
               O escopo fica por escrito antes de começar: quais seções, o que
-              entra em cada uma, e o prazo. Pedido que aparecer depois vira
-              orçamento novo — e isso protege os dois lados, porque preço sem
-              escopo é preço que muda no meio.
+              entra em cada uma e o prazo. Pedido que aparecer depois vira
+              orçamento novo, e isso protege os dois lados — preço sem escopo é
+              preço que muda no meio.
             </p>
 
             <div className="mt-12 grid gap-6 min-[820px]:grid-cols-2 min-[820px]:gap-8 items-stretch">
@@ -263,7 +267,7 @@ export default function LandingPage() {
                 <div className="font-mono text-[11.5px] uppercase tracking-[.13em] text-signal">
                   você manda
                 </div>
-                <h3 className="mt-3 font-display text-[23px] text-ink leading-[1.25] max-w-[22ch]">
+                <h3 className="mt-3 font-display text-[22px] text-ink leading-[1.25] max-w-[22ch]">
                   O conteúdo, que é seu
                 </h3>
                 <ul className="mt-6">
@@ -272,8 +276,8 @@ export default function LandingPage() {
                   ))}
                 </ul>
                 <p className="mt-auto pt-6 text-[16px] leading-[1.55] text-muted">
-                  Se você não tiver foto boa, a gente resolve isso junto antes de
-                  fechar o escopo.
+                  Não tem foto boa? A gente resolve isso junto, antes de fechar
+                  o escopo.
                 </p>
               </div>
 
@@ -281,7 +285,7 @@ export default function LandingPage() {
                 <div className="font-mono text-[11.5px] uppercase tracking-[.13em] text-signal">
                   sai
                 </div>
-                <h3 className="mt-3 font-display text-[23px] text-ink leading-[1.25] max-w-[22ch]">
+                <h3 className="mt-3 font-display text-[22px] text-ink leading-[1.25] max-w-[22ch]">
                   A página no ar, escrita e desenhada
                 </h3>
                 <ul className="mt-6">
@@ -290,7 +294,7 @@ export default function LandingPage() {
                   ))}
                 </ul>
                 <p className="mt-auto pt-6 text-[16px] leading-[1.55] text-muted">
-                  A escrita e o desenho ficam com a gente — é o trabalho, não um
+                  A escrita e o desenho ficam com a gente. É o trabalho, não um
                   extra.
                 </p>
               </div>
