@@ -14,7 +14,11 @@ export default function Home() {
       <Nav zap={ZAP} />
 
       <main>
-        <section className="hero-escuro textura relative pt-6 min-[900px]:pt-16 pb-0">
+        {/* `pb-16` no celular, `pb-0` a partir de 900: la' em cima o aparelho
+            DESCE e invade a secao de baixo de proposito, entao o hero nao pode
+            ter chao; aqui embaixo ele empilha, e sem o respiro a chamada
+            encostava na borda da secao seguinte (achado do fundador). */}
+        <section className="hero-escuro textura relative pt-6 pb-16 min-[900px]:pt-16 min-[900px]:pb-0">
           <div className="wrap grid gap-10 min-[900px]:grid-cols-[1.05fr_.95fr] min-[900px]:gap-14 items-start">
 
             <div className="text-center min-[900px]:text-left min-[900px]:pt-6 min-[900px]:pb-28">

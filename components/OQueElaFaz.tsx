@@ -77,7 +77,7 @@ function Bloco({
           `mt-auto` no último bloco. `mt-auto` e não `justify-end` — com
           overflow, `justify-content: flex-end` esconde conteúdo para cima e o
           navegador nem conta como rolável. */}
-      <div>{children}</div>
+      <div className="pecas">{children}</div>
       <div>
         <h3 className="font-display text-[21px] leading-[1.25] text-white max-w-[26ch]">{titulo}</h3>
         <p className="mt-3.5 text-[16px] leading-[1.55] text-mist max-w-[42ch]">{legenda}</p>
@@ -95,9 +95,13 @@ const HORARIOS = [
   { chip: 'sexta, 09:30', dia: 'sexta, 13', hora: '09:30', fim: '10:00', fala: '9h30' },
 ];
 
-const CODIGO_PIX =
-  '00020126580014br.gov.bcb.pix0136a1f3e2b74c9d8a51' +
-  '…520400005303986540408.005802BR5913RIACHO TECH6009BRASILIA';
+/* A chave que a peça mostra é o e-mail PÚBLICO da Riacho, e isso é decisão do
+   fundador em 08/09: nada que se pareça com chave de verdade entra no site.
+   A versão anterior desenhava um BR Code plausível, com "RIACHO TECH" dentro —
+   era invenção, e invenção com cara de credencial é pior que invenção nenhuma.
+   Chave Pix de tipo e-mail existe, o endereço já está no rodapé da página, e
+   copiar isto não entrega nada que a página não publique. */
+const CHAVE_PIX = 'contato@riachotech.com.br';
 
 /* Alturas das barras da onda, em px. É um desenho, não leitura de sinal — por
    isso a lista é fixa e mora aqui, e não num gerador aleatório que mudaria a
@@ -117,7 +121,7 @@ export default function OQueElaFaz() {
 
   async function copiar() {
     try {
-      await navigator.clipboard.writeText(CODIGO_PIX);
+      await navigator.clipboard.writeText(CHAVE_PIX);
       setCopiado(true);
       setTimeout(() => setCopiado(false), 2000);
     } catch {
@@ -200,8 +204,8 @@ export default function OQueElaFaz() {
           <Bloco
             rotulo="pix"
             titulo="Cobra dentro da conversa"
-            legenda="O valor vem do catálogo cadastrado, e o código copia-e-cola vai em
-              mensagem separada, para o cliente copiar sem pegar texto junto."
+            legenda="O valor vem do catálogo cadastrado, e a chave vai em mensagem
+              separada, para o cliente copiar sem pegar texto junto."
           >
             {/* DUAS peças empilhadas, e é a peça que prova a frase: a legenda
                 diz "mensagem separada", então são duas mensagens na tela. */}
@@ -216,8 +220,11 @@ export default function OQueElaFaz() {
                 <div className="mt-2.5 font-mono text-[11px] text-muted">1h · do item do catálogo</div>
               </div>
               <div className="peca mt-auto px-4 pt-3.5 pb-1">
-                <div className="font-mono text-[11.5px] leading-[1.55] text-ink break-all">
-                  {CODIGO_PIX}
+                <div className="font-mono text-[10px] uppercase tracking-[.09em] text-muted">
+                  chave pix · e-mail
+                </div>
+                <div className="mt-1.5 font-mono text-[13px] leading-[1.5] text-ink break-all">
+                  {CHAVE_PIX}
                 </div>
                 {temJs && (
                   <button
@@ -225,7 +232,7 @@ export default function OQueElaFaz() {
                     onClick={copiar}
                     className="inline-flex items-center min-h-[44px] font-mono text-[11px] uppercase tracking-[.09em] text-signal-dark hover:underline"
                   >
-                    {copiado ? 'código copiado' : 'copiar código'}
+                    {copiado ? 'chave copiada' : 'copiar chave'}
                   </button>
                 )}
               </div>

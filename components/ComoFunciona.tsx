@@ -120,16 +120,25 @@ export default function ComoFunciona() {
         <ol className="mt-14 space-y-12 min-[900px]:space-y-0 min-[900px]:grid min-[900px]:grid-cols-3 min-[900px]:gap-10 min-[900px]:grid-rows-[auto_auto_1fr_auto]">
           {PASSOS.map((p, i) => (
             <li key={p.titulo} className="relative min-[900px]:pt-8 min-[900px]:grid min-[900px]:row-span-4 min-[900px]:grid-rows-subgrid min-[900px]:gap-0">
-              {/* A régua do tempo: uma linha fina que atravessa os três, com a
-                  hora ancorada nela. No celular ela vira vertical. */}
+              {/* A régua do tempo: um trilho fino que atravessa os três, com a
+                  hora ancorada nele. No celular ela some.
+
+                  São DUAS camadas. O trilho cinza está sempre inteiro; por cima
+                  dele o rastro azul cresce da esquerda para a direita levando o
+                  ponto na ponta, um passo de cada vez. Antes o que crescia era o
+                  próprio trilho, em cinza, e o ponto só acendia parado na
+                  largada — o movimento existia e não se via, porque nada mudava
+                  de cor no caminho. */}
               <span
                 aria-hidden="true"
-                className="regua hidden min-[900px]:block absolute top-[7px] left-0 right-0 h-px bg-line"
+                className="hidden min-[900px]:block absolute top-[7px] left-0 right-0 h-px bg-line"
               />
               <span
                 aria-hidden="true"
-                className="regua-ponto hidden min-[900px]:block absolute top-[3px] left-0 w-[9px] h-[9px] rounded-full bg-signal"
-              />
+                className="rastro hidden min-[900px]:block absolute top-[7px] left-0 h-px bg-signal"
+              >
+                <span aria-hidden="true" className="regua-ponto" />
+              </span>
               <time className="font-mono text-[12px] tracking-[.06em] text-signal-dark">
                 {p.hora}
                 {i > 0 && <span className="text-muted"> {i === 1 ? '· mesmo minuto' : '· um minuto depois'}</span>}

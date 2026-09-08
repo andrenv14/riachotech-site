@@ -377,7 +377,14 @@
      oklab a partir dos próprios tokens — não é gradiente decorativo de topo,
      que a `design-site` proíbe: é luz de fundo atrás do assunto. */
   /* Chão escuro do hero, com uma fonte de luz só. */
-  .hero-escuro { position: relative; isolation: isolate; background: var(--color-ink); }
+  /* `z-index: 1` e' o que mantem o aparelho VISIVEL depois de ele descer para
+     dentro da secao de baixo. Sem ele o hero e' um elemento de fluxo comum: a
+     proxima secao pinta o fundo dela DEPOIS, por cima do que transbordou, e o
+     celular sumia cortado na fronteira das duas — achado do fundador, em 1468px
+     de largura. O `isolation` sozinho nao resolvia; ele isola o que esta'
+     DENTRO, e o problema era a ordem de pintura entre irmaos.
+     A barra de topo esta' em `z-50` e continua por cima de tudo. */
+  .hero-escuro { position: relative; z-index: 1; isolation: isolate; background: var(--color-ink); }
   .hero-escuro::before {
     content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background:
@@ -415,22 +422,32 @@
      `overdrive.md` que eu mesmo citei para justificar este movimento: o que
      existe sem o realce tem de continuar bom. Achado medindo o HTML gerado,
      nao pensando. */
-  .regua { transform-origin: left center; }
-  .regua-ponto { opacity: 1; }
+  /* O RASTRO. Ele cresce em `width` e nao em `scaleX`, e isso e' o que faz o
+     ponto ficar colado na ponta: `scaleX` esticaria o ponto junto e ele viraria
+     uma elipse. Sao tres elementos finos numa transicao curta, entao o custo de
+     animar largura nao aparece.
 
-  html.js .regua { transform: scaleX(0); }
-  html.js .regua-ponto { opacity: 0; }
-  html.js .visivel .regua { transform: scaleX(1); transition: transform .75s cubic-bezier(.22,.61,.36,1); }
-  html.js .visivel .regua-ponto { opacity: 1; transition: opacity .3s ease .1s; }
-  html.js .visivel li:nth-child(2) .regua { transition-delay: .12s; }
-  html.js .visivel li:nth-child(2) .regua-ponto { transition-delay: .22s; }
-  html.js .visivel li:nth-child(3) .regua { transition-delay: .24s; }
-  html.js .visivel li:nth-child(3) .regua-ponto { transition-delay: .34s; }
+     Sem JS o rastro ja' nasce inteiro, com o ponto no fim: o desenho existe sem
+     o realce, que e' a regra que a versao anterior desta animacao violou —
+     naquela, sem JS a regua sumia PARA SEMPRE. */
+  .rastro { width: 100%; }
+  .regua-ponto {
+    position: absolute; right: -4px; top: -4px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--color-signal);
+  }
+
+  html.js .rastro { width: 0; }
+  /* UM DE CADA VEZ: a duracao e' .7s e os atrasos sao .55s e 1.1s, entao cada
+     rastro so' comeca quando o anterior esta' quase fechando. Com os .12s de
+     antes os tres corriam praticamente juntos e a sequencia nao se lia. */
+  html.js .visivel .rastro { width: 100%; transition: width .7s cubic-bezier(.22,.61,.36,1); }
+  html.js .visivel li:nth-child(2) .rastro { transition-delay: .55s; }
+  html.js .visivel li:nth-child(3) .rastro { transition-delay: 1.1s; }
 
   @media (prefers-reduced-motion: reduce) {
-    html.js .regua { transform: none; }
-    html.js .regua-ponto { opacity: 1; }
-    html.js .visivel .regua, html.js .visivel .regua-ponto { transition: none; }
+    html.js .rastro { width: 100%; }
+    html.js .visivel .rastro { transition: none; }
   }
 
   /* A GRADE DO DIA se resolve quando entra na tela: as faixas aparecem em
@@ -875,5 +892,26 @@
   .hero-escuro .sugestoes { animation: bubble-pop .4s ease 2.05s both; opacity: 0; }
   @media (prefers-reduced-motion: reduce) {
     .hero-escuro .phone-body > .bubble, .hero-escuro .sugestoes { animation: none; opacity: 1; }
+  }
+}
+
+@layer components {
+  /* O PULINHO. As peças sobem um degrau quando o ponteiro entra no bloco — o
+     bloco inteiro, e não cada peça: no pix e no lembrete são duas peças que
+     contam uma coisa só, e vê-las subir separadas quebraria o par.
+
+     `@media (hover: hover)` porque no toque não existe passar por cima: sem a
+     guarda, o primeiro toque num celular dispara o estado de hover e ele fica
+     grudado até o toque seguinte. E nada disso roda com movimento reduzido. */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .pecas .peca {
+      transition: transform .2s cubic-bezier(.22, .61, .36, 1), box-shadow .2s ease;
+    }
+    .pecas:hover .peca {
+      transform: translateY(-4px);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, .12),
+        0 26px 50px -20px rgba(0, 0, 0, .8);
+    }
   }
 }
