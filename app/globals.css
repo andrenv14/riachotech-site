@@ -428,6 +428,37 @@
     html.js .visivel .regua, html.js .visivel .regua-ponto { transition: none; }
   }
 
+  /* A GRADE DO DIA se resolve quando entra na tela: as faixas aparecem em
+     sequencia e as DUAS LIVRES chegam por ultimo, acesas. O que isso comunica:
+     ela esta conferindo a agenda agora, e achou. E' o argumento da coluna do
+     meio acontecendo em vez de ser descrito.
+
+     Mesmo padrao de degradacao da regua: sem `html.js` tudo nasce no lugar. */
+  html.js .faixa { opacity: 0; transform: translateY(4px); }
+  html.js .visivel .faixa {
+    opacity: 1; transform: none;
+    transition: opacity .32s ease, transform .32s ease;
+  }
+  html.js .visivel .faixa:nth-child(1) { transition-delay: .05s; }
+  html.js .visivel .faixa:nth-child(2) { transition-delay: .11s; }
+  html.js .visivel .faixa:nth-child(3) { transition-delay: .17s; }
+  html.js .visivel .faixa:nth-child(6) { transition-delay: .23s; }
+  html.js .visivel .faixa-livre:nth-child(4) { transition-delay: .42s; }
+  html.js .visivel .faixa-livre:nth-child(5) { transition-delay: .52s; }
+
+  /* O LEMBRETE chega como mensagem chega: de baixo, uma vez. O que comunica e'
+     que ele sai sozinho, sem ninguem mandar — que e' o texto ao lado. */
+  html.js .chega { opacity: 0; transform: translateY(10px); }
+  html.js .visivel .chega {
+    opacity: 1; transform: none;
+    transition: opacity .45s ease .15s, transform .45s cubic-bezier(.22,.61,.36,1) .15s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .faixa, html.js .chega { opacity: 1; transform: none; }
+    html.js .visivel .faixa, html.js .visivel .chega { transition: none; }
+  }
+
   .halo { position: relative; isolation: isolate; }
   .halo::before {
     content: ""; position: absolute; inset: -10% 0 auto; height: 130%; z-index: -1;

@@ -18,6 +18,8 @@
    O conteúdo é a tabela "O que a assistente faz (verificado no código)" de
    `docs/contexto/negocio.md`. Nada aqui promete o que ela não faz. */
 
+import AoEntrar from '@/components/AoEntrar';
+
 function Bloco({
   span, rotulo, titulo, children,
 }: {
@@ -82,12 +84,12 @@ export default function OQueElaFaz() {
               Mensagem de utilidade pela API oficial, com o texto aprovado pela
               Meta.
             </p>
-            <div className="mt-4 rounded-[12px] rounded-bl-[4px] bg-white/10 px-3.5 py-3">
+            <AoEntrar><div className="chega mt-4 rounded-[12px] rounded-bl-[4px] bg-white/10 px-3.5 py-3">
               <div className="text-[13.5px] leading-[1.45] text-mist-2">
                 Oi, Camila! Passando pra lembrar da sua consulta amanhã às 16h30.
               </div>
               <span className="mt-1.5 block text-right font-mono text-[10px] text-sky-2">08:00</span>
-            </div>
+            </div></AoEntrar>
           </Bloco>
 
           <Bloco

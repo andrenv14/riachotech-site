@@ -49,8 +49,8 @@ function Grade() {
             key={f.h}
             className={
               f.livre
-                ? 'rounded-md bg-signal text-white font-mono text-[12px] py-1.5 text-center'
-                : 'rounded-md bg-paper-2 text-muted font-mono text-[12px] py-1.5 text-center line-through decoration-[1.5px]'
+                ? 'faixa faixa-livre rounded-md bg-signal text-white font-mono text-[12px] py-1.5 text-center'
+                : 'faixa rounded-md bg-paper-2 text-muted font-mono text-[12px] py-1.5 text-center line-through decoration-[1.5px]'
             }
           >
             {f.h}

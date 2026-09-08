@@ -51,10 +51,10 @@ const ROTEIROS: Roteiro[] = [
   },
   {
     chip: 'tem horário amanhã?',
-    pergunta: 'tem horário amanhã pra falar com alguém?',
+    pergunta: 'tem horário amanhã pra uma conversa?',
     respostas: [
-      'Deixa eu conferir a agenda do André…',
-      'Amanhã ele tem 15h ou 16h30 livres. Qual fica melhor pra você?',
+      'Deixa eu conferir a agenda…',
+      'Amanhã tem 15h ou 16h30 livres. Qual fica melhor pra você?',
     ],
   },
 ];
