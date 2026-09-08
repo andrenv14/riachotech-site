@@ -385,12 +385,8 @@
      DENTRO, e o problema era a ordem de pintura entre irmaos.
      A barra de topo esta' em `z-50` e continua por cima de tudo. */
   .hero-escuro { position: relative; z-index: 1; isolation: isolate; background: var(--color-ink); }
-  .hero-escuro::before {
-    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background:
-      radial-gradient(52% 46% at 72% 34%, color-mix(in oklab, var(--color-signal) 58%, transparent), transparent 68%),
-      radial-gradient(70% 60% at 88% 12%, color-mix(in oklab, var(--color-sky) 20%, transparent), transparent 72%);
-  }
+  /* O `::before` do hero deixou de carregar a luz: ela passou para `.luz-hero`,
+     que e' uma caixa recortada e pode derivar sem vazar. Ficou so' o chao. */
   /* O aparelho deixa de ter sombra caida e passa a ter halo: ele esta ILUMINADO
      por aquela fonte, entao o que aparece em volta e' luz, nao sombra. */
   .hero-escuro .phone {
@@ -708,16 +704,23 @@
      fechar com luz embaixo ao centro, atrás da última frase: as duas pontas
      escuras se respondem em vez de a página desmanchar num navy chapado.
      Mesma técnica e mesmos tokens de `.hero-escuro`. */
+  /* A luz mora no `<footer>` INTEIRO, e não no bloco da chamada. Ela morava no
+     bloco com `inset: -30px 0 -220px`, para o degradê não ser cortado rente à
+     borda e deixar uma emenda visível — só que 220px abaixo daquele bloco caem
+     87px FORA do rodapé: o `::before` esticava o documento, pintava navy sobre
+     o fundo claro do `body` e sobrava uma faixa escura com um filete claro
+     debaixo dela, no fim da página. Achado do fundador, duas vezes.
+
+     No `<footer>` o problema não existe nas duas pontas: `inset: 0` não vaza, e
+     a borda de baixo do degradê é a borda de baixo da PÁGINA, onde não há nada
+     abaixo para revelar emenda. As alturas dos dois focos desceram porque a
+     caixa cresceu — a luz continua atrás da última frase. */
   .fecho-luz { position: relative; isolation: isolate; }
-  /* O `inset` estoura a caixa embaixo DE PROPÓSITO. Com `inset: 0` o segundo
-     degradê era cortado rente à borda de baixo do bloco e a emenda aparecia
-     como um fio horizontal acima do rodapé — luz não tem borda reta, e o olho
-     acha a que tiver. Estourando, quem termina a luz é a própria queda dela. */
   .fecho-luz::before {
-    content: ""; position: absolute; inset: -30px 0 -220px; z-index: -1; pointer-events: none;
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background:
-      radial-gradient(52% 60% at 50% 58%, color-mix(in oklab, var(--color-signal) 38%, transparent), transparent 72%),
-      radial-gradient(64% 46% at 50% 86%, color-mix(in oklab, var(--color-sky) 12%, transparent), transparent 74%);
+      radial-gradient(52% 46% at 50% 40%, color-mix(in oklab, var(--color-signal) 38%, transparent), transparent 72%),
+      radial-gradient(64% 36% at 50% 62%, color-mix(in oklab, var(--color-sky) 12%, transparent), transparent 74%);
   }
 }
 
@@ -824,14 +827,20 @@
      seccao; sem isso ele esticaria com a caixa e cada secao teria um grao
      diferente. */
   :root {
+    /* GRÃO fino: o ruído de perto. */
     --grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+    /* MANCHA larga: a variação de longe. É ela que tira o "negocão chapado" —
+       grão fino sozinho some a dois metros da tela, porque o olho o integra e
+       volta a ver cor lisa. Frequência baixa e ladrilho grande (560px) para a
+       repetição não se ler como padrão. */
+    --mancha: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='560' height='560' filter='url(%23m)' opacity='0.62'/%3E%3C/svg%3E");
   }
   .textura { position: relative; }
   .textura::after {
     content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image: var(--grao);
-    background-size: 160px 160px;
-    opacity: .055;
+    background-image: var(--grao), var(--mancha);
+    background-size: 160px 160px, 560px 560px;
+    opacity: .095;
   }
   /* Sem `mix-blend-mode`, e a razao esta' medida: com `overlay` o grao SUMIA
      sobre o navy — overlay preserva tom escuro, entao ruido cinza medio sobre
@@ -841,7 +850,7 @@
 
      No claro ele pesa mais, porque cinza sobre papel escurece mais do que
      clareia sobre navy. Menos forca para o material ser o mesmo nos dois. */
-  .textura-clara::after { opacity: .03; }
+  .textura-clara::after { opacity: .055; }
 
   /* O CORPO do celular. Ele era `--color-ink`, a MESMA cor do fundo do hero:
      o aparelho nao tinha corpo, e o que se via era so' o halo de luz em volta —
@@ -913,5 +922,74 @@
         0 1px 0 rgba(255, 255, 255, .12),
         0 26px 50px -20px rgba(0, 0, 0, .8);
     }
+  }
+}
+
+@layer components {
+  /* TEXTURA DAS TELAS de conversa. O fundo areia era chapado, e é justo a
+     superfície que o visitante reconhece como "tela de WhatsApp" — aplicativo
+     de mensagem tem papel de parede, e sem nenhum a tela lia como caixa de cor.
+
+     Não é imitação do papel de parede da Meta: é o mesmo grão do resto do site
+     com uma trama diagonal muito fraca por cima, no azul da própria marca. Vive
+     em `::before` para não disputar com o conteúdo, e as bolhas ficam acima
+     dele por serem posicionadas no fluxo normal. */
+  .phone-body, .painel-conversa .fala { position: relative; }
+  .phone-body::before, .painel-conversa .fala::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      var(--grao),
+      repeating-linear-gradient(
+        45deg,
+        color-mix(in oklab, var(--color-ink) 5%, transparent) 0 1px,
+        transparent 1px 9px
+      );
+    background-size: 160px 160px, auto;
+    opacity: .5;
+  }
+  .phone-body > *, .painel-conversa .fala > * { position: relative; z-index: 1; }
+
+  /* A LUZ DO HERO ANDA. Pedido do fundador em 08/09, e ela é lenta de propósito:
+     26s por ida e volta, sem ponto de virada perceptível. O que se nota não é o
+     movimento, é a tela deixar de parecer um congelamento.
+
+     Ela mora numa caixa PRÓPRIA com `overflow: hidden`, e não no `::before` da
+     seção, por um motivo prático: para a luz derivar sem deixar borda à mostra
+     ela precisa ser maior que a tela, e um pseudo-elemento maior que o pai não
+     é recortado por ninguém — ele pintaria por cima da seção de baixo. Dentro
+     da caixa recortada, a mancha estoura 30% para cada lado e nunca revela
+     canto.
+
+     Anima `transform`, que a placa de vídeo resolve sem repintar: gradiente de
+     tela inteira repintado a cada quadro seria caro, e é o que aconteceria
+     animando `background-position`. */
+  .luz-hero {
+    position: absolute; inset: 0; z-index: -1;
+    overflow: hidden; pointer-events: none;
+  }
+  /* A mancha e' um PSEUDO-elemento, e nao um filho de verdade. Ela precisa
+     estourar 30% para cada lado para derivar sem revelar canto, e um filho com
+     `inset: -30%` e' mais largo que a janela: o `npm run medir` passou a
+     apontar `i` como culpado de overflow — falso positivo, porque o pai recorta
+     e o `scrollWidth` nao mudou, mas culpado nomeado no relatorio e' exatamente
+     o tipo de coisa que a proxima sessao vai investigar do zero. Pseudo-elemento
+     nao entra em `querySelectorAll`, e o desenho e' o mesmo. */
+  .luz-hero::before {
+    content: ""; position: absolute; inset: -30%; display: block;
+    background:
+      radial-gradient(42% 40% at 68% 34%, color-mix(in oklab, var(--color-signal) 62%, transparent), transparent 70%),
+      radial-gradient(52% 46% at 86% 14%, color-mix(in oklab, var(--color-sky) 22%, transparent), transparent 72%);
+    /* O atraso nao e' estetico: a animacao competia com a primeira pintura e
+       custou 4 pontos de performance e meio segundo de LCP no Lighthouse.
+       Comecando depois que a pagina se desenha, o preco desaparece e ninguem
+       ve diferenca — a ida e volta dura 26s. */
+    animation: luz-deriva 26s ease-in-out 2s infinite alternate;
+  }
+  @keyframes luz-deriva {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(-4%, 3%, 0) scale(1.1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .luz-hero::before { animation: none; }
   }
 }

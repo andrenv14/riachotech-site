@@ -31,8 +31,8 @@ const LINKS = [
 
 export default function Fechamento({ zap }: { zap: string }) {
   return (
-    <footer className="bg-ink">
-      <div className="fecho-luz textura">
+    <footer className="bg-ink textura fecho-luz">
+      <div>
         {/* O ar de BAIXO é menos da metade do de cima, e não por gosto: medido em
             1280, o vão entre a última linha da chamada e a régua do rodapé era de
             96px, contra 33px da régua até os links e 56px dos links até o fim da

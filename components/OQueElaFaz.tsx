@@ -258,7 +258,7 @@ export default function OQueElaFaz() {
               <div className="peca px-4 py-3.5">
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="font-mono text-[10px] uppercase tracking-[.09em] text-muted">
-                    24 h antes
+                    24h antes
                   </span>
                   <span className="font-mono text-[11px] text-muted">na véspera</span>
                 </div>
@@ -269,7 +269,7 @@ export default function OQueElaFaz() {
               <div className="peca px-4 py-3.5">
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="font-mono text-[10px] uppercase tracking-[.09em] text-muted">
-                    1 h antes
+                    1h antes
                   </span>
                   <span className="font-mono text-[11px] text-muted">no dia</span>
                 </div>
@@ -283,9 +283,8 @@ export default function OQueElaFaz() {
                   limite do mecanismo, e limite declarado vale mais que promessa
                   redonda. */}
               <div className="mt-auto font-mono text-[11px] leading-[1.6] text-sky-2">
-                se a marcação for feita depois da hora
-                <br />
-                do aviso de 24 h, só o de 1 h sai
+se a marcação for feita depois da hora do
+                aviso de 24h, só o de 1h sai
               </div>
             </div></AoEntrar>
           </Bloco>

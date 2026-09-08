@@ -19,6 +19,10 @@ export default function Home() {
             ter chao; aqui embaixo ele empilha, e sem o respiro a chamada
             encostava na borda da secao seguinte (achado do fundador). */}
         <section className="hero-escuro textura relative pt-6 pb-16 min-[900px]:pt-16 min-[900px]:pb-0">
+          {/* A luz que deriva. Caixa própria porque ela precisa ser maior que a
+              tela para se mover sem mostrar borda, e o recorte tem de existir —
+              ver `.luz-hero` em `app/globals.css`. */}
+          <div className="luz-hero" aria-hidden="true" />
           <div className="wrap grid gap-10 min-[900px]:grid-cols-[1.05fr_.95fr] min-[900px]:gap-14 items-start">
 
             <div className="text-center min-[900px]:text-left min-[900px]:pt-6 min-[900px]:pb-28">
