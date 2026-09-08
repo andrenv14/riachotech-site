@@ -76,7 +76,7 @@ export default function OQueElaFaz() {
         <div className="mt-14 grid grid-cols-1 min-[820px]:grid-cols-12 gap-x-10 gap-y-7">
 
           <Bloco
-            span="min-[820px]:col-span-7"
+            span="min-[820px]:col-span-4"
             rotulo="agenda"
             titulo="Olha a sua agenda no instante da pergunta"
             legenda="Marca, cancela e remarca no seu Google Agenda, e oferece dois ou três
@@ -87,26 +87,40 @@ export default function OQueElaFaz() {
                 evento como ele nasce no Google Agenda. A barra de cor à
                 esquerda e a linha de autoria embaixo são o que distingue um
                 evento criado pela assistente de um digitado à mão. */}
-            <div className="peca px-5 py-4 max-w-[420px]">
-              <div className="flex gap-3.5">
-                <span aria-hidden="true" className="mt-1 h-[38px] w-[3px] flex-shrink-0 rounded-full bg-signal" />
+            {/* UMA peça com duas seções, e não duas peças: no pix e no lembrete
+                as duas camadas são duas MENSAGENS separadas, e ali a separação
+                é o que a legenda promete. Aqui é um episódio só da agenda — o
+                que ela ofereceu e o que virou evento —, então divide por fio,
+                não por peça. A seção de cima também prova a frase da legenda,
+                "oferece dois ou três horários livres em vez da grade inteira",
+                que antes era só afirmação. */}
+            <div className="peca px-4 py-3.5">
+              <div className="font-mono text-[10px] uppercase tracking-[.09em] text-muted">
+                ela ofereceu
+              </div>
+              <div className="mt-2.5 flex flex-wrap gap-2">
+                <span className="rounded-[8px] border border-line px-2.5 py-1.5 text-[13px] text-ink">
+                  quinta, 16:30
+                </span>
+                <span className="rounded-[8px] border border-line px-2.5 py-1.5 text-[13px] text-ink">
+                  sexta, 09:30
+                </span>
+              </div>
+              <div className="mt-3.5 flex gap-3 border-t border-line pt-3.5">
+                <span aria-hidden="true" className="mt-0.5 h-[36px] w-[3px] flex-shrink-0 rounded-full bg-signal" />
                 <div className="min-w-0">
-                  <div className="text-[15.5px] font-semibold leading-[1.3] text-ink">
+                  <div className="text-[14.5px] font-semibold leading-[1.3] text-ink">
                     Camila Nunes · Clínica geral
                   </div>
-                  <div className="mt-1 text-[14px] text-muted">
-                    quinta, 12 · 16:30 às 17:00
-                  </div>
+                  <div className="mt-1 text-[13.5px] text-muted">quinta, 12 · 16:30 às 17:00</div>
+                  <div className="mt-2 font-mono text-[11px] text-muted">criado pela Sofia às 14:07</div>
                 </div>
-              </div>
-              <div className="mt-3.5 border-t border-line pt-2.5 font-mono text-[11px] text-muted">
-                criado pela Sofia às 14:07
               </div>
             </div>
           </Bloco>
 
           <Bloco
-            span="min-[820px]:col-span-5"
+            span="min-[820px]:col-span-4"
             rotulo="pix"
             titulo="Cobra dentro da conversa"
             legenda="O valor vem do catálogo cadastrado, e o código copia-e-cola vai em
@@ -115,13 +129,21 @@ export default function OQueElaFaz() {
             {/* DUAS peças empilhadas, e é a peça que prova a frase: a legenda
                 diz "mensagem separada", então são duas mensagens na tela, não
                 uma caixa só com o texto explicando que seriam duas. */}
-            <div className="flex flex-col gap-2.5 max-w-[360px]">
+            <div className="flex flex-col gap-2.5">
               <div className="peca px-4 py-3.5">
                 <div className="text-[14px] text-muted">Banho e tosa · porte médio</div>
                 <div className="mt-1 font-display text-[26px] leading-none text-ink">R$ 80,00</div>
+                {/* A procedência do valor, que é o que a legenda afirma: ele não
+                    foi digitado na hora, veio do item cadastrado — o mesmo item
+                    que aparece inteiro na peça do catálogo, com o mesmo preço e
+                    a mesma duração. */}
+                <div className="mt-2.5 font-mono text-[11px] text-muted">
+                  1h · do item do catálogo
+                </div>
               </div>
               <div className="peca px-4 py-3.5 font-mono text-[11.5px] leading-[1.55] text-ink break-all">
-                00020126580014br.gov.bcb.pix0136a1f3…5204000053039865802BR
+                00020126580014br.gov.bcb.pix0136a1f3e2b74c9d8a51…52040000530398654040
+                8.005802BR5913RIACHO TECH6009BRASILIA
               </div>
             </div>
           </Bloco>
@@ -173,7 +195,7 @@ export default function OQueElaFaz() {
           </Bloco>
 
           <Bloco
-            span="min-[820px]:col-span-4"
+            span="min-[820px]:col-span-8"
             rotulo="catálogo"
             titulo="Mostra o serviço com foto e preço"
             legenda="Nome, valor e foto de verdade, não uma lista de texto."
@@ -183,17 +205,20 @@ export default function OQueElaFaz() {
                 Continua placeholder declarado — entra foto de cliente quando
                 houver catálogo de cliente no ar.
                 eslint-disable-next-line @next/next/no-img-element */}
-            <div className="peca max-w-[330px]">
+            <div className="peca flex flex-col min-[820px]:flex-row">
               <img
                 src="/catalogo-banho-tosa-640.webp"
                 alt=""
                 width={640}
                 height={480}
-                className="peca-foto h-[152px] w-full object-cover"
+                className="peca-foto h-[152px] w-full object-cover min-[820px]:h-auto min-[820px]:w-[44%] min-[820px]:self-stretch"
               />
-              <div className="px-4 py-3.5">
-                <div className="text-[14.5px] leading-[1.35] text-ink">Banho e tosa · porte médio</div>
-                <div className="mt-1 font-mono text-[12px] text-muted">R$ 80,00 · 1h</div>
+              <div className="px-4 py-3.5 min-[820px]:flex min-[820px]:flex-col min-[820px]:justify-center min-[820px]:px-6">
+                <div className="text-[15.5px] leading-[1.35] text-ink">Banho e tosa · porte médio</div>
+                <div className="mt-1.5 font-mono text-[13px] text-muted">R$ 80,00 · 1h</div>
+                <div className="mt-3 text-[14px] leading-[1.5] text-muted max-w-[34ch]">
+                  A duração sai do próprio item, e é ela que reserva o espaço na agenda.
+                </div>
               </div>
             </div>
           </Bloco>
@@ -213,7 +238,7 @@ export default function OQueElaFaz() {
                 cliente não aparece nesta peça. Pôr a segunda à direita a leria
                 como fala do cliente, contra a convenção de lados que a
                 `PraQuemE` já fixou. */}
-            <div className="peca flex flex-col gap-1.5 p-3.5 max-w-[330px]">
+            <div className="peca flex flex-col gap-2 p-4">
               <span className="autoria">Sofia</span>
               <div className="fala-peca fala-peca-sofia self-start">
                 Vou chamar alguém da equipe pra falar com você.

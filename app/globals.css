@@ -643,6 +643,11 @@
      borda, então não há padding para descontar. Embaixo ela encosta no texto,
      que é reto. */
   .peca-foto { border-radius: var(--radius-card) var(--radius-card) 0 0; }
+  /* Com a peca em LINHA, a foto encosta na borda esquerda e nao na de cima:
+     o raio acompanha o lado em que ela esta'. Mesma conta, outro eixo. */
+  @media (min-width: 820px) {
+    .peca-foto { border-radius: var(--radius-card) 0 0 var(--radius-card); }
+  }
 
   /* Bolha dentro da peça. Menor que a `.bubble` do celular de propósito: aqui
      ela é ilustração de um mecanismo, não conversa que se lê. */
