@@ -993,3 +993,19 @@
     .luz-hero::before { animation: none; }
   }
 }
+
+@layer components {
+  /* A peça sobre fundo CLARO. É a irmã da `.peca` (que vive sobre o navy) e
+     existe pelo mesmo motivo: o artefato é um objeto, e objeto precisa se
+     descolar do chão. No escuro quem descola é a cor; no claro, o contorno fino
+     mais uma sombra de contato — sombra longa sobre papel claro vira sujeira.
+
+     Estava repetida em três lugares de `ComoFunciona.tsx` como classe utilitária
+     solta; virou nome para o dia em que a sombra mudar mudar em um lugar só. */
+  .peca-clara {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: 0 1px 2px rgba(20, 33, 61, .05);
+  }
+}

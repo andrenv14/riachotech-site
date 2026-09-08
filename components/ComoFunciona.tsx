@@ -22,11 +22,22 @@ type Passo = {
   artefato: React.ReactNode;
 };
 
+/* DUAS mensagens, e não uma. Gente escreve em rajada, e a segunda é o que
+   arma o passo seguinte: ela pede "depois das 15h", e a grade ao lado mostra
+   livres exatamente 15:00 e 16:30. Antes o artefato era uma bolha só, metade
+   da altura das vizinhas da mesma faixa — o vão vinha de falta de conteúdo, e
+   se fecha com conteúdo verdadeiro, não com espaçador. */
 function Mensagem() {
   return (
-    <div className="rounded-[14px] bg-white border border-line px-4 py-3 max-w-[300px] shadow-[0_1px_2px_rgba(20,33,61,.05)]">
-      <div className="text-[14px] text-ink leading-[1.45]">oi, tem horário livre amanhã de tarde?</div>
-      <span className="mt-1.5 block text-right font-mono text-[10px] text-muted">14:02</span>
+    <div className="flex h-full flex-col gap-2 max-w-[300px]">
+      <div className="peca-clara px-4 py-3">
+        <div className="text-[14px] text-ink leading-[1.45]">oi, tem horário livre amanhã de tarde?</div>
+        <span className="mt-1.5 block text-right font-mono text-[10px] text-muted">14:02</span>
+      </div>
+      <div className="peca-clara mt-auto px-4 py-3">
+        <div className="text-[14px] text-ink leading-[1.45]">pode ser depois das 15h</div>
+        <span className="mt-1.5 block text-right font-mono text-[10px] text-muted">14:02</span>
+      </div>
     </div>
   );
 }
@@ -41,7 +52,7 @@ function Grade() {
     { h: '18:00', livre: false },
   ];
   return (
-    <div className="rounded-[14px] bg-white border border-line p-3.5 max-w-[300px] shadow-[0_1px_2px_rgba(20,33,61,.05)]">
+    <div className="peca-clara flex h-full flex-col p-3.5 max-w-[300px]">
       <div className="font-mono text-[11px] uppercase tracking-[.12em] text-muted">amanhã, quinta</div>
       <div className="mt-2.5 grid grid-cols-3 gap-1.5">
         {faixas.map((f) => (
@@ -57,21 +68,37 @@ function Grade() {
           </span>
         ))}
       </div>
-      <div className="mt-2.5 text-[12.5px] text-muted">dois livres, o resto já ocupado</div>
+      <div className="mt-auto pt-2.5 text-[12.5px] text-muted">dois livres, o resto já ocupado</div>
     </div>
   );
 }
 
+/* O MESMO evento de agenda que a peça de "o que ela faz" mostra, desenhado do
+   mesmo jeito: barra de acento estreita ao lado do texto, título em sans, o dia
+   com a faixa de horas, e o rodapé mono com a agenda de destino e a autoria.
+
+   Antes eram dois desenhos para o mesmo objeto do mesmo produto — aqui com
+   título em SERIFA, barra larga sangrando na borda e sem contexto; lá com sans,
+   barra estreita e a linha de quem criou. O leitor passa pelos dois na mesma
+   rolagem, e objeto que muda de forma entre duas telas lê como duas coisas.
+
+   Some junto o `overflow-hidden` que a barra sangrada exigia — recorte em canto
+   arredondado é a família de defeito que já custou quatro voltas no celular. */
 function Compromisso() {
   return (
-    <div className="rounded-[14px] bg-white border border-line overflow-hidden max-w-[300px] shadow-[0_1px_2px_rgba(20,33,61,.05)]">
-      <div className="flex">
-        <span className="w-1.5 bg-signal" aria-hidden="true" />
-        <div className="px-4 py-3">
-          <div className="font-mono text-[11px] uppercase tracking-[.12em] text-muted">google agenda</div>
-          <div className="mt-1 font-display text-[17px] text-ink leading-[1.25]">Corte e barba · Bruno</div>
-          <div className="mt-0.5 font-mono text-[12px] text-muted">quinta, 16:30 · 40 min</div>
+    <div className="peca-clara flex h-full flex-col px-4 py-3.5 max-w-[300px]">
+      <div className="font-mono text-[11px] uppercase tracking-[.12em] text-muted">google agenda</div>
+      <div className="mt-3 flex gap-3">
+        <span aria-hidden="true" className="mt-0.5 h-[36px] w-[3px] flex-shrink-0 rounded-full bg-signal" />
+        <div className="min-w-0">
+          <div className="text-[14.5px] font-semibold leading-[1.3] text-ink">Corte e barba · Bruno</div>
+          <div className="mt-1 text-[13.5px] text-muted">quinta, 12 · 16:30 às 17:10</div>
         </div>
+      </div>
+      <div className="mt-auto pt-3 font-mono text-[11px] leading-[1.6] text-muted">
+        na agenda do Bruno
+        <br />
+        criado pela Sofia às 14:03
       </div>
     </div>
   );
@@ -148,7 +175,13 @@ export default function ComoFunciona() {
                 {p.titulo}
               </h3>
               <p className="mt-2.5 text-[16px] text-muted max-w-[40ch]">{p.texto}</p>
-              <div className="mt-6 min-[900px]:mt-8 min-[900px]:self-start">{p.artefato}</div>
+              {/* Sem `self-start`: a faixa do artefato ESTICA, e as três peças
+                  ficam com topo e pé na mesma linha. Medido antes, em 1280: os
+                  três começavam juntos em 1519 e terminavam em 1587, 1675 e
+                  1609 — 88px de diferença, o mesmo defeito que as outras cinco
+                  seções já não tinham. Quem distribui é cada peça por dentro,
+                  com `mt-auto` no último bloco. */}
+              <div className="mt-6 min-[900px]:mt-8">{p.artefato}</div>
             </li>
           ))}
         </ol>
