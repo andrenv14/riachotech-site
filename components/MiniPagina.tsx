@@ -31,11 +31,14 @@
    cliente e captura de conversa real não entram no site. Mesmo critério da
    "Camila Nunes" e do "Bruno" da home. */
 
+/* TRÊS serviços, e não quatro: a peça atravessa a borda do herói e precisa
+   terminar ANTES do conteúdo da seção seguinte. Cada linha aqui custa altura
+   real, e a lista existe para mostrar que a página tem preço — não para ser um
+   cardápio. */
 const SERVICOS = [
   { nome: 'Corte', preco: 'R$ 60' },
   { nome: 'Coloração', preco: 'R$ 180' },
   { nome: 'Escova', preco: 'R$ 45' },
-  { nome: 'Hidratação', preco: 'R$ 70' },
 ];
 
 function Zap({ children }: { children: React.ReactNode }) {
@@ -51,7 +54,7 @@ function Zap({ children }: { children: React.ReactNode }) {
 
 function Secao({ rotulo, children }: { rotulo: string; children: React.ReactNode }) {
   return (
-    <div className="px-6 py-7 border-t border-[color:var(--color-line)]">
+    <div className="px-6 py-5 border-t border-[color:var(--color-line)]">
       <div className="font-mono text-[9.5px] uppercase tracking-[.13em] text-muted">{rotulo}</div>
       {children}
     </div>
@@ -64,9 +67,9 @@ export default function MiniPagina() {
        usa leitor de tela, ouvir "Salão Aurora · Corte R$ 60" no meio do herói de
        outra empresa é ruído que promete um negócio que não existe. O que ela
        ilustra está dito em texto no herói e na seção das mensagens. */
-    <div className="peca w-full max-w-[420px] overflow-hidden" aria-hidden="true">
+    <div className="peca w-full max-w-[420px] overflow-hidden border border-[color:var(--color-line)]" aria-hidden="true">
 
-      <div className="flex items-center justify-between gap-3 px-6 py-4">
+      <div className="flex items-center justify-between gap-3 px-6 py-3.5">
         <div className="font-display text-[17px] text-ink leading-none">Salão Aurora</div>
         <div className="font-mono text-[9.5px] uppercase tracking-[.12em] text-muted">sudoeste</div>
       </div>
@@ -84,13 +87,13 @@ export default function MiniPagina() {
         src="/salao-cadeira-840.webp"
         alt=""
         width={840}
-        height={360}
+        height={280}
         className="block w-full h-auto"
       />
 
       {/* O TOPO da página do cliente, e é ele que domina. */}
-      <div className="mini-topo px-6 pt-7 pb-9">
-        <div className="font-display text-[32px] leading-[1.08] text-ink max-w-[11ch]">
+      <div className="mini-topo px-6 pt-5 pb-6">
+        <div className="font-display text-[28px] leading-[1.1] text-ink max-w-[11ch]">
           Cabelo bom, hora marcada.
         </div>
         {/* `div`, e não `<p>`: o texto DENTRO da peça é legenda de figura, e o
@@ -98,8 +101,8 @@ export default function MiniPagina() {
             A home resolve o mesmo caso do mesmo jeito, e por isso as falas do
             celular dela são span, nunca parágrafo. Marcar figura como parágrafo
             é que era o erro, não o tamanho. */}
-        <div className="mt-3 text-[14px] leading-[1.45] text-ink/75 max-w-[26ch]">
-          Corte, coloração e escova no Sudoeste, com hora marcada de verdade.
+        <div className="mt-2.5 text-[14px] leading-[1.45] text-ink/75 max-w-[30ch]">
+          Corte, coloração e escova no Sudoeste.
         </div>
         <Zap>Marcar horário</Zap>
       </div>
@@ -108,11 +111,11 @@ export default function MiniPagina() {
         {/* PREÇO alinhado à direita, com fio entre as linhas: é o que uma página
             de negócio de verdade tem, e é o que dá à peça a tensão de escala que
             faltava — nome em Inter, valor em display. */}
-        <ul className="mt-4">
+        <ul className="mt-3">
           {SERVICOS.map((s) => (
             <li
               key={s.nome}
-              className="flex items-baseline justify-between gap-4 py-2.5 border-b border-[color:var(--color-line)] last:border-b-0"
+              className="flex items-baseline justify-between gap-4 py-2 border-b border-[color:var(--color-line)] last:border-b-0"
             >
               <span className="text-[15px] text-ink">{s.nome}</span>
               <span className="font-display text-[16px] text-ink">{s.preco}</span>
@@ -126,24 +129,18 @@ export default function MiniPagina() {
         <div className="mt-3 font-display text-[19px] leading-[1.25] text-ink">
           Terça a sábado, das 9h às 19h
         </div>
-        <div className="mt-2 text-[14px] leading-[1.45] text-muted">
-          Domingo e segunda a gente descansa.
-        </div>
         <Zap>Ver se tem sábado</Zap>
       </Secao>
 
-      {/* A última seção existe para ser CORTADA: é ela que diz que a página
-          continua abaixo da dobra. Se um dia a peça deixar de sangrar, esta
-          seção precisa ganhar fim — meia seção visível dentro de uma caixa
-          fechada lê como defeito, não como corte. */}
-      <Secao rotulo="onde fica">
-        <div className="mt-3 font-display text-[19px] leading-[1.25] text-ink">
-          Quadra comercial, Sudoeste
-        </div>
-        <div className="mt-2 text-[14px] leading-[1.45] text-muted">
-          Estacionamento na porta, e dá pra ir a pé das quadras vizinhas.
-        </div>
-      </Secao>
+      {/* O RODAPÉ fecha a página. Ele existe porque a peça ATRAVESSA a borda
+          do herói e termina dentro da seção clara — e ali não há corte para
+          escondê-la, então ela precisa acabar por conta própria. Enquanto ela
+          era cortada rente à virada de cor, este bloco era uma seção pela
+          metade, de propósito; corte reto num cartão branco, porém, lê como
+          amputação e não como continuação, que foi o achado do fundador. */}
+      <div className="px-6 py-4 border-t border-[color:var(--color-line)] text-right font-mono text-[9.5px] uppercase tracking-[.12em] text-muted">
+        instagram · como chegar
+      </div>
     </div>
   );
 }

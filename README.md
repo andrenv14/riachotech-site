@@ -177,6 +177,40 @@ versão anterior desenhava um código copia-e-cola plausível, e invenção com 
 de chave é pior que invenção nenhuma, porque quem lê não tem como saber que é
 falsa.
 
+## `/landing-page/` — a página que vende landing page
+
+Ela precisa SER a amostra do serviço que vende: se não for a melhor página do
+site, desmente a própria oferta. Herda inteiro o vocabulário da home (`.peca`,
+`.textura`, as luzes, `.cartao-plano`, `.combo-luz`, `.fala-peca`,
+`.plan-item`); as duas classes próprias são `.mini-topo` e `.mini-zap`.
+
+**A peça do herói ATRAVESSA a borda de baixo do herói** e termina dentro da
+seção das mensagens — é o gesto do celular da home, e ele existe porque a
+alternativa falha: recortar a peça rente à virada de cor dá um corte reto num
+cartão branco, que lê como amputação e não como continuação.
+
+Para isso ela é **absoluta E transborda**, as duas coisas juntas. Absoluta, não
+entra na conta da altura do herói, então quem decide onde o navy termina é a
+coluna de texto e não sobra vão morto ao lado; sem recorte, o que passa disso
+invade a seção clara. Ter só uma das duas falha pela que falta — foi medido nas
+duas direções. Ela passa por cima da seção seguinte porque `.hero-escuro` tem
+`z-index: 1` e a seção de baixo não tem.
+
+**A seção das mensagens começa com um respiro grande no PC**, para o conteúdo
+dela nascer abaixo do pé da peça. O valor é medido, e este comando o rederiva —
+`folga` negativa quer dizer que a peça cresceu e o respiro precisa crescer
+junto (rode `npm run servir` antes):
+
+```
+node -e "const{chromium}=require('playwright');(async()=>{const b=await chromium.launch();for(const w of [1850,1280,1024,900]){const p=await b.newPage({viewport:{width:w,height:1000}});await p.goto('http://127.0.0.1:8111/landing-page/?v='+Date.now(),{waitUntil:'networkidle'});await p.waitForTimeout(2200);console.log(w,await p.evaluate(()=>{const q=document.querySelector('.peca').getBoundingClientRect(),i=document.querySelector('#mensagens img').getBoundingClientRect();return{folga:Math.round(i.top-q.bottom)}}));await p.close()}await b.close()})()"
+```
+
+**As duas fotos** (`public/salao-cadeira-840.webp` e
+`public/mensagem-que-chega-900.webp`) foram geradas pelo fundador a partir de
+`~/para-revisao/prompts-imagens-landing-page.md`. A do salão mora na faixa do
+topo da peça, com o título POR BAIXO e nunca por cima: texto sobre foto exigiria
+véu escuro para passar nos 4,5:1, e o véu mudaria o clima da peça inteira.
+
 ## Operação
 
 - `npm run build` gera o export em `out/` e roda o portão das 11 conferências.
@@ -185,12 +219,16 @@ falsa.
   `?v=alguma-coisa` na URL, senão você mede a página anterior.
 - `npm run medir` mede qualquer página nos três tamanhos; `npm run tells` conta
   os tells; `npm run og` regenera a prévia do link a partir dos próprios tokens.
-- **O formato do deploy está em aberto.** Hoje o diretório servido é um clone
-  deste repositório e o Nginx nega dotfiles, `README.md`, `docs/`, `build/`,
-  `nginx/` e `package*.json` — negações que estão no conf versionado. Com a home
-  virando export, a proposta registrada é o diretório servido passar a ser
-  artefato puro (só o conteúdo de `out/`), o que torna as negações
-  desnecessárias. Dois requisitos travam qualquer forma: a URL
+- **O DEPLOY MUDOU em 08/09/2026, e a forma antiga é armadilha.** O diretório
+  servido (`/var/www/riachotech`) deixou de ser um clone deste repositório e
+  passou a conter **só o conteúdo de `out/`**. Deploy é `npm run build` e depois
+  `rsync -a --delete --exclude='.git' out/ /var/www/riachotech/`.
+  **`git pull` no diretório servido NÃO é deploy — é pior que quebrar:** ele
+  devolve a página ANTIGA, sem erro nenhum, porque o `.git` de lá segue parado
+  no commit anterior de propósito, e é ele que dá o rollback
+  (`git checkout . && git clean -fd`). O estado se rederiva com
+  `git -C /var/www/riachotech status --porcelain | grep index.html`, que tem de
+  devolver `M`. Dois requisitos travam qualquer forma futura: a URL
   `privacidade.html` **com** `.html` não muda, e a âncora
   `#uso-limitado-google` não some.
 - `conectar/` é a página do Embedded Signup (o fluxo oficial da Meta para o

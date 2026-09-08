@@ -1049,7 +1049,7 @@
      Inter — inclusive controle desenhado. */
   .mini-zap {
     display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 16px; padding: 8px 13px;
+    margin-top: 14px; padding: 8px 13px;
     border-radius: 999px;
     background: var(--color-signal); color: #fff;
     font-size: 12px; font-weight: 500; line-height: 1;

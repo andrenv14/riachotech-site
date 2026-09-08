@@ -28,9 +28,18 @@ const MENSAGENS = [
   { de: 'de horários', texto: 'Oi! Vim pelo site. Vocês têm horário no sábado?' },
 ];
 
+/* O RESPIRO DE CIMA no PC não é gosto: a peça do herói ATRAVESSA a borda de baixo dele e
+   desce para dentro desta seção, e o conteúdo daqui tem de começar
+   abaixo dela. É o mesmo arranjo do "Como funciona" da home, que abre espaço
+   para o celular descer.
+
+   O valor é MEDIDO, e o comando que o rederiva está no README do repositório,
+   na seção da `/landing-page/`: ele imprime a folga entre o pé da peça e o
+   começo do conteúdo desta seção. Folga negativa quer dizer que a peça cresceu
+   e este respiro precisa crescer junto. */
 export default function AsMensagens() {
   return (
-    <section id="mensagens" className="bg-paper-2 textura textura-clara py-24 min-[900px]:py-28">
+    <section id="mensagens" className="bg-paper-2 textura textura-clara py-24 min-[900px]:pt-[20rem] min-[900px]:pb-28">
       <div className="wrap grid gap-12 min-[900px]:grid-cols-[.95fr_1.05fr] min-[900px]:gap-16 items-start">
 
         <div>

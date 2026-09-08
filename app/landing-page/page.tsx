@@ -112,16 +112,21 @@ export default function LandingPage() {
       <main>
         {/* HERÓI. Mesma família da home — navy, textura, a luz que deriva —
             porque é a mesma casa; o que muda é o objeto no centro. */}
-        {/* `overflow-hidden` é o que RECORTA a peça na borda de baixo, e é o
-            herói inteiro que faz o corte — não uma caixa em volta dela. Sem
-            isso a peça esticaria a seção e voltaria a caber dentro dela, que
-            era exatamente o defeito. A luz do herói já mora em caixa recortada
-            própria, então ela não é afetada. */}
-        <section className="hero-escuro textura relative overflow-hidden pt-6 pb-0 min-[900px]:pt-16 min-[900px]:pb-24">
+        {/* NO PC o herói NÃO recorta: a peça desce e invade a seção de baixo,
+            que é o gesto do celular da home — o único que já se provou numa
+            tela larga. A versão anterior recortava a peça rente à virada de
+            cor, e corte reto num cartão branco lê como amputação; objeto
+            atravessando o limite lê como profundidade. Achado do fundador, numa
+            janela de 1850px, onde a diferença é gritante.
+
+            NO CELULAR o recorte fica, e ali ele funciona: sem coluna ao lado, a
+            seção cresceria até caber na peça inteira e não haveria travessia
+            nenhuma para ver. Por isso `overflow-hidden` só abaixo de 900. */}
+        <section className="hero-escuro textura relative overflow-hidden min-[900px]:overflow-visible pt-6 pb-0 min-[900px]:pt-16 min-[900px]:pb-0">
           <div className="luz-hero" aria-hidden="true" />
           <div className="wrap relative grid gap-12 min-[900px]:grid-cols-[1.12fr_.88fr] min-[900px]:gap-14 items-start">
 
-            <div className="text-center min-[900px]:text-left min-[900px]:pt-6">
+            <div className="text-center min-[900px]:text-left min-[900px]:pt-6 min-[900px]:pb-28">
               {/* Sem rótulo acima do H1: é o hero padrão de SaaS de IA, e a
                   `design-site` o proíbe sem exceção. */}
               {/* A ESCALA É A DA HOME: 72px, o mesmo `clamp` do h1 de lá.
@@ -160,20 +165,30 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* NO PC a peça é ABSOLUTA: assim ela não entra na conta da altura
-                da seção, e é a coluna da esquerda que decide onde o herói
-                termina. É isso que garante o corte — com a peça no fluxo, a
-                seção crescia até caber nela e o sangramento não acontecia.
+            {/* A peça é ABSOLUTA e TRANSBORDA — as duas coisas juntas, e é a
+                combinação que resolve. Absoluta, ela não entra na conta da
+                altura do herói, então quem decide onde o navy termina é a
+                coluna de texto e não sobra vão morto à esquerda; sem recorte,
+                o que passa disso invade a seção clara de baixo, que é o gesto
+                do celular da home.
 
-                No CELULAR ela volta ao fluxo e é recortada por altura máxima,
-                porque ali não há coluna ao lado para dar altura à seção. O
-                gesto é o mesmo nas duas larguras: a página continua abaixo. */}
+                As duas tentativas anteriores tinham UMA das duas e falhavam
+                pela que faltava: absoluta COM recorte dava corte reto de
+                cartão branco, que lê como amputação; no fluxo SEM recorte
+                fazia o herói crescer junto com a peça e abria meia tela de
+                navy vazio ao lado do texto.
+
+                A peça passa por cima da seção seguinte porque `.hero-escuro`
+                tem `z-index: 1` e a seção de baixo não tem — não é acaso de
+                ordem no DOM. */}
             <div className="relative z-10 min-[900px]:static">
-              {/* O CORTE do celular termina RENTE à borda de baixo do herói —
-                  daí o `pb-0` na seção. Com respiro embaixo, o mesmo recorte lia
-                  como "o cartão acabou aqui"; encostado na virada de cor, lê
-                  como a página seguindo por baixo da dobra, que é o que ele quer
-                  dizer e o que o PC já dizia. */}
+              {/* CELULAR: recorte rente à borda de baixo do herói (daí o `pb-0`
+                  na seção). Com respiro embaixo, o mesmo recorte lia como "o
+                  cartão acabou aqui"; encostado na virada de cor, lê como a
+                  página seguindo por baixo da dobra.
+
+                  PC: sem recorte, e `translate-y` faz a peça descer para dentro
+                  da seção clara. */}
               <div className="flex justify-center max-h-[400px] overflow-hidden min-[900px]:max-h-none min-[900px]:overflow-visible min-[900px]:absolute min-[900px]:top-8 min-[900px]:right-0 min-[900px]:w-[420px] min-[900px]:justify-end">
                 <MiniPagina />
               </div>
