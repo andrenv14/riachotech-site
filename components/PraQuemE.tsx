@@ -202,20 +202,32 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
           toque num ramo e veja como ela conversa
         </div>
 
-        <div className="mt-5 grid gap-8 min-[900px]:grid-cols-[0.86fr_1.14fr] min-[900px]:gap-14 min-[900px]:items-start">
+        <div className="mt-5 grid gap-8 min-[900px]:grid-cols-[0.74fr_1.26fr] min-[900px]:gap-14 min-[900px]:items-start">
           <ul>
             {RAMOS.map((r) => {
               const ativo = aberto === r.ramo;
               return (
-                <li key={r.ramo} className="border-t border-line">
+                <li key={r.ramo} className={ativo ? "" : "border-t border-line"}>
                   <button
                     type="button"
                     onClick={() => setAberto(r.ramo)}
                     aria-pressed={ativo}
-                    className={`w-full flex items-start gap-3.5 py-5 text-left min-h-[44px] transition-colors ${
-                      ativo ? 'text-signal-dark' : 'text-ink hover:text-signal'
+                    className={`relative w-full flex items-start gap-3.5 py-5 pl-4 pr-3 -ml-4 text-left min-h-[44px] rounded-[10px] transition-colors ${
+                      ativo
+                        ? 'bg-paper-2 text-signal-dark'
+                        : 'text-ink hover:bg-paper-2/60 hover:text-signal'
                     }`}
                   >
+                    {/* Barra de acento: e' ela que diz "este esta escolhido".
+                        Sem ela, a selecao era so uma mudanca de cor de texto,
+                        que se confunde com o hover — e o anel azul que aparecia
+                        na tela era o foco do teclado, nao a selecao. */}
+                    <span
+                      aria-hidden="true"
+                      className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-full transition-colors ${
+                        ativo ? 'bg-signal' : 'bg-transparent'
+                      }`}
+                    />
                     <span className={`mt-0.5 ${ativo ? 'text-signal' : 'text-muted'}`}>
                       <Icone nome={r.icone} />
                     </span>
