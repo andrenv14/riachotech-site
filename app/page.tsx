@@ -4,6 +4,7 @@ import ComoFunciona from '@/components/ComoFunciona';
 import OQueElaFaz from '@/components/OQueElaFaz';
 import PraQuemE from '@/components/PraQuemE';
 import Planos from '@/components/Planos';
+import Fechamento from '@/components/Fechamento';
 
 const ZAP = 'https://wa.me/5561999643707?text=Oi%2C%20quero%20conhecer%20a%20Sofia';
 
@@ -71,6 +72,8 @@ export default function Home() {
 
         <Planos zap={ZAP} />
       </main>
+
+      <Fechamento zap={ZAP} />
     </>
   );
 }
