@@ -3,58 +3,63 @@
 import { useEffect, useRef, useState } from 'react';
 
 /* O celular do hero. Até 08/09/2026 ele tocava um roteiro fixo que o visitante
-   não podia tocar: era a FOTO do produto. Agora o visitante escolhe a pergunta
-   e vê a Sofia responder.
+   não podia tocar: era a FOTO do produto.
 
-   Roteirizado de propósito — sem chamada de modelo. Decisão do fundador em
-   08/09: demonstração ao vivo com LLM abriria porta para abuso e gasto, e o
-   incidente de loop já foi ~60% do gasto histórico de IA da casa.
+   Agora ele é a PRÉVIA DA CONVERSA REAL. Quem toca em "Testar no seu WhatsApp"
+   cai no número da própria Riacho, onde a Sofia atende — então o que se vê
+   aqui é o que vai acontecer lá. Por isso as perguntas são sobre a Riacho
+   Tech, e não sobre uma clínica genérica: decisão do fundador na janela dele
+   em 08/09.
 
-   Cada resposta abaixo só afirma o que a assistente REALMENTE faz, conforme a
-   tabela "O que a assistente faz (verificado no código)" de
-   `docs/contexto/negocio.md` do sofia-bot: consulta a agenda, mostra catálogo
-   com preço, marca. Nada aqui promete o que não existe. */
+   Roteirizado de propósito, sem chamada de modelo: demonstração ao vivo com
+   LLM abriria porta para abuso e gasto, e o incidente de loop já foi ~60% do
+   gasto histórico de IA da casa.
 
-type Fala = { de: 'cliente' | 'sofia'; texto: string; hora: string };
+   As falas abaixo seguem o `system_prompt_extra` do tenant 4 (`sofia-bot`),
+   lido no banco em 08/09: ela se apresenta como IA e pergunta o nome de forma
+   direta; responde em 2 a 4 linhas; nunca lista tudo de uma vez; e o preço é
+   R$1.000 (ou 2× R$500) + R$200/mês, com a mensalidade começando 30 dias
+   depois do lançamento, e o site por R$750 avulso ou R$1.500 no combo.
+   Nada aqui promete o que ela não faz. */
 
+type Fala = { de: 'visitante' | 'sofia'; texto: string; hora: string };
 type Roteiro = { chip: string; pergunta: string; respostas: string[] };
 
 const ROTEIROS: Roteiro[] = [
   {
-    chip: 'tem horário amanhã?',
-    pergunta: 'oi, tem horário livre amanhã de tarde?',
-    respostas: [
-      'Oi! Deixa eu conferir a agenda…',
-      'Amanhã à tarde eu tenho 15h ou 16h30. Qual fica melhor pra você?',
-    ],
-  },
-  {
-    chip: 'quanto custa a limpeza?',
-    pergunta: 'quanto custa a limpeza?',
-    respostas: [
-      'A limpeza fica R$150, e leva uns 40 minutos.',
-      'Quer que eu já reserve um horário pra você?',
-    ],
-  },
-  {
     chip: 'quais serviços vocês fazem?',
     pergunta: 'quais serviços vocês fazem?',
     respostas: [
-      'A gente faz limpeza, clareamento, restauração e avaliação.',
-      'Quer ver o preço de algum deles, ou prefere já marcar uma avaliação?',
+      'A gente faz duas coisas: uma assistente de IA que atende no WhatsApp do seu negócio, e landing page.',
+      'A assistente conversa com o seu cliente, confere sua agenda de verdade e marca o horário sozinha. Seu negócio é de quê?',
+    ],
+  },
+  {
+    chip: 'quanto custa?',
+    pergunta: 'quanto custa?',
+    respostas: [
+      'A implantação é R$1.000, ou 2× de R$500, e a mensalidade fica R$200, sem limite de conversas.',
+      'A mensalidade só começa 30 dias depois que ela estiver no ar. Se quiser o site junto, os dois saem por R$1.500.',
+    ],
+  },
+  {
+    chip: 'tem horário amanhã?',
+    pergunta: 'tem horário amanhã pra falar com alguém?',
+    respostas: [
+      'Deixa eu conferir a agenda do André…',
+      'Amanhã ele tem 15h ou 16h30 livres. Qual fica melhor pra você?',
     ],
   },
 ];
 
 const ABERTURA: Fala[] = [
-  { de: 'sofia', texto: 'Oi! Aqui é a Sofia. Como posso ajudar?', hora: '14:02' },
+  { de: 'sofia', texto: 'Oi! Sou a Sofia, a assistente de IA da Riacho Tech. Qual é o seu nome?', hora: '14:02' },
 ];
 
-function agora(passo: number) {
-  const base = 14 * 60 + 2 + passo;
-  return `${String(Math.floor(base / 60)).padStart(2, '0')}:${String(base % 60).padStart(2, '0')}`;
-}
-
+const hora = (passo: number) => {
+  const m = 14 * 60 + 2 + passo;
+  return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+};
 const espera = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
@@ -62,36 +67,40 @@ export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
   const [digitando, setDigitando] = useState(false);
   const [ocupado, setOcupado] = useState(false);
   const [usados, setUsados] = useState<string[]>([]);
+  const [rascunho, setRascunho] = useState<Roteiro | null>(null);
   const corpo = useRef<HTMLDivElement>(null);
   const vivo = useRef(true);
 
   useEffect(() => () => { vivo.current = false; }, []);
-
   useEffect(() => {
     const el = corpo.current;
     if (el) el.scrollTop = el.scrollHeight;
   }, [falas, digitando]);
 
-  async function perguntar(r: Roteiro) {
-    if (ocupado) return;
+  async function enviar() {
+    const r = rascunho;
+    if (!r || ocupado) return;
     setOcupado(true);
+    setRascunho(null);
     setUsados((u) => [...u, r.chip]);
 
     let passo = falas.length;
-    setFalas((f) => [...f, { de: 'cliente', texto: r.pergunta, hora: agora(passo) }]);
+    setFalas((f) => [...f, { de: 'visitante', texto: r.pergunta, hora: hora(passo) }]);
 
     for (const resposta of r.respostas) {
-      await espera(620);
+      await espera(600);
       if (!vivo.current) return;
       setDigitando(true);
-      await espera(80 + resposta.length * 16);
+      await espera(220 + resposta.length * 14);
       if (!vivo.current) return;
       setDigitando(false);
       passo += 1;
-      setFalas((f) => [...f, { de: 'sofia', texto: resposta, hora: agora(passo) }]);
+      setFalas((f) => [...f, { de: 'sofia', texto: resposta, hora: hora(passo) }]);
     }
     setOcupado(false);
   }
+
+  const restantes = ROTEIROS.filter((r) => !usados.includes(r.chip));
 
   return (
     <div className="phone">
@@ -110,32 +119,54 @@ export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
           </div>
         </div>
 
-        <div className="phone-body" ref={corpo} role="log" aria-live="polite" aria-label="conversa de exemplo">
+        <div className="phone-body" ref={corpo} role="log" aria-live="polite" aria-label="conversa de exemplo com a Sofia">
           {falas.map((f, i) => (
-            <div key={i} className={`bubble ${f.de === 'cliente' ? 'bubble-cliente' : 'bubble-sofia'}`}>
+            <div key={i} className={`bubble ${f.de === 'visitante' ? 'bubble-cliente' : 'bubble-sofia'}`}>
               {f.texto}
               <span className="bubble-tick" aria-hidden="true">{f.hora}</span>
             </div>
           ))}
           {digitando && (
-            <div className="typing-bubble" style={{ opacity: 1 }} aria-label="a assistente está digitando">
+            <div className="typing-bubble" style={{ opacity: 1 }} aria-label="a Sofia está digitando">
               <span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" />
             </div>
           )}
         </div>
 
-        <div className="phone-perguntas">
-          {ROTEIROS.map((r) => (
-            <button
-              key={r.chip}
-              type="button"
-              className="chip"
-              disabled={ocupado || usados.includes(r.chip)}
-              onClick={() => perguntar(r)}
-            >
-              {r.chip}
-            </button>
-          ))}
+        {restantes.length > 0 && (
+          <div className="phone-perguntas">
+            {restantes.map((r) => (
+              <button
+                key={r.chip}
+                type="button"
+                className="chip"
+                disabled={ocupado}
+                aria-pressed={rascunho?.chip === r.chip}
+                onClick={() => setRascunho(r)}
+              >
+                {r.chip}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="phone-digitar">
+          <div className="phone-campo" data-vazio={rascunho ? 'false' : 'true'}>
+            {rascunho ? rascunho.pergunta
+              : restantes.length ? 'toque numa pergunta acima'
+              : 'quer continuar? fale com ela no WhatsApp'}
+          </div>
+          <button
+            type="button"
+            className="phone-enviar"
+            disabled={!rascunho || ocupado}
+            onClick={enviar}
+            aria-label="Enviar a mensagem"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M1.6 8h12.2M8.8 3l5 5-5 5" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
