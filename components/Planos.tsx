@@ -35,7 +35,7 @@ export default function Planos({ zap }: { zap: string }) {
     <section id="planos" className="bg-paper-2 py-24 min-[900px]:py-28">
       <div className="wrap">
         <h2 className="font-display font-semibold text-ink text-[clamp(26px,3.4vw,36px)] leading-[1.15] max-w-[18ch]">
-          Duas coisas que a Riacho faz, e o preço das duas é público.
+          Duas coisas que fazemos, e o preço das duas é público.
         </h2>
         <p className="mt-4 text-[17px] text-muted max-w-[52ch]">
           Existe programa mais barato, em que você mesmo monta os caminhos:
@@ -90,7 +90,7 @@ export default function Planos({ zap }: { zap: string }) {
               <Item>Uma página, com as seções fechadas por escrito antes de começar</Item>
               <Item>Uma rodada de revisão inclusa no preço</Item>
               <Item>Botão de WhatsApp com a mensagem já preenchida em cada seção</Item>
-              <Item>Você entrega o conteúdo; a escrita e o desenho vêm junto</Item>
+              <Item>O conteúdo é seu; a escrita e o desenho ficam com a gente</Item>
             </ul>
 
             <a href={zapSite} className="btn btn-ghost mt-auto self-start">Quero um orçamento</a>
@@ -110,8 +110,8 @@ export default function Planos({ zap }: { zap: string }) {
               </span>
             </div>
             <p className="mt-4 text-[16px] text-mist max-w-[42ch]">
-              A assistente e a página, pelo mesmo trabalho de configuração. A
-              mensalidade de R$200 segue igual.
+              A assistente e a página juntas, por R$250 a menos do que
+              separadas. A mensalidade de R$200 segue igual.
             </p>
             <a href={zapCombo} className="btn btn-primary mt-7 self-start">Quero as duas</a>
           </div>

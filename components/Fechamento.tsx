@@ -26,7 +26,7 @@ export default function Fechamento({ zap }: { zap: string }) {
               Você acabou de conversar com uma cópia dela.
             </h2>
             <p className="mt-5 text-[17px] text-mist max-w-[44ch]">
-              A de verdade está no WhatsApp agora, no número da Riacho. Manda
+              A de verdade está no WhatsApp agora, no número da Sofia. Manda
               uma mensagem e veja ela atender você do mesmo jeito que atenderia
               o seu cliente.
             </p>

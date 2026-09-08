@@ -107,8 +107,8 @@ export default function ComoFunciona() {
           Da mensagem ao horário marcado, em uma conversa só.
         </h2>
         <p className="mt-4 text-[17px] text-muted max-w-[52ch]">
-          O relógio é o argumento: um minuto entre a pergunta do cliente e o
-          compromisso na sua agenda, sem ninguém parar o que estava fazendo.
+          Do primeiro oi ao horário na agenda, sem ninguém parar o que estava
+          fazendo.
         </p>
 
         {/* subgrid alinha hora, titulo, texto e artefato na MESMA linha nas

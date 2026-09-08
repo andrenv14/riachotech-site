@@ -18,10 +18,10 @@
 
 const RAMOS: { ramo: string; detalhe: string }[] = [
   { ramo: 'Clínica e consultório', detalhe: 'pergunta convênio ou particular antes de marcar' },
-  { ramo: 'Escritório', detalhe: 'confirma o assunto e reserva a sala pelo tempo certo' },
+  { ramo: 'Escritório', detalhe: 'confirma o assunto e reserva o horário pelo tempo que ele leva' },
   { ramo: 'Barbearia e salão', detalhe: 'corte e coloração não duram o mesmo, e ela sabe disso' },
   { ramo: 'Petshop', detalhe: 'pergunta o porte do animal, porque muda a duração' },
-  { ramo: 'Oficina, estúdio, ateliê', detalhe: 'orça pelo serviço e agenda a entrega' },
+  { ramo: 'Oficina, estúdio, ateliê', detalhe: 'mostra o preço do serviço no catálogo e marca a data' },
 ];
 
 export default function PraQuemE({ zap }: { zap: string }) {
