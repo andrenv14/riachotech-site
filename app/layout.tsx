@@ -21,7 +21,20 @@ const mono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://riachotech.com.br'),
-  title: 'Riacho Tech — Sofia, a assistente de agendamento no WhatsApp',
+  /* A ABA mostra só "Riacho Tech", por pedido do fundador em 08/09.
+
+     Isto tem um custo, e ele é declarado: em Next não existe título de aba
+     separado do título de SEO — os dois são o mesmo `<title>`, então a frase
+     que descrevia o produto sai do resultado de busca junto com a aba. O custo
+     é pequeno AQUI e não seria em outro site: o tráfego desta página vem de
+     link no WhatsApp e no Instagram, não de busca.
+
+     E o que aparece quando alguém compartilha o link NÃO muda: o
+     `openGraph.title` abaixo continua com a frase inteira, e é ele que o
+     WhatsApp lê. A `description` também fica, e é ela que o Google mostra
+     embaixo do título. As três páginas herdadas seguem com título próprio
+     ("Política de Privacidade — Riacho Tech" e as outras duas). */
+  title: 'Riacho Tech',
   description:
     'A Sofia atende, confere sua agenda e marca horário no WhatsApp sozinha, pra você focar no que só você faz.',
   /* O ICONE DA ABA. Ele nao vinha por engano de omissao: o Next so' detecta
@@ -40,6 +53,10 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website', url: 'https://riachotech.com.br/',
+    /* O título do COMPARTILHAMENTO continua inteiro: é ele que o WhatsApp
+       e o Instagram mostram no cartão do link, e ali o espaço não é o de
+       uma aba — cabe a frase que diz o que o produto faz. Só o `<title>`
+       encurtou. */
     title: 'Riacho Tech — Sofia, a assistente de agendamento no WhatsApp',
     description:
       'A Sofia atende, confere sua agenda e marca horário no WhatsApp sozinha, pra você focar no que só você faz.',
