@@ -333,6 +333,13 @@
      empurra para baixo quando sobra espaco e nao quebra a rolagem quando falta. */
   .phone-body { overflow-y: auto; scroll-behavior: smooth; justify-content: flex-start; }
   .phone-body > *:first-child { margin-top: auto; }
+  /* No PC as mensagens comecam em CIMA, a pedido do fundador em 08/09 — e' o
+     que um aplicativo de mensagem faz de verdade: conversa no alto, campo
+     embaixo, o vazio entre os dois. No celular o conteudo preenche a tela
+     inteira, entao a ancora nao muda nada e fica como esta. */
+  @media (min-width: 900px) {
+    .phone-body > *:first-child { margin-top: 0; }
+  }
   .phone-body::-webkit-scrollbar { width: 0; }
 
   /* Sugestoes como bolhas A DIREITA, dentro da area da conversa, no lugar
