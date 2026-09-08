@@ -348,9 +348,14 @@
      toque envia. A versao anterior tinha um campo de digitar falso com botao
      de enviar desativado, so para indicar "aperte os botoes acima" — remendo
      de UX, e o fundador apontou como tal em 08/09. */
+  /* As sugestoes vivem DENTRO do fluxo da conversa, logo depois da ultima
+     fala — elas sao mensagens que o visitante vai mandar, entao ficam onde a
+     proxima mensagem dele ficaria, e descem conforme a conversa cresce.
+     Antes estavam grudadas no rodape da tela, como se fossem um teclado.
+     Correcao do fundador em 08/09. */
   .sugestoes {
     display: flex; flex-direction: column; align-items: flex-end; gap: 7px;
-    padding: 10px 12px 14px;
+    padding-top: 6px;
   }
   .sugestao {
     display: inline-flex; align-items: center; gap: 8px;
@@ -561,7 +566,7 @@
     .phone { width: calc(100vw - 56px); max-width: none; }
   }
   .phone-body { background: var(--color-sand); }
-  .sugestoes { background: var(--color-sand); }
+
 
   @media (prefers-reduced-motion: reduce) { .phone-body { scroll-behavior: auto; } }
 }

@@ -21,7 +21,66 @@ import { useState } from 'react';
    de kits do `docs/contexto/negocio.md`: convênio na clínica, porte no petshop,
    duração por serviço na barbearia. */
 
+
+/* Ícones desenhados à mão em SVG, traço de 1,6 e ponta arredondada, todos na
+   mesma caixa de 20. A `design-site` manda que ícone seja SVG desenhado, e não
+   emoji nem imagem: emoji muda de desenho por sistema, e ícone gerado por IA
+   não fecha traço de perto. Eles herdam `currentColor`, então acompanham o
+   estado de selecionado sem regra extra. */
+const traco = {
+  fill: 'none' as const,
+  stroke: 'currentColor',
+  strokeWidth: 1.6,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
+const ICONES: Record<string, React.ReactNode> = {
+  clinica: (
+    <>
+      <path d="M10 3.5v13M3.5 10h13" {...traco} />
+      <rect x="2.5" y="2.5" width="15" height="15" rx="4.5" {...traco} opacity=".45" />
+    </>
+  ),
+  escritorio: (
+    <>
+      <rect x="2.5" y="5.5" width="15" height="11" rx="2" {...traco} />
+      <path d="M7 5.5V4a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 13 4v1.5M2.5 10h15" {...traco} />
+    </>
+  ),
+  barbearia: (
+    <>
+      <circle cx="5" cy="14.5" r="2.5" {...traco} />
+      <circle cx="15" cy="14.5" r="2.5" {...traco} />
+      <path d="M6.8 12.7 15.5 3M13.2 12.7 4.5 3" {...traco} />
+    </>
+  ),
+  petshop: (
+    <>
+      <ellipse cx="10" cy="13.2" rx="4" ry="3.3" {...traco} />
+      <ellipse cx="4.6" cy="8.4" rx="1.7" ry="2.1" {...traco} />
+      <ellipse cx="15.4" cy="8.4" rx="1.7" ry="2.1" {...traco} />
+      <ellipse cx="8.2" cy="4.6" rx="1.6" ry="2" {...traco} />
+      <ellipse cx="13.4" cy="4.9" rx="1.5" ry="1.9" {...traco} />
+    </>
+  ),
+  oficina: (
+    <>
+      <path d="M12.6 3.2a4 4 0 0 0-5 5L3 12.8a1.8 1.8 0 0 0 2.5 2.5l4.6-4.6a4 4 0 0 0 5-5l-2.4 2.4-2-2 2.4-2.4Z" {...traco} />
+    </>
+  ),
+};
+
+function Icone({ nome }: { nome: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" className="flex-shrink-0">
+      {ICONES[nome]}
+    </svg>
+  );
+}
+
 type Ramo = {
+  icone: string;
   ramo: string;
   detalhe: string;
   conversa: { de: 'cliente' | 'sofia'; texto: string }[];
@@ -29,6 +88,7 @@ type Ramo = {
 
 const RAMOS: Ramo[] = [
   {
+    icone: 'clinica',
     ramo: 'Clínica e consultório',
     detalhe: 'pergunta convênio ou particular antes de marcar',
     conversa: [
@@ -39,6 +99,7 @@ const RAMOS: Ramo[] = [
     ],
   },
   {
+    icone: 'escritorio',
     ramo: 'Escritório',
     detalhe: 'confirma o assunto e reserva o horário pelo tempo que ele leva',
     conversa: [
@@ -49,6 +110,7 @@ const RAMOS: Ramo[] = [
     ],
   },
   {
+    icone: 'barbearia',
     ramo: 'Barbearia e salão',
     detalhe: 'corte e coloração não duram o mesmo, e ela sabe disso',
     conversa: [
@@ -59,6 +121,7 @@ const RAMOS: Ramo[] = [
     ],
   },
   {
+    icone: 'petshop',
     ramo: 'Petshop',
     detalhe: 'pergunta o porte do animal, porque muda a duração',
     conversa: [
@@ -69,6 +132,7 @@ const RAMOS: Ramo[] = [
     ],
   },
   {
+    icone: 'oficina',
     ramo: 'Oficina, estúdio, ateliê',
     detalhe: 'mostra o preço do serviço no catálogo e marca a data',
     conversa: [
@@ -124,73 +188,72 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
 
         {/* rótulo em monoespaçada não é prosa do documento: <div>, como as
             outras. O `medir` acusa <p> abaixo de 16px, e com razão. */}
+        {/* Ramos a ESQUERDA, conversa a DIREITA e no mesmo lugar sempre.
+
+            Antes era um acordeao de largura cheia com um painel estreito
+            aberto embaixo — largo em cima, estreito no meio, e o fundador
+            apontou que nao combinava. Com duas colunas o painel ocupa a coluna
+            inteira, nao ha desencontro de largura, e a pagina para de pular:
+            trocar de ramo troca o CONTEUDO do painel, nao a altura da secao.
+
+            No celular as duas colunas empilham e o painel fica logo abaixo da
+            lista, que ali e' curta. */}
         <div className="mt-12 font-mono text-[12px] uppercase tracking-[.13em] text-muted">
           toque num ramo e veja como ela conversa
         </div>
 
-        <ul className="mt-4">
-          {RAMOS.map((r) => {
-            const ativo = aberto === r.ramo;
-            return (
-              <li key={r.ramo} className="border-t border-line">
-                <button
-                  type="button"
-                  onClick={() => setAberto(ativo ? null : r.ramo)}
-                  aria-expanded={ativo}
-                  className="w-full grid grid-cols-1 min-[560px]:grid-cols-[minmax(14rem,22rem)_1fr_auto] gap-x-10 gap-y-1 py-6 text-left min-h-[44px] group"
-                >
-                  <span className={`font-display text-[21px] leading-[1.3] ${ativo ? 'text-signal-dark' : 'text-ink'}`}>
-                    {r.ramo}
-                  </span>
-                  <span className="font-mono text-[13.5px] leading-[1.55] text-muted min-[560px]:pt-1.5">
-                    {r.detalhe}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className={`hidden min-[560px]:block mt-2 h-[9px] w-[9px] rounded-full transition-colors ${
-                      ativo ? 'bg-signal' : 'bg-line group-hover:bg-muted'
+        <div className="mt-5 grid gap-8 min-[900px]:grid-cols-[0.86fr_1.14fr] min-[900px]:gap-14 min-[900px]:items-start">
+          <ul>
+            {RAMOS.map((r) => {
+              const ativo = aberto === r.ramo;
+              return (
+                <li key={r.ramo} className="border-t border-line">
+                  <button
+                    type="button"
+                    onClick={() => setAberto(r.ramo)}
+                    aria-pressed={ativo}
+                    className={`w-full flex items-start gap-3.5 py-5 text-left min-h-[44px] transition-colors ${
+                      ativo ? 'text-signal-dark' : 'text-ink hover:text-signal'
                     }`}
-                  />
-                </button>
+                  >
+                    <span className={`mt-0.5 ${ativo ? 'text-signal' : 'text-muted'}`}>
+                      <Icone nome={r.icone} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-display text-[20px] leading-[1.25]">{r.ramo}</span>
+                      <span className="mt-1 block font-mono text-[12.5px] leading-[1.5] text-muted">
+                        {r.detalhe}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
 
-                {/* A conversa daquele ramo. `grid-template-rows` de 0fr para 1fr
-                    abre sem eu precisar medir altura em JS, e sem travar em
-                    `max-height` chutado, que corta texto longo em silêncio. */}
+          <div className="painel-conversa min-[900px]:sticky min-[900px]:top-[86px]">
+            <div className="cabeca">
+              <span className="av" aria-hidden="true">S</span>
+              <span>Sofia</span>
+              <span className="status">online</span>
+              <span className="ml-auto font-mono text-[10px] font-normal text-sky-2">
+                {(RAMOS.find((r) => r.ramo === aberto) ?? RAMOS[0]).ramo.split(' ')[0].toLowerCase()}
+              </span>
+            </div>
+            <div className="fala">
+              {(RAMOS.find((r) => r.ramo === aberto) ?? RAMOS[0]).conversa.map((m, i) => (
                 <div
-                  className={`grid transition-[grid-template-rows] duration-400 ease-out ${
-                    ativo ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-                  }`}
+                  key={`${aberto}-${i}`}
+                  className={`bubble ${m.de === 'cliente' ? 'bubble-cliente' : 'bubble-sofia'}`}
                 >
-                  <div className="overflow-hidden">
-                    <div className="pb-8 min-[560px]:ml-[calc(14rem+2.5rem)] max-w-[30rem]">
-                      <div className="painel-conversa">
-                        <div className="cabeca">
-                          <span className="av" aria-hidden="true">S</span>
-                          <span>Sofia</span>
-                          <span className="status">online</span>
-                          <span className="ml-auto font-mono text-[10px] font-normal text-sky-2">
-                            {r.ramo.split(' ')[0].toLowerCase()}
-                          </span>
-                        </div>
-                        <div className="fala">
-                          {r.conversa.map((m, i) => (
-                            <div
-                              key={i}
-                              className={`bubble ${m.de === 'cliente' ? 'bubble-cliente' : 'bubble-sofia'} !opacity-100 !translate-y-0 !animate-none`}
-                            >
-                              {m.texto}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  {m.texto}
                 </div>
-              </li>
-            );
-          })}
+              ))}
+            </div>
+          </div>
+        </div>
 
-          <li className="border-t-2 border-ink/15 pt-8 mt-2 grid gap-6 min-[820px]:grid-cols-[1fr_auto] min-[820px]:items-end">
+        <div className="mt-14 border-t-2 border-ink/15 pt-8 grid gap-6 min-[820px]:grid-cols-[1fr_auto] min-[820px]:items-end">
             <div>
               <p className="font-display text-[22px] text-ink leading-[1.3] max-w-[30ch]">
                 O seu negócio não está nessa lista?
@@ -203,8 +266,7 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
             <a href={zap} className="btn btn-ghost self-start min-[820px]:self-end whitespace-nowrap">
               Me conta como o seu atende hoje
             </a>
-          </li>
-        </ul>
+        </div>
       </div>
     </section>
   );

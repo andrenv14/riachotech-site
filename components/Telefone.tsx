@@ -152,11 +152,9 @@ export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
               <span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" />
             </div>
           )}
-        </div>
-
-        {restantes.length > 0 && (
+          {restantes.length > 0 && (
           <div className="sugestoes">
-            {restantes.map((r) => (
+              {restantes.map((r) => (
               <button
                 key={r.chip}
                 type="button"
@@ -171,7 +169,9 @@ export default function Telefone({ nome = 'Sofia' }: { nome?: string }) {
               </button>
             ))}
           </div>
-        )}
+          )}
+
+        </div>
 
       </div>
     </div>
