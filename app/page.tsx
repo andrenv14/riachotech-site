@@ -11,7 +11,7 @@ export default function Home() {
       <Nav zap={ZAP} />
 
       <main>
-        <section className="halo relative overflow-hidden pt-14 min-[900px]:pt-20 pb-0">
+        <section className="halo relative pt-14 min-[900px]:pt-20 pb-0">
           <div className="wrap grid gap-10 min-[900px]:grid-cols-[1.05fr_.95fr] min-[900px]:gap-14 items-start">
 
             <div className="min-[900px]:pt-6 min-[900px]:pb-28">
@@ -49,7 +49,7 @@ export default function Home() {
             {/* O aparelho desce e invade a seção de baixo, em vez de ficar
                 sentado dentro da coluna. Ele NÃO é cortado: agora é
                 interativo, e cortar comeria os botões. */}
-            <div className="relative flex justify-center min-[900px]:justify-end min-[900px]:translate-y-10">
+            <div className="relative z-10 flex justify-center min-[900px]:justify-end min-[900px]:translate-y-24">
               <div>
                 <Telefone />
                 <p className="hidden min-[900px]:block mt-4 text-center font-mono text-[11.5px] text-muted">

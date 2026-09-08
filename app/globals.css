@@ -377,7 +377,7 @@
      que a `design-site` proíbe: é luz de fundo atrás do assunto. */
   .halo { position: relative; isolation: isolate; }
   .halo::before {
-    content: ""; position: absolute; inset: -10% -20% auto; height: 130%; z-index: -1;
+    content: ""; position: absolute; inset: -10% 0 auto; height: 130%; z-index: -1;
     background:
       radial-gradient(60% 55% at 72% 32%, color-mix(in oklab, var(--color-sky) 42%, transparent), transparent 70%),
       radial-gradient(48% 45% at 18% 8%, color-mix(in oklab, var(--color-mist) 40%, transparent), transparent 72%);

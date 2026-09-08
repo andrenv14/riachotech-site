@@ -67,7 +67,7 @@ function Compromisso() {
         <span className="w-1.5 bg-signal" aria-hidden="true" />
         <div className="px-4 py-3">
           <div className="font-mono text-[11px] uppercase tracking-[.12em] text-muted">google agenda</div>
-          <div className="mt-1 font-display text-[17px] text-ink leading-[1.25]">Limpeza · Marina Alves</div>
+          <div className="mt-1 font-display text-[17px] text-ink leading-[1.25]">Corte e barba · Bruno</div>
           <div className="mt-0.5 font-mono text-[12px] text-muted">quinta, 16:30 · 40 min</div>
         </div>
       </div>
@@ -101,7 +101,7 @@ const PASSOS: Passo[] = [
 
 export default function ComoFunciona() {
   return (
-    <section id="como-funciona" className="bg-paper-2 py-24 min-[900px]:py-28">
+    <section id="como-funciona" className="bg-paper-2 py-24 min-[900px]:pt-40 min-[900px]:pb-28">
       <div className="wrap">
         <h2 className="font-display font-semibold text-ink text-[clamp(26px,3.4vw,36px)] leading-[1.15] max-w-[19ch]">
           Da mensagem ao horário marcado, em uma conversa só.

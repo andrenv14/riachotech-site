@@ -84,7 +84,7 @@ export default function OQueElaFaz() {
             </p>
             <div className="mt-4 rounded-[12px] rounded-bl-[4px] bg-white/10 px-3.5 py-3">
               <div className="text-[13.5px] leading-[1.45] text-mist-2">
-                Oi, Marina! Passando pra lembrar do seu horário amanhã às 16h30.
+                Oi, Camila! Passando pra lembrar da sua consulta amanhã às 16h30.
               </div>
               <span className="mt-1.5 block text-right font-mono text-[10px] text-sky-2">08:00</span>
             </div>
@@ -104,8 +104,8 @@ export default function OQueElaFaz() {
                 className="h-11 w-11 flex-shrink-0 rounded-[8px] bg-gradient-to-br from-sky/45 to-mist/25"
               />
               <div className="min-w-0">
-                <div className="text-[13.5px] text-mist-2 truncate">Limpeza e profilaxia</div>
-                <div className="font-mono text-[12px] text-sky-2">R$150 · 40 min</div>
+                <div className="text-[13.5px] text-mist-2 truncate">Banho e tosa · porte médio</div>
+                <div className="font-mono text-[12px] text-sky-2">R$80 · 1h</div>
               </div>
             </div>
           </Bloco>
