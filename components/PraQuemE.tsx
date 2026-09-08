@@ -212,7 +212,7 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
                     type="button"
                     onClick={() => setAberto(r.ramo)}
                     aria-pressed={ativo}
-                    className={`relative w-full flex items-start gap-3.5 py-5 pl-4 pr-3 -ml-4 text-left min-h-[44px] rounded-[10px] transition-colors ${
+                    className={`relative w-full flex items-start gap-3.5 py-5 pl-4 pr-3 -ml-4 text-left min-h-[44px] rounded-[10px] cursor-pointer transition-colors ${
                       ativo
                         ? 'bg-paper-2 text-signal-dark'
                         : 'text-ink hover:bg-paper-2/60 hover:text-signal'
@@ -249,7 +249,7 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
               <span>Sofia</span>
               <span className="status">online</span>
               <span className="ml-auto font-mono text-[10px] font-normal text-sky-2">
-                {(RAMOS.find((r) => r.ramo === aberto) ?? RAMOS[0]).ramo.split(' ')[0].toLowerCase()}
+                {(RAMOS.find((r) => r.ramo === aberto) ?? RAMOS[0]).ramo.split(/[\s,]+/)[0].toLowerCase()}
               </span>
             </div>
             <div className="fala">

@@ -493,6 +493,13 @@
   .painel-conversa .fala {
     padding: 14px; display: flex; flex-direction: column; gap: 7px;
   }
+  /* O painel ganha altura para nao ficar um retangulo curto ao lado de uma
+     lista alta. A conversa encosta embaixo, como num aplicativo aberto. */
+  @media (min-width: 900px) {
+    .painel-conversa .fala { min-height: 400px; justify-content: flex-end; padding: 18px; }
+  }
+  /* cursor de mao em todo botao: o reset do Tailwind 4 nao poe */
+  button:not(:disabled) { cursor: pointer; }
 
   .halo { position: relative; isolation: isolate; }
   .halo::before {
