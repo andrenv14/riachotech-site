@@ -189,7 +189,7 @@ export default function LandingPage() {
 
                   PC: sem recorte, e `translate-y` faz a peça descer para dentro
                   da seção clara. */}
-              <div className="flex justify-center max-h-[400px] overflow-hidden min-[900px]:max-h-none min-[900px]:overflow-visible min-[900px]:absolute min-[900px]:top-8 min-[900px]:right-0 min-[900px]:w-[420px] min-[900px]:justify-end">
+              <div className="corte-suave flex justify-center max-h-[400px] overflow-hidden min-[900px]:max-h-none min-[900px]:overflow-visible min-[900px]:absolute min-[900px]:top-8 min-[900px]:right-0 min-[900px]:w-[420px] min-[900px]:justify-end">
                 <MiniPagina />
               </div>
             </div>

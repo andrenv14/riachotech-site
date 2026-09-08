@@ -660,6 +660,26 @@
       0 18px 40px -20px rgba(0, 0, 0, .75);
   }
 
+  /* CORTE DA PEÇA NO CELULAR. A peça é cortada rente à borda de baixo do herói
+     para ler como "a página segue por baixo da dobra". Só que o corte cai onde
+     calhar: medido em 390px, ele partia "Corte · R$ 60" com as letras 34% e 36%
+     visíveis — meia letra cortada na horizontal lê como falha de renderização,
+     não como continuidade.
+     A máscara cura por CRITÉRIO e não por número: o conteúdo desvanece antes da
+     borda, seja qual for a altura do recorte ou o que estiver ali na hora.
+     Mexer no `max-h` curaria esta instância e voltaria a quebrar no próximo
+     conteúdo. Acima de 900px não há recorte nenhum, então a máscara sai. */
+  .corte-suave {
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  }
+  @media (min-width: 900px) {
+    .corte-suave {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+
   /* Foto do catálogo: raio só em cima, e o valor é o do pai — ela encosta na
      borda, então não há padding para descontar. Embaixo ela encosta no texto,
      que é reto. */
