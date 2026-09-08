@@ -102,9 +102,11 @@ export default function PraQuemE({ zap = ZAP_RAMO }: { zap?: string }) {
           </p>
         </div>
 
-        <p className="mt-12 font-mono text-[12px] uppercase tracking-[.13em] text-muted">
+        {/* rótulo em monoespaçada não é prosa do documento: <div>, como as
+            outras. O `medir` acusa <p> abaixo de 16px, e com razão. */}
+        <div className="mt-12 font-mono text-[12px] uppercase tracking-[.13em] text-muted">
           toque num ramo e veja como ela conversa
-        </p>
+        </div>
 
         <ul className="mt-4">
           {RAMOS.map((r) => {
