@@ -663,6 +663,13 @@
   }
   .fala-peca-sofia { background: var(--color-signal); color: #fff; border-bottom-left-radius: 3px; }
   .fala-peca-dono  { background: var(--color-paper-2); color: var(--color-ink); border-bottom-left-radius: 3px; }
+  /* Fala do cliente dentro da peca: branca e a direita, a mesma convencao de
+     lado e de cor que a `.bubble-cliente` do painel da `PraQuemE` usa. */
+  .fala-peca-cliente {
+    background: #fff; color: var(--color-ink);
+    border: 1px solid var(--color-line);
+    border-bottom-right-radius: 3px;
+  }
 
   /* Marca de autoria: é ela que o bloco "você" existe para mostrar. O que o
      dono escreve entra no histórico marcado como dele — não é enfeite de
@@ -752,5 +759,22 @@
     box-shadow:
       0 1px 2px rgba(20, 33, 61, .06),
       0 26px 56px -24px rgba(20, 33, 61, .34);
+  }
+}
+
+@layer components {
+  /* A onda do áudio varre da esquerda para a direita quando a transcrição é
+     revelada. O atraso por barra vem inline, do índice — é o único jeito de
+     escalonar 25 elementos sem escrever 25 regras, e ele descreve posição, não
+     conteúdo. Dura o que o olho leva para acompanhar a varredura, e para: não
+     é um indicador de reprodução, e não há som nenhum tocando. */
+  @keyframes onda-passa {
+    0%   { background: var(--color-line); }
+    45%  { background: var(--color-signal); }
+    100% { background: var(--color-line); }
+  }
+  .onda-passa { animation: onda-passa .85s ease both; }
+  @media (prefers-reduced-motion: reduce) {
+    .onda-passa { animation: none; background: var(--color-signal); }
   }
 }
