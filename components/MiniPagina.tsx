@@ -65,13 +65,13 @@ function Secao({ rotulo, children }: { rotulo: string; children: React.ReactNode
 export default function MiniPagina() {
   return (
     /* `aria-hidden`: a peça é a FIGURA de uma página, não uma página. Para quem
-       usa leitor de tela, ouvir "Barbearia Aurora · Corte R$ 60" no meio do herói de
+       usa leitor de tela, ouvir "Barbearia King · Corte R$ 60" no meio do herói de
        outra empresa é ruído que promete um negócio que não existe. O que ela
        ilustra está dito em texto no herói e na seção das mensagens. */
     <div className="peca w-full max-w-[420px] overflow-hidden border border-[color:var(--color-line)]" aria-hidden="true">
 
       <div className="flex items-center justify-between gap-3 px-6 py-3.5">
-        <div className="font-display text-[17px] text-ink leading-none">Barbearia Aurora</div>
+        <div className="font-display text-[17px] text-ink leading-none">Barbearia King</div>
         <div className="font-mono text-[9.5px] uppercase tracking-[.12em] text-muted">sudoeste</div>
       </div>
 
