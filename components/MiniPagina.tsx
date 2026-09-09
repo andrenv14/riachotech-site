@@ -18,10 +18,11 @@
      vender não é feita de faixas de peso igual; era isso que fazia a peça ler
      como formulário.
 
-   O QUE ELA NÃO TEM, e é declarado: foto. As duas fotos do repositório já são
-   usadas na home, e reusar qualquer uma aqui leria como "só temos uma foto". A
-   faixa do topo é o lugar onde a foto do CLIENTE entra — quando houver uma, ela
-   troca o fundo `sand` e nada mais na peça precisa mudar.
+   A FOTO entrou em 08/09/2026, na faixa do topo, e o texto anterior aqui dizia
+   o contrário ("o que ela não tem, e é declarado: foto") — ficou falso no dia em
+   que a foto chegou. Ela é própria da peça, não reusada da home, que era o
+   motivo de não haver nenhuma. É o lugar onde a foto do CLIENTE entraria, e
+   trocá-la não exige mudar mais nada.
 
    ELA NÃO É MAIS INTERATIVA, e isso também é decisão: a conversa que os botões
    geram ganhou seção própria, onde cabe mostrá-la inteira. Aqui ela seria uma
@@ -37,8 +38,8 @@
    cardápio. */
 const SERVICOS = [
   { nome: 'Corte', preco: 'R$ 60' },
-  { nome: 'Coloração', preco: 'R$ 180' },
-  { nome: 'Escova', preco: 'R$ 45' },
+  { nome: 'Barba', preco: 'R$ 35' },
+  { nome: 'Corte + barba', preco: 'R$ 85' },
 ];
 
 function Zap({ children }: { children: React.ReactNode }) {
@@ -64,13 +65,13 @@ function Secao({ rotulo, children }: { rotulo: string; children: React.ReactNode
 export default function MiniPagina() {
   return (
     /* `aria-hidden`: a peça é a FIGURA de uma página, não uma página. Para quem
-       usa leitor de tela, ouvir "Salão Aurora · Corte R$ 60" no meio do herói de
+       usa leitor de tela, ouvir "Barbearia Aurora · Corte R$ 60" no meio do herói de
        outra empresa é ruído que promete um negócio que não existe. O que ela
        ilustra está dito em texto no herói e na seção das mensagens. */
     <div className="peca w-full max-w-[420px] overflow-hidden border border-[color:var(--color-line)]" aria-hidden="true">
 
       <div className="flex items-center justify-between gap-3 px-6 py-3.5">
-        <div className="font-display text-[17px] text-ink leading-none">Salão Aurora</div>
+        <div className="font-display text-[17px] text-ink leading-none">Barbearia Aurora</div>
         <div className="font-mono text-[9.5px] uppercase tracking-[.12em] text-muted">sudoeste</div>
       </div>
 
@@ -94,7 +95,7 @@ export default function MiniPagina() {
       {/* O TOPO da página do cliente, e é ele que domina. */}
       <div className="mini-topo px-6 pt-5 pb-6">
         <div className="font-display text-[28px] leading-[1.1] text-ink max-w-[11ch]">
-          Cabelo bom, hora marcada.
+          Corte e barba, hora marcada.
         </div>
         {/* `div`, e não `<p>`: o texto DENTRO da peça é legenda de figura, e o
             chão de 16px do projeto vale para corpo de leitura — `<p>` e `<li>`.
@@ -102,7 +103,7 @@ export default function MiniPagina() {
             celular dela são span, nunca parágrafo. Marcar figura como parágrafo
             é que era o erro, não o tamanho. */}
         <div className="mt-2.5 text-[14px] leading-[1.45] text-ink/75 max-w-[30ch]">
-          Corte, coloração e escova no Sudoeste.
+          Corte, barba e navalha no Sudoeste.
         </div>
         <Zap>Marcar horário</Zap>
       </div>
@@ -122,7 +123,7 @@ export default function MiniPagina() {
             </li>
           ))}
         </ul>
-        <Zap>Perguntar sobre coloração</Zap>
+        <Zap>Perguntar sobre a barba</Zap>
       </Secao>
 
       <Secao rotulo="horários">
