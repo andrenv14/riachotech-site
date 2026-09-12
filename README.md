@@ -107,7 +107,7 @@ medir sem gzip dá um número pessimista sobre um servidor que não existe.
 
 ## 4. Medido
 
-Medido em 08/09/2026, nas três páginas, com gzip e o Chromium do Playwright.
+Medido nas três páginas, com gzip e o Chromium do Playwright.
 Os números de contraste, corpo e alvo se rederivam com `npm run medir`; os de
 Lighthouse, com o Chromium sobre `npm run servir`.
 
@@ -123,8 +123,9 @@ Lighthouse, com o Chromium sobre `npm run servir`.
 Os alvos da política são links dentro de parágrafo, exceção declarada. São 3 em
 390 px e 5 nas larguras maiores: um link que cabe numa linha em tela larga quebra
 em duas na estreita, e quebrado deixa de ser contado. **Medida de acessibilidade
-lida numa largura só é medida incompleta** — o mesmo engano já tinha escondido
-dois alvos da home, que a barra de topo cobria em 390 px.
+lida numa largura só é medida incompleta**, e nos dois sentidos: aqui a conta
+sobe na tela larga, e na home havia alvos que só a tela estreita revelava,
+escondidos atrás da barra de topo.
 
 ## 5. Operação
 
@@ -134,9 +135,9 @@ dois alvos da home, que a barra de topo cobria em 390 px.
   você mede a página anterior.
 - `npm run medir` mede qualquer página nos três tamanhos.
 
-**O deploy mudou em 08/09/2026, e a forma antiga é armadilha.** O diretório
-servido (`/var/www/riachotech`) deixou de ser um clone deste repositório e passou
-a conter só o conteúdo de `out/`:
+**O diretório servido (`/var/www/riachotech`) não é um clone deste
+repositório** — ele contém só o conteúdo de `out/`, e é para lá que o export
+vai:
 
 ```
 npm run build
@@ -156,9 +157,9 @@ Dois requisitos travam qualquer mudança futura de forma: a URL `privacidade.htm
 
 Telefone de cliente, nome de cliente, captura de conversa real, e nada que se
 pareça com credencial. A peça do Pix mostra a chave como e-mail — o
-`contato@riachotech.com.br`, que já está publicado no rodapé. Uma versão anterior
-desenhava um código copia-e-cola plausível, e invenção com cara de chave é pior
-que invenção nenhuma: quem lê não tem como saber que é falsa.
+`contato@riachotech.com.br`, que já está publicado no rodapé. Nada de código copia-e-cola
+plausível: invenção com cara de chave é pior que invenção nenhuma, porque quem
+lê não tem como saber que é falsa.
 
 As fotos são geradas, e duas regras valem para todas: nenhuma leva texto por cima
 (o véu escuro necessário para passar no contraste mudaria o clima da peça) e
