@@ -38,7 +38,7 @@ const ROTEIROS: Roteiro[] = [
     pergunta: 'quais serviços vocês fazem?',
     respostas: [
       'A gente faz duas coisas: uma assistente de IA que atende no WhatsApp do seu negócio, e landing page.',
-      'A assistente conversa com o seu cliente, confere sua agenda de verdade e marca o horário sozinha. Seu negócio é de quê?',
+      'A assistente conversa com o seu cliente, confere sua agenda e marca o horário. Seu negócio é de quê?',
     ],
   },
   {

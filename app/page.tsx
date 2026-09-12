@@ -36,7 +36,7 @@ export default function Home() {
 
               {/* 17 palavras. O teto do detector é 20; o texto antigo tinha 34. */}
               <p className="mt-4 min-[900px]:mt-5 text-[17px] min-[900px]:text-[18px] text-mist max-w-[46ch] mx-auto min-[900px]:mx-0">
-                A Sofia atende, confere sua agenda e marca o horário sozinha.
+                A Sofia atende, confere sua agenda e marca o horário.
                 Você fica com as mãos livres.
               </p>
 

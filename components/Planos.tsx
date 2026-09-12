@@ -47,7 +47,7 @@ export default function Planos({ zap }: { zap: string }) {
         <p className="mt-4 text-[17px] text-muted max-w-[52ch]">
           Existe programa mais barato, em que você mesmo monta os caminhos:
           digite 1 para agendar, digite 2 para preço. Aqui é outra coisa. A
-          assistente conversa de verdade e chega configurada pro seu negócio,
+          assistente conversa e chega configurada pro seu negócio,
           sem você montar fluxo nem aprender ferramenta nenhuma.
         </p>
 
@@ -72,8 +72,8 @@ export default function Planos({ zap }: { zap: string }) {
             </div>
 
             <ul className="mt-7 mb-8">
-              <Item>Atende sozinha, conversando de verdade</Item>
-              <Item>Marca, cancela e remarca na sua agenda real</Item>
+              <Item>Atende conversando, sem menu nem digite 1</Item>
+              <Item>Marca, cancela e remarca no seu Google Agenda</Item>
               <Item>Lembra o cliente antes do horário</Item>
               <Item>Mostra catálogo com foto e cobra por Pix</Item>
               <Item>Passa pra você quando o caso pede gente</Item>

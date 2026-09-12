@@ -114,7 +114,7 @@ const PASSOS: Passo[] = [
   },
   {
     hora: '14:02',
-    titulo: 'Ela abre a sua agenda de verdade',
+    titulo: 'Ela abre o seu Google Agenda',
     texto:
       'Não é uma tabela de horários que alguém digitou. É o seu Google Agenda, no momento da pergunta, com o que já está ocupado fora da conta.',
     artefato: <Grade />,
@@ -123,7 +123,7 @@ const PASSOS: Passo[] = [
     hora: '14:03',
     titulo: 'O horário fica marcado, e você nem parou',
     texto:
-      'O compromisso entra na agenda com nome e duração. Perto do dia, ela manda o lembrete sozinha.',
+      'O compromisso entra na agenda com nome e duração. Perto do dia, ela manda o lembrete.',
     artefato: <Compromisso />,
   },
 ];
@@ -136,8 +136,7 @@ export default function ComoFunciona() {
           Da mensagem ao horário marcado, em uma conversa só.
         </h2>
         <p className="mt-4 text-[17px] text-muted max-w-[52ch]">
-          Do primeiro oi ao horário na agenda, sem ninguém parar o que estava
-          fazendo.
+          E sem você largar o que estava fazendo.
         </p>
 
         {/* subgrid alinha hora, titulo, texto e artefato na MESMA linha nas

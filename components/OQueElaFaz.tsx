@@ -241,7 +241,7 @@ export default function OQueElaFaz() {
 
           <Bloco
             rotulo="lembrete"
-            titulo="Avisa antes da hora, sozinha"
+            titulo="Avisa antes da hora"
             legenda="Um aviso no dia anterior e outro uma hora antes, os dois por mensagem
               de utilidade da API oficial, com o texto aprovado pela Meta."
           >
@@ -292,7 +292,7 @@ se a marcação for feita depois da hora do
           <Bloco
             rotulo="catálogo"
             titulo="Mostra o serviço com foto e preço"
-            legenda="Nome, valor e foto de verdade, não uma lista de texto. A duração sai do
+            legenda="Nome, valor e foto, não uma lista de texto. A duração sai do
               próprio item, e é ela que reserva o espaço na agenda."
           >
             {/* A foto era de 44px ao lado do texto, o que é ícone, não "mostrar
